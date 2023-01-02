@@ -1,2 +1,3 @@
 # Fundamentals-of-Software-Programming-with-CSharp
-This repository contains solutions for the tasks in free the book Fundamentals of Software Programming with C# 
+This repository contains solutions for the tasks in free the book Fundamentals of Software Programming with C#:  
+https://introprogramming.info/english-intro-csharp-book/
