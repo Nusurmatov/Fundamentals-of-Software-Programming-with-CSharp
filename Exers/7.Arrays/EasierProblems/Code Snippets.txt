@@ -1,0 +1,103 @@
+/* (Easier Problems) Ex1 - Problem Statement:
+Write a program, which creates an array of 20 elements of type
+integer and initializes each of the elements with a value equals to the
+index of the element multiplied by 5. Print the elements to the console.
+*/
+
+int[] array = new int[20];
+
+for (int i = 0; i < 20; i++)
+{
+    array[i] = i * 5;
+    Console.Write("| ");
+    Console.Write($"array[{i}] = {array[i]} ".PadRight(15));    
+    // Why Padleft(15)? Because "array[0] = 0" has 12 characters whereas "array[19] = 95" has 14.
+
+    if ((i + 1) % 4 == 0)   // it ensures that 5 elements are printed on each line... 
+    {
+        Console.Write("|\n");
+    }
+}
+
+/* Input/Output
+| array[0] = 0   | array[1] = 5   | array[2] = 10  | array[3] = 15  |
+| array[4] = 20  | array[5] = 25  | array[6] = 30  | array[7] = 35  |
+| array[8] = 40  | array[9] = 45  | array[10] = 50 | array[11] = 55 |
+| array[12] = 60 | array[13] = 65 | array[14] = 70 | array[15] = 75 |
+| array[16] = 80 | array[17] = 85 | array[18] = 90 | array[19] = 95 |
+*/
+
+
+/* (Easier Problems) Ex2 - Problem Statement:
+Write a program, which reads two arrays from the console and checks
+whether they are equal (two arrays are equal when they are of equal
+length and all of their elements, which have the same index, are equal).
+*/
+
+Console.Write("How many elements do you want for first array to have? : ");
+int n = Convert.ToInt32(Console.ReadLine());
+Console.Write("How about your second array ? : ");
+int m = Convert.ToInt32(Console.ReadLine());
+
+if (m != n)
+{
+    Console.WriteLine("No need for entering array elements, they are never goint to be equal");
+    Console.WriteLine("As you entered different lenghts...");
+}
+else
+{
+    int[] array1 = new int[n];
+    Console.WriteLine("Start entering elements for the first array!");
+    Console.WriteLine("Remember they must be enter integers otherwise you will receive nice little error...");
+    EnterArrayElements(array1, n);
+
+    int[] array2 = new int[m];
+    Console.WriteLine("Start entering elements for the second array!");
+    Console.WriteLine("Remember they all must be of type int otherwise you will receive nice little error...");
+    EnterArrayElements(array2, m);
+
+    bool areEqual = CompareTwoArrays(array1, array2, n);
+    Console.WriteLine("Are they equal? : {0}.", areEqual);
+}
+
+void EnterArrayElements(int[] array, int length)
+{
+    for (int i = 0; i < length; i++)
+    {
+        Console.Write("Enter element{0}: ", i+1);
+        array[i] = Convert.ToInt32(Console.ReadLine());
+    }
+}
+
+bool CompareTwoArrays(int[] arr1, int[] arr2, int len)
+{
+    for (int i = 0; i < len; i++)
+    {
+        if (arr1[i] != arr2[i])
+        {
+            return false;
+        }    
+    }
+
+    return true;
+}
+
+/* Input/Output
+How many elements do you want for first array to have? : 3
+How about your second array ? : 7
+No need for entering array elements, they are never goint to be equal
+As you entered different lenghts...
+How many elements do you want for first array to have? : 3
+How about your second array ? : 3
+Start entering elements for the first array!
+Remember they all must be of type int otherwise you will receive nice little error...
+Enter element1: 7
+Enter element2: 8
+Enter element3: 8
+Start entering elements for the second array!
+Remember they all must be of type int otherwise you will receive nice little error...
+Enter element1: 7
+Enter element2: 8
+Enter element3: 8
+Are they equal? : True.
+*/

@@ -1,0 +1,4 @@
+We hope the theoretical explanations and examples so far have helped you
+get into the subtleties when working with text files. Now we will take a look at
+some more complex examples, so as to review the gained knowledge and
+to illustrate how to use them in solving practical problems.

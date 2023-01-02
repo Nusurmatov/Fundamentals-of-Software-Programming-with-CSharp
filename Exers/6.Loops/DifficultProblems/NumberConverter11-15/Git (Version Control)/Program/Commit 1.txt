@@ -1,0 +1,4 @@
+using NumberConverter;
+
+Console.WriteLine("Checking 5 public static custom methods: ");
+

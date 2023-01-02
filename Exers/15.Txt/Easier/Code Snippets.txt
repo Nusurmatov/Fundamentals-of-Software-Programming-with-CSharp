@@ -1,0 +1,839 @@
+/* Template
+try
+{
+    string file = "";
+    using ()
+    {
+        
+    }
+}
+catch (FileNotFoundException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch (DirectoryNotFoundException e)
+{
+    Console.WriteLine(e.Message);
+}catch (IOException e)
+{
+    Console.WriteLine(e.Message);
+}
+*/
+
+
+/* Ex1 - Problem Statement:
+Write a program that reads a text file and prints its odd lines on the
+console.
+*/
+
+try
+{
+    using (var reader = new StreamReader("ex1.txt"))
+    {
+        int line = 1;
+        string text;
+
+        while ((text = reader.ReadLine()) != null)
+        {
+            if (line % 2 == 1)
+            {
+                Console.WriteLine($"Line {line}: {text}");
+            }
+
+            line++;
+        }
+        
+    }
+}
+catch (FileNotFoundException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch (DirectoryNotFoundException e)
+{
+    Console.WriteLine(e.Message);
+}catch (IOException e)
+{
+    Console.WriteLine(e.Message);
+}
+
+/* Output:
+Line 1: In This Chapter
+Line 3: explain what a stream is, what its purpose is, and how to use it. We will      
+Line 5: file and how to deal with different character encodings. We will
+Line 7: working with files. All of this will be demonstrated with many examples in this
+*/
+
+
+/* Ex2 - Problem Statement:
+Write a program that joins two text files and records the results in a
+third file.
+*/
+
+try
+{
+    string text1 = GetFileContent("ex1.txt");
+    string text2 = GetFileContent("ex2.txt");
+
+    using (var writer = new StreamWriter("ex2Joined.txt"))
+    {
+        foreach (var text in new string[2] { text1, text2 })
+        {
+            foreach (var line in text.Split('\n'))
+            {
+                writer.WriteLine(line);
+            }
+        }
+    }
+
+    PrintFileContent("ex2Joined.txt");
+}
+catch (FileNotFoundException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch (DirectoryNotFoundException e)
+{
+    Console.WriteLine(e.Message);
+}catch (IOException e)
+{
+    Console.WriteLine(e.Message);
+}
+
+/* Output:
+------------  ex2Joined.txt  ------------
+In This Chapter
+In this chapter we will review how to work with text files in C#. We will
+explain what a stream is, what its purpose is, and how to use it. We will
+explain what a text file is and how can you read and write data to a text
+file and how to deal with different character encodings. We will
+demonstrate and explain the good practices for exception handling when
+working with files. All of this will be demonstrated with many examples in this
+chapter.
+Streams
+Streams are an essential part of any input-output library. You can use
+streams when your program needs to "read" or "write" data to an external
+data source such as files, other PCs, servers etc. It is important to say that
+the term input is associated with reading data, whereas the term output is
+associated with writing data.
+*/
+
+string GetFileContent(string fileName)
+{
+    string text = String.Empty;
+    try
+    {
+        using (var reader = new StreamReader(fileName))
+        {
+            text = reader.ReadToEnd();
+        }        
+    }
+    catch (IOException e)
+    {
+        Console.WriteLine(e.Message);        
+    }
+
+    return text;
+}
+
+void PrintFileContent(string fileName)
+{
+    Console.WriteLine("------------  {0}  ------------", fileName);
+    
+        string text = GetFileContent(fileName);
+        Console.WriteLine($"{text}\n");
+}   
+
+
+/* Ex3 - Problem Statement:
+Write a program that reads the contents of a text file and inserts the
+line numbers at the beginning of each line, then rewrites the file
+contents.
+*/
+
+try
+{
+    Console.Clear();
+    string fileName = "ex3.txt";
+    Console.Write("Initial State: ");
+    PrintFileContent(fileName);
+
+    int lineCounter = 1;
+    string text = $"Line{lineCounter} - ";
+
+    using (var reader = new StreamReader(fileName))
+    {
+        string line;
+        while ( (line = reader.ReadLine()) != null)
+        {
+            text += $"{line}\n";
+            lineCounter++;
+            text += $"Line{lineCounter} - ";
+        }
+
+        text = text.Replace($"Line{lineCounter} - ", "");
+    }
+
+    using (var writer = new StreamWriter(fileName, false))
+    {
+        foreach (var line in text.Split('\n'))
+        {
+            writer.WriteLine(line);
+        }
+    }
+
+    Console.Write("After Changes: ");
+    PrintFileContent(fileName);
+
+}
+catch (FileNotFoundException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch (DirectoryNotFoundException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch (IOException e)
+{
+    Console.WriteLine(e.Message);
+}
+
+/* Output:
+Initial State: ------------  ex3.txt  ------------
+Write a program that reads the contents of a text file and inserts the
+line numbers at the beginning of each line, then rewrites the file
+contents.
+
+
+After Changes: ------------  ex3.txt  ------------
+Line1 - Write a program that reads the contents of a text file and inserts the
+Line2 - line numbers at the beginning of each line, then rewrites the file    
+Line3 - contents.
+*/
+
+string GetFileContent(string fileName)
+{
+    string text = String.Empty;
+    try
+    {
+        using (var reader = new StreamReader(fileName))
+        {
+            text = reader.ReadToEnd();
+        }        
+    }
+    catch (IOException e)
+    {
+        Console.WriteLine(e.Message);        
+    }
+
+    return text;
+}
+
+void PrintFileContent(string fileName)
+{
+    Console.WriteLine("------------  {0}  ------------", fileName);
+    
+        string text = GetFileContent(fileName);
+        Console.WriteLine($"{text}\n");
+
+}   
+
+
+/* Ex4 - Problem Statement:
+Write a program that compares two text files with the same number of
+rows line by line and prints the number of equal and the number of
+different lines.
+*/
+
+try
+{
+    Console.Clear();
+    string fileName1 = "ex4.1.txt";
+    string fileName2 = "ex4.2.txt";
+    PrintFileContent(fileName1);
+    PrintFileContent(fileName2);
+
+    int counter = 0;
+
+    using (StreamReader reader1 = new StreamReader(fileName1), reader2 = new StreamReader(fileName2))
+    {
+        string? line1 = reader1.ReadLine();
+        string? line2 = reader2.ReadLine();
+
+        while (line1 != null || line2 != null)
+        {
+            if (line1 != null && line2 != null)
+            {
+               if (line1 == line2)
+               {
+                    counter++;
+               } 
+            }
+            else
+            {
+                throw new IOException("Number of rows are not equal...!");
+            }
+
+            line1 = reader1.ReadLine();
+            line2 = reader2.ReadLine();
+        }
+
+    }
+
+    Console.WriteLine($"There {counter} equal lines in above two files...");
+}
+catch (FileNotFoundException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch (DirectoryNotFoundException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch (IOException e)
+{
+    Console.WriteLine(e.Message);
+}
+
+/* Output:
+------------  ex4.1.txt  ------------
+We hope the theoretical explanations and examples so far have helped you
+get into the subtleties when working with text files. Now we will take a look at
+some more complex examples, so as to review the gained knowledge and
+to illustrate how to use them in solving practical problems.
+
+blankline
+
+------------  ex4.2.txt  ------------
+We hope the theoretical explanations and examples so far have helped you get
+into the subtleties when working with text files. Now we will take a look at
+some more complex examples, so as to review the gained knowledge and
+to illustrate how to use them in solving practical problems.
+
+Number of rows are not equal...!
+
+################################################################################
+
+------------  ex4.1.txt  ------------
+We hope the theoretical explanations and examples so far have helped you
+get into the subtleties when working with text files. Now we will take a look at
+some more complex examples, so as to review the gained knowledge and
+to illustrate how to use them in solving practical problems.
+
+------------  ex4.2.txt  ------------
+We hope the theoretical explanations and examples so far have helped you get
+into the subtleties when working with text files. Now we will take a look at
+some more complex examples, so as to review the gained knowledge and
+to illustrate how to use them in solving practical problems.
+
+There 2 equal lines in above two files...
+*/
+
+string GetFileContent(string fileName)
+{
+    string text = String.Empty;
+    try
+    {
+        using (var reader = new StreamReader(fileName))
+        {
+            text = reader.ReadToEnd();
+        }        
+    }
+    catch (IOException e)
+    {
+        Console.WriteLine(e.Message);        
+    }
+
+    return text;
+}
+
+void PrintFileContent(string fileName)
+{
+    Console.WriteLine("------------  {0}  ------------", fileName);
+    
+        string text = GetFileContent(fileName);
+        Console.WriteLine($"{text}\n");
+}   
+
+
+/* Ex5 - Problem Statement:
+Write a program that reads a square matrix of integers from a file and
+finds the sub-matrix with size 2 × 2 that has the maximal sum and
+writes this sum to a separate text file. The first line of input file contains
+the size of the recorded matrix (N). The next N lines contain N integers
+separated by spaces.
+Sample input file:
+4
+2 3 3 4
+0 2 3 4
+3 7 1 2
+4 3 3 2
+Sample output: 17.
+*/
+
+try
+{
+    using (var reader = new StreamReader("ex5.txt"))
+    {
+        int n = Convert.ToInt32(reader.ReadLine());
+        int[,] matrix = new int[n,n];
+        string line;
+        int row = 0, col = 0;
+
+        while ((line = reader.ReadLine()) != null)
+        {
+            foreach (var num in line.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+            {
+                matrix[row, col] = Convert.ToInt32(num);
+                Console.Write(matrix[row, col] + " ");
+                col++;
+            }
+            Console.WriteLine();
+            col = 0;
+            row++;
+        }
+        
+        FindMaxPlatformSum(matrix, n, n, 2);
+    }
+
+}
+catch (FileNotFoundException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch (DirectoryNotFoundException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch (IOException e)
+{
+    Console.WriteLine(e.Message);
+}
+
+void FindMaxPlatformSum(int[,] matrix, int rowLength, int columnLength, int size)
+{
+    // Implementation is in Array.Exercise13
+}
+
+/* Output:
+2 3 3 4 
+0 2 3 4 
+3 7 1 2 
+4 3 3 2 
+*/
+
+
+/* Ex6 - Problem Statement:
+Write a program that reads a list of names from a text file, arranges
+them in alphabetical order, and writes them to another file. The lines
+are written one per row.
+*/
+
+try
+{
+    Console.Clear();
+    string fileName1 = "ex6.1.txt";
+    string fileName2 = "ex6.2.txt";
+    PrintFileContent(fileName1);
+
+    List<string> names = new List<string>();
+    using (StreamReader reader = new StreamReader(fileName1))
+    {
+        string? line = reader.ReadLine();
+        while (line != null)
+        {
+            names.Add(line);
+            line = reader.ReadLine();
+        }
+        
+    }
+
+    names.Sort();
+    using (StreamWriter writer = new StreamWriter(fileName2, false))
+    {
+        foreach (var name in names)
+        {
+            writer.WriteLine(name);
+        }
+    }
+    PrintFileContent(fileName2);
+}
+catch (FileNotFoundException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch (DirectoryNotFoundException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch (IOException e)
+{
+    Console.WriteLine(e.Message);
+}
+
+/* Output:
+------------  ex6.1.txt  ------------
+Rahmiddin   
+Begzodbek   
+Sobirjon aka
+Asadbek aka 
+Qahramon aka
+Xusniddin   
+Jahongir aka
+
+------------  ex6.2.txt  ------------
+Asadbek aka 
+Begzodbek   
+Jahongir aka
+Qahramon aka
+Rahmiddin   
+Sobirjon aka
+Xusniddin 
+*/
+
+string GetFileContent(string fileName)
+{
+    string text = String.Empty;
+    try
+    {
+        using (var reader = new StreamReader(fileName))
+        {
+            text = reader.ReadToEnd();
+        }        
+    }
+    catch (IOException e)
+    {
+        Console.WriteLine(e.Message);        
+    }
+
+    return text;
+}
+
+void PrintFileContent(string fileName)
+{
+    Console.WriteLine("------------  {0}  ------------", fileName);
+    
+        string text = GetFileContent(fileName);
+        Console.WriteLine($"{text}\n");
+}   
+
+
+/* Ex8 - Problem Statement:
+Write the previous program so that it changes only the whole words
+(not parts of the word).
+*/
+
+try
+{
+    Console.Clear();
+    string fileName = "ex8.txt";
+    var text = new System.Text.StringBuilder();
+    int startCount = 0;
+    int finishCount = 0;
+    int wordCounter = 0;
+
+    using (StreamReader reader = new StreamReader(fileName))
+    {
+        string? line = reader.ReadLine();
+        while (line != null)
+        {
+            string[] words = line.Split(' ', StringSplitOptions.TrimEntries);
+            foreach (var word in words)
+            {
+                wordCounter++;
+                if (word.ToLower() == "start")
+                {
+                    startCount++;
+                    text.Append("finish ");
+                }
+                else
+                {
+                    text.Append($"{word} ");
+                }
+
+                if (wordCounter % 13 == 0)
+                {
+                    text.Append("\n");
+                }
+            }
+
+            line = reader.ReadLine();
+        }
+    }
+    Console.WriteLine("Intial Number of 'start's: {0}.", startCount);
+    Console.WriteLine("Intial Number of 'finish's: {0}.", finishCount);
+    startCount = finishCount = 0;
+
+    using (StreamWriter writer = new StreamWriter(fileName, false))
+    {
+        foreach (var line in text.ToString().Split('\n'))
+        {
+            foreach (var word in line.Split(' ', StringSplitOptions.TrimEntries))
+            {
+                if (word.ToLower() == "start")
+                {
+                    startCount++;
+                }
+
+                if (word.ToLower() == "finish")
+                {
+                    finishCount++;
+                }
+            }
+
+            writer.Write(line.ToCharArray());
+            writer.Write('\n');
+        }
+    }
+    Console.WriteLine("\nCurrent Number of 'start's: {0}.", startCount);
+    Console.WriteLine("Current Number of 'finish's: {0}.", finishCount);
+}
+catch (FileNotFoundException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch (DirectoryNotFoundException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch (IOException e)
+{
+    Console.WriteLine(e.Message);
+}
+
+/* Output:
+Intial Number of 'start's: 2.
+Intial Number of 'finish's: 0.
+
+Current Number of 'start's: 0.
+Current Number of 'finish's: 2.
+*/
+
+string GetFileContent(string fileName)
+{
+    string text = String.Empty;
+    try
+    {
+        using (var reader = new StreamReader(fileName))
+        {
+            text = reader.ReadToEnd();
+        }        
+    }
+    catch (IOException e)
+    {
+        Console.WriteLine(e.Message);        
+    }
+
+    return text;
+}
+
+void PrintFileContent(string fileName)
+{
+    Console.WriteLine("------------  {0}  ------------", fileName);
+    
+        string text = GetFileContent(fileName);
+        Console.WriteLine($"{text}\n");
+}   
+
+
+/* Ex9 - Problem Statement:
+Write a program that deletes all the odd lines of a text file.
+*/
+
+try
+{
+    Console.Clear();
+    string fileName = "ex9.txt";
+    var text = new System.Text.StringBuilder();
+    int lineCounter = 0;
+
+    Console.Write("Previous state of the file: ");
+    PrintFileContent(fileName);
+
+    using (StreamReader reader = new StreamReader(fileName))
+    {
+        string? line = reader.ReadLine();
+        lineCounter++;
+
+        while (line != null)
+        {
+            if (lineCounter % 2 == 0)
+            {
+                text.AppendLine(line);
+            }
+
+            line = reader.ReadLine();
+            lineCounter++;
+        }
+    }
+
+    using (StreamWriter writer = new StreamWriter(fileName))
+    {
+        writer.Write(text.ToString().ToCharArray());
+    }
+
+    Console.Write("Current State: ");
+    PrintFileContent(fileName);
+}
+catch (FileNotFoundException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch (DirectoryNotFoundException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch (IOException e)
+{
+    Console.WriteLine(e.Message);
+}
+
+/* Output:
+Previous state of the file: ------------  ex9.txt  ------------
+This is exercise 9 in the Book
+Fundamentals of Computer Programming, Chapter 15, 
+Text Files. Problesm statement is pretty odd.     
+It states that odd lines should be deleted,       
+like this 5th line.
+
+Current State: ------------  ex9.txt  ------------
+Fundamentals of Computer Programming, Chapter 15, 
+It states that odd lines should be deleted, 
+*/
+
+string GetFileContent(string fileName)
+{
+    string text = String.Empty;
+    try
+    {
+        using (var reader = new StreamReader(fileName))
+        {
+            text = reader.ReadToEnd();
+        }        
+    }
+    catch (IOException e)
+    {
+        Console.WriteLine(e.Message);        
+    }
+
+    return text;
+}
+
+void PrintFileContent(string fileName)
+{
+    Console.WriteLine("------------  {0}  ------------", fileName);
+    
+        string text = GetFileContent(fileName);
+        Console.WriteLine($"{text}\n");
+}   
+
+
+/* Ex10 - Problem Statement:
+Write a program that extracts from an XML file the text only (without the
+tags). Sample input file:
+<?xml version="1.0"><student><name>Peter</name>
+<age>21</age><interests count="3"><interest>
+Games</interest><interest>C#</interest><interest>
+Java</interest></interests></student>
+Sample output:
+Peter
+21
+Games
+C#
+Java
+*/
+
+try
+{
+    Console.Clear();
+    string fileName = "ex10.txt";
+    var words = new System.Text.StringBuilder();
+
+    PrintFileContent(fileName);
+
+    using (StreamReader reader = new StreamReader(fileName))
+    {
+        int charac = reader.Read();
+        while (charac != -1)
+        {
+            if (charac == 62)  // '>' in ASCII
+            {
+                charac = reader.Read();
+                if (charac != 60)  // '<' in ASCII
+                {
+                    while (charac != 60 && charac != -1)
+                    {
+                        words.Append(((char) charac).ToString());
+                        charac = reader.Read();
+                    }
+                    words.Append("\n");
+                }
+            }
+
+            charac = reader.Read();                
+        }
+    }
+    
+    Console.WriteLine("Extracted words:");
+    foreach (var word in words.ToString().Split('\n', StringSplitOptions.RemoveEmptyEntries))
+    {
+        if (word.Length != 1)
+        {
+            Console.WriteLine(word);
+        }
+    }
+}
+catch (FileNotFoundException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch (DirectoryNotFoundException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch (IOException e)
+{
+    Console.WriteLine(e.Message);
+}
+
+/* Output:
+------------  ex10.txt  ------------
+<?xml version="1.0"><student><name>Peter</name>
+<age>21</age><interests count="3"><interest>
+Games</interest><interest>C#</interest><interest>
+Java</interest></interests></student>
+
+Extracted words:
+Peter
+21
+Games
+C#
+Java
+*/
+
+string GetFileContent(string fileName)
+{
+    string text = String.Empty;
+    try
+    {
+        using (var reader = new StreamReader(fileName))
+        {
+            text = reader.ReadToEnd();
+        }        
+    }
+    catch (IOException e)
+    {
+        Console.WriteLine(e.Message);        
+    }
+
+    return text;
+}
+
+void PrintFileContent(string fileName)
+{
+    Console.WriteLine("------------  {0}  ------------", fileName);
+    
+        string text = GetFileContent(fileName);
+        Console.WriteLine($"{text}\n");
+}   

@@ -1,0 +1,334 @@
+/* (Easier) - Ex1 - Problems Statement:
+Write a program, which reads from the console a year and checks if it is a leap year.
+*/
+
+int year = 2000;
+bool isLeapYear = DateTime.IsLeapYear(year);
+
+Console.Write($"{year} is leap year - {isLeapYear}.");
+
+/* Input/Output:
+2002 is leap year - False.
+2000 is leap year - True.
+*/
+
+
+/* (Easier) - Ex2 - Problems Statement:
+Write a program, which generates and prints on the console 10 random
+numbers in the range [100, 200].
+*/
+
+Random random = new Random();
+
+Console.Write("Ten random numbers in the range [100, 200]: ");
+for (int i = 0; i < 10; i++)
+{
+    Console.Write(i != 9 ? $"{random.Next(100, 201)}, " : $"{random.Next(100, 201)}.");
+}
+
+/* Input/Output:
+Ten random numbers in the range [100, 200]: 117, 160, 137, 148, 121, 170, 125, 195, 142, 123.
+*/
+
+
+/* (Easier) - Ex3 - Problems Statement:
+Write a program, which prints, on the console which day of the week is today.
+*/
+
+DayOfWeek today = DateTime.Today.DayOfWeek;
+
+Console.Write($"Today is {today}...");
+
+/* Input/Output:
+Today is Sunday...
+*/
+
+
+/* (Easier) - Ex4 - Problems Statement:
+Write a program, which prints on the standard output the count of days,
+hours, and minutes, which have passes since the computer is
+started until the moment of the program execution. For the
+implementation use the class Environment.
+*/
+
+int startTime = Environment.TickCount;
+Random random = new Random();
+long sum = 0;
+
+for (int i = 0; i < 10000; i++)
+    for (int j = 0; j < 10; j++)
+        for (int k = 0; k < 10000; k++)
+        {
+            sum++;
+        }
+
+int endTime = Environment.TickCount;
+double seconds = (endTime - startTime) / 1000.0;
+double minutes = seconds / 60;
+double hours = minutes / 60;
+double days = hours / 24;
+
+Console.WriteLine("It took {0} days, {1} hours, {2} minutes and {3} seconds to finish this program."
+, days, hours, minutes, seconds);
+
+/* Input/Output:
+It took 4.177083333333334E-05 days, 0.0010025000000000001 hours, 0.06015 minutes and 3.609 seconds to finish this program.
+*/
+
+
+/* (Easier) - Ex5 - Problems Statement:
+Write a program which by given two sides finds the hypotenuse of a right triangle. Implement entering 
+of the lengths of the sides from the standard input, and for the calculation of the hypotenuse use 
+methods of the class Math.
+*/
+
+Console.Write($"Enter first leg of a right triangle: ");
+double leg1 = Convert.ToDouble(Console.ReadLine());
+
+Console.Write($"Enter second leg of the right triangle: ");
+double leg2 = Convert.ToDouble(Console.ReadLine());
+
+string result = (leg1 > 0 && leg2 > 0) ? Math.Sqrt(Math.Pow(leg1, 2) + Math.Pow(leg2, 2)).ToString() : "Cannot be calculated";
+
+Console.WriteLine("\nThe hypotenuse of the triangle: {0}", result);
+
+/* Input/Output:
+Enter first leg of a right triangle: 4
+Enter second leg of the right triangle: 3
+
+The hypotenuse of the triangle: 5
+*/
+
+
+/* (Easier) - Ex7 - Problems Statement:
+Define your own namespace CreatingAndUsingObjects and place in it two classes Cat and Sequence, 
+which we used in the examples of the current chapter. Define one more namespace and make a class, 
+which calls the classes Cat and Sequence, in it.
+*/
+
+namespace CreatringAndUsingObjects
+{
+    public class Cat
+    {
+        // Field name
+        private string name;
+        // Field color
+        private string color;
+
+        public string Name
+        {
+            // Getter of the property "Name"
+            get
+            {
+                return this.name;
+            }
+            // Setter of the property "Name"
+            set
+            {
+                this.name = value;
+            }
+        }
+        public string Color
+        {
+            // Getter of the property "Color"
+            get
+            {
+                return this.color;
+            }
+            // Setter of the property "Color"
+            set
+            {
+                this.color = value;
+            }
+        }
+        
+        // Default constructor
+        public Cat()
+        {
+        this.name = "Unnamed";
+        this.color = "gray";
+        }
+        
+        // Constructor with parameters
+        public Cat(string name, string color)
+        {
+            this.name = name;
+            this.color = color;
+        }
+        
+        // Method SayMiau
+        public void SayMiau()
+        {
+            Console.WriteLine($"A {Color} cat named {Name} is saying Miauuuu...");
+        }
+    }
+
+    public class Sequence
+    {
+        // Static field, holding the current sequence value
+        private static int currentValue = 0;
+    
+        // Intentionally deny instantiation of this class
+        private Sequence()
+        { }
+    
+        // Static method for taking the next sequence value
+        public static int NextValue()
+        {
+            currentValue++;
+            return currentValue;
+        }
+    }
+
+    public class CallCatAndSequence
+    {
+        private static void Main()
+        {
+            Cat cat = new Cat("Tom", "blue");
+            cat.SayMiau();
+
+            Console.Write("\n[1..7] - { ");
+            for (int i = 0; i < 7; i++)
+            {
+                Console.Write(i != 6 ? $"{Sequence.NextValue()}, " : $"{Sequence.NextValue()} " + "}.");
+            }
+        }
+    }
+}
+
+/* Input/Output:
+A blue cat named Tom is saying Miauuuu...
+
+[1..7] - { 1, 2, 3, 4, 5, 6, 7 }.
+*/
+
+
+/* (Easier) - Ex8 - Problems Statement:
+Write a program which creates 10 objects of type Cat, gives them names
+CatN, where N is a unique serial number of the object, and in the end call
+the method SayMiau() for each of them. For the implementation use the
+namespace CreatingAndUsingObjects.
+*/
+
+namespace CreatringAndUsingObjects
+{
+    public class Cat
+    {
+        // Field name
+        private string name;
+        // Field color
+        private string color;
+
+        public string Name
+        {
+            // Getter of the property "Name"
+            get
+            {
+                return this.name;
+            }
+            // Setter of the property "Name"
+            set
+            {
+                this.name = value;
+            }
+        }
+        public string Color
+        {
+            // Getter of the property "Color"
+            get
+            {
+                return this.color;
+            }
+            // Setter of the property "Color"
+            set
+            {
+                this.color = value;
+            }
+        }
+        
+        // Default constructor
+        public Cat()
+        {
+        this.name = "Unnamed";
+        this.color = "gray";
+        }
+        
+        // Constructor with parameters
+        public Cat(string name, string color = "gray")
+        {
+            this.name = name;
+            this.color = color;
+        }
+        
+        // Method SayMiau
+        public void SayMiau()
+        {
+            Console.WriteLine($"A {Color} cat named {Name} is saying Miauuuu...");
+        }
+    }
+
+    public class Sequence
+    {
+        // Static field, holding the current sequence value
+        private static int currentValue = 0;
+    
+        // Intentionally deny instantiation of this class
+        private Sequence()
+        { }
+    
+        // Static method for taking the next sequence value
+        public static int NextValue()
+        {
+            currentValue++;
+            return currentValue;
+        }
+    }
+
+    public class CallCatAndSequence
+    {
+        private static void Main()
+        {
+            Cat[] cats = new Cat[10];
+
+            for (int i = 0; i < 10; i++)
+            {
+                cats[i] = new Cat("Cat" + Sequence.NextValue());
+                cats[i].SayMiau();
+            }
+        }
+    }
+}
+
+
+/* Input/Output:
+A gray cat named Cat1 is saying Miauuuu...
+A gray cat named Cat2 is saying Miauuuu...
+A gray cat named Cat3 is saying Miauuuu...
+A gray cat named Cat4 is saying Miauuuu...
+A gray cat named Cat5 is saying Miauuuu...
+A gray cat named Cat6 is saying Miauuuu...
+A gray cat named Cat7 is saying Miauuuu...
+A gray cat named Cat8 is saying Miauuuu...
+A gray cat named Cat9 is saying Miauuuu...
+A gray cat named Cat10 is saying Miauuuu...
+*/
+
+
+/* (Easier) - Ex10 - Problems Statement:
+You are given a sequence of positive integer numbers given as string
+of numbers separated by a space. Write a program, which calculates
+their sum. Example: "43 68 9 23 318" -> 461
+*/
+
+Console.Write("Enter sequence of positive integers seperated by a single" 
+                + " space and the program calculates their sum:\n");
+string input = Console.ReadLine() ?? "0";
+
+Console.Write("Sum: ");
+Console.WriteLine(input.Split().Select(int.Parse).Sum());
+
+/* Input/Output:
+Enter sequence of positive integers seperated by a single space and the program calculates their sum:
+43 68 9 23 318
+Sum: 461
+*/

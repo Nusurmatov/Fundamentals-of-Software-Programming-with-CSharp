@@ -1,0 +1,116 @@
+/* (Easier Problems) Ex1 - Problems Statement:
+Convert the numbers 151, 35, 43, 251, 1023 and 1024 to the binary
+numeral system.
+*/
+
+int counter = 1;
+foreach (var num in new int[6]{151, 35, 43, 251, 1023, 1024})
+{
+    Console.Write($"{num} = ");
+    Console.Write(Convert.ToString(num, 2));
+    Console.Write(counter != 6 ? ", " : ".");
+    counter++;
+}
+
+/* Output:
+151 = 10010111, 35 = 100011, 43 = 101011, 251 = 11111011, 1023 = 1111111111, 1024 = 10000000000.
+*/
+/* My Answers: 
+151 = 1001 0111,  35 = 0010 0011,  43 = 0010 1011,  251 = 1111 1011,  1023 = 0011 1111 1111,  1024 = 0100 0000 0000.
+*/
+
+
+/* (Easier Problems) Ex2 - Problems Statement:
+Convert the number 1111010110011110(2) to hexadecimal and decimal
+numeral systems.
+*/
+
+string number = "1111010110011110";
+Console.Write($"{number} = ");
+Console.Write(Convert.ToInt64(number, 2).ToString("X") + ",  ");
+Console.Write($"{number} = ");
+Console.Write(Convert.ToInt32(number, 2) + ".");
+
+/* Output:
+1111010110011110 = F59E,  1111010110011110 = 62878.
+*/
+/* My Answers:
+1111 0101 1001 1110 (2) = 0*1 + 1*2 + 1*4 + 1*8 + 1*16 + 1*128 + 1*256 + 1*1024 + 1*4096 + 1*8192 + 1*16384 + 1*32768 = 62 878 (10).
+1111(=F)  0101(=9) 1001(=5) 1110(=E) (2) = 0xF59E. 
+*/
+
+
+/* (Easier Problems) Ex3 - Problems Statement:
+Convert the hexadecimal numbers FA, 2A3E, FFFF, 5A0E9 to binary and
+decimal numeral systems.
+*/
+
+int counter = 1;
+foreach (string number in new string[4] {"0xFA", "0x2A3E", "0xFFFF", "0x5A0E9"})
+{
+    Console.Write($"{number} = ");
+    Console.Write(Convert.ToString(Convert.ToInt32(number, 16), 2));
+    Console.Write(" = ");
+    Console.Write(Convert.ToInt32(number, 16));
+    Console.Write(counter != 4 ? ", " : ".");
+    counter++;
+}
+
+/* Output:
+0xFA = 11111010 = 250, 0x2A3E = 10101000111110 = 10814, 0xFFFF = 1111111111111111 = 65535, 0x5A0E9 = 1011010000011101001 = 368873.
+*/
+/* My Answers:
+FA = 1111 1010,  2A3E = 0010 1010 0011 1110,  FFFF = 1111 1111 1111 1111,  5A0E9 = 0101 1010 0000 1110 1001.
+FA = 15*16 + 10*1 = 250,  2A3E = 2*16*16*16 + 10*256 + 3*16 + 14*1 = 10814,  FFFF = 2^16 - 1,  5A0E9 = 368,873.
+*/
+
+
+/* (Easier Problems) Ex3 - Problems Statement:
+Try adding up 50,000,000 times the number 0.000001. Use a loop
+and addition (not direct multiplication). Try it with float and double and
+after that with decimal. Do you notice the huge difference in the
+results and speed of calculation? Explain what happens.
+*/
+
+using System.Diagnostics;
+
+Stopwatch time = Stopwatch.StartNew(); 
+float floatSum = 0.0f;
+for (int i = 0; i < 50000000; i++)
+{
+    floatSum += 0.000001f;
+}
+time.Stop();
+Console.WriteLine("Float Sum Result: {0}", floatSum);
+Console.WriteLine("Execution Time: {0}ms", time.ElapsedMilliseconds);
+
+time = Stopwatch.StartNew();
+double doubleSum = 0.0d;
+for (int i = 0; i < 50000000; i++)
+{
+    doubleSum += 0.000001;
+}
+time.Stop();
+Console.WriteLine("\nDouble Sum Result: {0}", doubleSum);
+Console.WriteLine("Execution Time: {0}ms", time.ElapsedMilliseconds);
+
+time = Stopwatch.StartNew();
+decimal decimalSum = 0.0m;
+for (int i = 0; i < 50000000; i++)
+{
+    decimalSum += 0.000001m;
+}
+time.Stop();
+Console.WriteLine("\nDecimal Sum Result: {0:N2}", decimalSum);
+Console.WriteLine("Execution Time: {0}ms", time.ElapsedMilliseconds);
+
+/* Output:
+Float Sum Result: 32
+Execution Time: 225ms
+
+Double Sum Result: 49.999999965778784
+Execution Time: 233ms
+
+Decimal Sum Result: 50.00
+Execution Time: 1778ms
+*/

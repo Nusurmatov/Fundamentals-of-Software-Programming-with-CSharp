@@ -1,0 +1,144 @@
+/* (Medium) - Ex9 - Problems Statement:
+Write a program, which calculates the count of workdays between the current date and another given date
+after the current (inclusive). Consider that workdays are all days from Monday to Friday, which are not
+public holidays, except when Saturday is a working day. The program should keep a list of predefined 
+public holidays, as well as a list of predefined working Saturdays.
+*/
+
+System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("uz-UZ");
+DateTime now = new DateTime(2022, 8, 7);
+DateTime nextHijriNewYear = new DateTime(2023, 7, 19);
+
+HashSet<DateTime> publicHolidays = new HashSet<DateTime>() 
+{ 
+    new DateTime(2022, 8, 8), // Ashuro kuni
+    new DateTime(2023, 2, 19), // Baroat kechasi
+    new DateTime(2023, 3, 8),  // Meroj kechasi
+    new DateTime(2023, 3, 23),  // Ramazon 1
+    new DateTime(2023, 4, 22),  // Ramazon Hayt
+    new DateTime(2023, 6, 29),  // Qurbon Hayt
+    new DateTime(2023, 7, 19)  // Yangi yil - 1445
+};
+
+HashSet<DateTime> workingSaturdays = new HashSet<DateTime>()
+{
+    new DateTime(2023, 3, 11),  // Meroj kechasi oldingi shanba
+    new DateTime(2023, 3, 18),  // Meroj kechasi keyingi shanba
+    new DateTime(2023, 4, 29),  // Ramazon Haytdan keyingi shanba
+    new DateTime(2023, 6, 24),  // Qurbon Haytdan keyingi shanba
+};
+
+int timeSpan = 0;
+
+for (DateTime day = now; day < nextHijriNewYear; day = day.AddDays(1))
+{
+    if (day.DayOfWeek == DayOfWeek.Saturday && !workingSaturdays.Contains(day))
+    {
+        continue;
+    }
+
+    if (day.DayOfWeek == DayOfWeek.Sunday)
+    {
+        continue;
+    }
+
+    if (!publicHolidays.Contains(day) )
+    {
+        timeSpan++;
+    }
+}
+
+Console.WriteLine($"There are {timeSpan} workdays between {now:dd/MM/yyyy} and {nextHijriNewYear:dd/MM/yyyy}.");
+
+/* Input/Output:
+There are 247 workdays between 07/08/2022 and 19/07/2023.
+*/
+
+
+/* (Medium) - Ex11 - Problems Statement:
+Write a program, which generates a random advertising message for
+some product. The message has to consist of laudatory phrase, followed
+by a laudatory story, followed by author (first and last name) and city,
+which are selected from predefined lists. For example, let’s have the
+following lists:
+*/
+
+namespace Objects
+{
+    class Advertising
+    {
+        static List<string> laudatoryPhrases = new List<string>()
+        {
+            "The product is excellent.",
+            "This is a great product.",
+            "I use this product constantly.",
+            "This is the best product from this category."
+        };
+
+        static List<string> laudatoryStories = new List<string>()
+            {
+                "Now, I feel better.",
+                "I managed to change.",
+                "It made some miracle.",
+                "I can't believe it, but now I am feeling great.",
+                "You should try it too. I am very satisfied."
+            };
+
+        static List<string> firstNames = new List<string>()
+            {
+                "Dayan",
+                "Stella",
+                "Hellen",
+                "Kate"
+            };
+
+        static List<string> lastNames = new List<string>()
+            {
+                "Johnson",
+                "Peterson",
+                "Charls"
+            };
+
+        static List<string> cities = new List<string>()
+            {
+                "London",
+                "Paris",
+                "Berlin",
+                "New York",
+                "Madrid"
+            };
+
+        static void Main()
+        {
+            Random random = new Random();
+            Customer customer = new Customer();
+
+            customer.Praise = laudatoryPhrases[random.Next(0, laudatoryPhrases.Count)];
+            customer.Story = laudatoryStories[random.Next(0, laudatoryStories.Count)];
+            customer.Name = firstNames[random.Next(0, firstNames.Count)];
+            customer.Surname = lastNames[random.Next(0, lastNames.Count)];
+            customer.City = cities[random.Next(0, cities.Count)];
+
+            Console.Write(customer.Praise + " ");
+            Console.Write(customer.Story + " -- ");
+            Console.Write(customer.Name + ", ");
+            Console.Write(customer.City + ".");
+        }
+    }
+
+    class Customer
+    {
+        public string Praise { get; set; } = String.Empty;
+        public string Story { get; set; } = String.Empty; 
+        public string Name { get; set; } = String.Empty; 
+        public string Surname { get; set; } = String.Empty; 
+        public string City { get; set; } = String.Empty; 
+    }
+}
+
+/* Input/Output:
+This is a great product. You should try it too. I am very satisfied. -- Kate, New York.
+I use this product constantly. I managed to change. -- Stella, Berlin.
+The product is excellent. You should try it too. I am very satisfied. -- Hellen, Paris.
+The product is excellent. Now, I feel better. -- Kate, New York.
+*/

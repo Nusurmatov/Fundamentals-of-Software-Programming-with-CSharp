@@ -1,0 +1,2 @@
+Fundamentals of Computer Programming, Chapter 15,
+It states that odd lines should be deleted,

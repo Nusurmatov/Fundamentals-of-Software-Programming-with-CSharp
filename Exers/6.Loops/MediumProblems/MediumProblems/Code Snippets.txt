@@ -1,0 +1,234 @@
+/* Ex4 - Problem Statement:
+Write a program that prints all possible cards from a standard deck
+of cards, without jokers (there are 52 cards: 4 suits of 13 cards).
+*/
+
+string[] cards = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
+string[] suits = {"♣", "♦", "♥", "♠"};
+
+int suitInWords = 1;
+Console.WriteLine("               ______________________________________________________________________________");
+foreach (string suit in suits)
+{
+    switch (suitInWords)    // you could have used a dictionary instead: suits = {"Clubs" : "♣", ...}
+    {
+        case 1:
+            Console.Write("Clubs    -    ");
+            break;
+        case 2:
+            Console.Write("Diamonds -    ");
+            break;
+        case 3:
+            Console.Write("Hearts   -    ");
+            break;
+        case 4:
+            Console.Write("Spades   -    ");
+            break;
+    }
+    foreach (string card in cards)
+    {
+        Console.Write($"| {card} {suit} ");
+        
+    }
+    suitInWords++;
+    Console.Write("|");
+    Console.WriteLine();
+}
+Console.WriteLine("               ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
+Console.OutputEncoding = System.Text.Encoding.Unicode;
+
+/* Input/Output
+               ______________________________________________________________________________
+Clubs    -    | A ♣ | 2 ♣ | 3 ♣ | 4 ♣ | 5 ♣ | 6 ♣ | 7 ♣ | 8 ♣ | 9 ♣ | 10 ♣ | J ♣ | Q ♣ | K ♣ |
+Diamonds -    | A ♦ | 2 ♦ | 3 ♦ | 4 ♦ | 5 ♦ | 6 ♦ | 7 ♦ | 8 ♦ | 9 ♦ | 10 ♦ | J ♦ | Q ♦ | K ♦ |
+Hearts   -    | A ♥ | 2 ♥ | 3 ♥ | 4 ♥ | 5 ♥ | 6 ♥ | 7 ♥ | 8 ♥ | 9 ♥ | 10 ♥ | J ♥ | Q ♥ | K ♥ |
+Spades   -    | A ♠ | 2 ♠ | 3 ♠ | 4 ♠ | 5 ♠ | 6 ♠ | 7 ♠ | 8 ♠ | 9 ♠ | 10 ♠ | J ♠ | Q ♠ | K ♠ |
+               ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ 
+*/
+
+
+/* Ex7 - Problem Statement:
+Write a program that calculates N!*K!/(N-K)! for given N and K (1<K<N).
+*/
+using System.Numerics;
+
+Console.Write("Enter a positive integer: ");
+int n = Convert.ToInt32(Console.ReadLine());
+Console.Write("Enter another positive integer which is less than the previous one: ");
+int k = Convert.ToInt32(Console.ReadLine());
+
+BigInteger result = 1;
+int i = n-k+1, j = 1;
+
+// for 1<K<N, this is true: N!*K!/(N-K)! = (1*2*...*(N-K)*(N-K+1)*...*N)*(1*2*...*K)/(1*2*...*(N-K)) = ((N-K+1)*(N-K+2)*...*N)*(1*2*...*K).
+while(((n-k) > k) ? (i <= n) : (j <= k))     
+{
+    result *= (i * j);
+
+    if (i <= n)
+    {
+        i++;
+    }
+    
+    if (j <= k)
+    {
+        j++;
+    }
+}
+
+Console.WriteLine("N! * K! / (N - K)!  = {0}.", result);
+
+/* Input/Output
+Enter a positive integer: 17
+Enter another positive integer which is less than the previous one: 7
+N! / K! = 70572902400.
+Enter a positive integer: 17
+Enter another positive integer which is less than the previous one: 7
+N! * K! / (N - K)!  = 494010316800.
+*/
+
+
+/* (Medium Problems) Ex8 - Problem Statement:
+In combinatorics, the Catalan numbers are calculated by the following
+formula: Cn = 1/(n+1)(2n n) = (2n)!/((n+1)!n!), for n ≥ 0. Write a 
+program that calculates the nth Catalan number by given n.
+*/
+
+Console.Write("Enter a positive integer: ");
+int n = Convert.ToInt32(Console.ReadLine());
+decimal numerator = 1;
+decimal factorial = 1;   // factorial - denumerator
+decimal result = 1;
+
+// for n ≥ 0, this is true: (2n)!/((n+1)!n!) = (2^n)n! / ((n+1)!n!) = (2^n) / (n+1)!
+for (int i = 1; i <= n; i++)
+{
+    numerator *= 2; 
+    factorial *= (++i); 
+}
+
+result = numerator / factorial;
+Console.WriteLine("The nth Catalan number is {0}.", result);
+
+/* Input/Output
+Enter a positive integer: 3
+The nth Catalan number is 0.5.
+Enter a positive integer: 5
+The nth Catalan number is 0.1666666666666666666666666667.
+Enter a positive integer: 7
+The nth Catalan number is 0.0416666666666666666666666667.
+*/
+
+
+/* (Medium Problems) Ex9 - Problem Statement:
+Write a program that for a given integers n and x, calculates the sum:
+S = 1 + 1!/x + 2!/x^2 + ... + n!/x^n.
+*/
+
+Console.Write("Enter a positive integer: ");
+int n = Convert.ToInt32(Console.ReadLine());
+Console.Write("Enter another integer: ");
+decimal x = Convert.ToDecimal(Console.ReadLine());
+decimal factorial = 1;   
+decimal denumerator = 1;
+decimal sum = 1;
+
+// for n ≥ 0, this is true: (2n)!/((n+1)!n!) = (2^n)n! / ((n+1)!n!) = (2^n) / (n+1)!
+for (int i = 1; i <= n; i++)
+{
+    factorial *= i; 
+    denumerator *= x;
+    sum += factorial / denumerator; 
+}
+
+Console.WriteLine("The nth Catalan number is {0}.", sum);
+
+/* Input/Output
+Enter a positive integer: 3
+Enter another integer: 5
+The nth Catalan number is 1.328.
+Enter a positive integer: 17
+Enter another integer: 7
+The nth Catalan number is 3.9409790936039153726173467055.
+*/
+
+
+/* (Medium Problems) Ex10 - Problem Statement:
+Write a program that reads from the console a positive integer number
+N (N < 20) and prints a matrix of numbers as on the figures below:
+             _____
+N = 3  -->  |1|2|3|    
+            |2|3|4|
+            |3|4|5|
+             ‾‾‾‾‾
+             _______
+N = 4  -->  |1|2|3|4|
+            |2|3|4|5|
+            |3|4|5|6|
+            |4|5|6|7|
+             ‾‾‾‾‾‾‾
+*/
+
+Console.OutputEncoding = System.Text.Encoding.Unicode;  // so that '‾' can be printed.
+
+Console.Write("Enter a positive integer: ");
+int n = Convert.ToInt32(Console.ReadLine());
+
+int padding = (n > 9) ? 13 : 12;
+Console.WriteLine("".PadRight(5*n-1, '_').PadLeft(5*n+padding));
+Console.Write($"N = {n}  -->  ");
+for (int i = 1; i <= n; i++)
+{
+    if (i != 1)
+    {
+        Console.Write("".PadRight(padding));
+    }
+
+    for (int j = i; j < n + i; j++)
+    {
+        Console.Write($"| {j}".PadRight(5));
+    }
+    Console.WriteLine("|");
+}
+Console.WriteLine("".PadRight(5*n-1, '‾').PadLeft(5*n+padding));
+
+/* Input/Output:
+Enter a positive integer: 5 
+             ________________________ 
+N = 5  -->  | 1  | 2  | 3  | 4  | 5  |
+            | 2  | 3  | 4  | 5  | 6  |
+            | 3  | 4  | 5  | 6  | 7  |
+            | 4  | 5  | 6  | 7  | 8  |
+            | 5  | 6  | 7  | 8  | 9  |
+             ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ 
+Enter a positive integer: 7
+             __________________________________ 
+N = 7  -->  | 1  | 2  | 3  | 4  | 5  | 6  | 7  |
+            | 2  | 3  | 4  | 5  | 6  | 7  | 8  |
+            | 3  | 4  | 5  | 6  | 7  | 8  | 9  |
+            | 4  | 5  | 6  | 7  | 8  | 9  | 10 |
+            | 5  | 6  | 7  | 8  | 9  | 10 | 11 |
+            | 6  | 7  | 8  | 9  | 10 | 11 | 12 |
+            | 7  | 8  | 9  | 10 | 11 | 12 | 13 |
+             ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ 
+Enter a positive integer: 17
+              ____________________________________________________________________________________
+N = 17  -->  | 1  | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 |
+             | 2  | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 |
+             | 3  | 4  | 5  | 6  | 7  | 8  | 9  | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 |
+             | 4  | 5  | 6  | 7  | 8  | 9  | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 |
+             | 5  | 6  | 7  | 8  | 9  | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 |
+             | 6  | 7  | 8  | 9  | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 |
+             | 7  | 8  | 9  | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 |
+             | 8  | 9  | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 |
+             | 9  | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
+             | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 |
+             | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 |
+             | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 |
+             | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 |
+             | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30 |
+             | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30 | 31 |
+             | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30 | 31 | 32 |
+             | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 30 | 31 | 32 | 33 |
+              ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+*/

@@ -1,0 +1,407 @@
+/* (Medium Problems) Ex8 - Problem Statement:
+Write a method that calculates the sum of two very long positive
+integer numbers. The numbers are represented as array digits and
+the last digit (the ones) is stored in the array at index 0. Make the
+method work for all numbers with length up to 10,000 digits.
+*/
+
+byte[] addent1 = { 7, 6, 9, 3, 7, 2, 5, 6, 4, 6, 7, 8, 2 };
+byte[] addent2 = { 3, 5 , 5, 9 , 7, 6, 5, 6, 2, 2, 1, 9};
+byte[] addent3 = {9, 2, 4, 9, 9};
+byte[] addent4 = {5, 8, 6};
+
+byte[] sum = AddTwoBigNumbers(addent1, addent2);
+PrintAddition(addent1, addent2, sum);
+sum = AddTwoBigNumbers(addent3, addent4);
+PrintAddition(addent3, addent4, sum);
+sum = AddTwoBigNumbers(addent1, addent3);
+PrintAddition(addent1, addent3, sum);
+sum = AddTwoBigNumbers(addent1, addent4);
+PrintAddition(addent1, addent4, sum);
+sum = AddTwoBigNumbers(addent2, addent3);
+PrintAddition(addent2, addent3, sum);
+sum = AddTwoBigNumbers(addent2, addent4);
+PrintAddition(addent2, addent4, sum);
+
+byte[] AddTwoBigNumbers(byte[] a, byte[] b)
+{
+    byte[] sum = new byte[10001];
+    int length = Math.Min(a.Length, b.Length);
+    byte carry = 0;
+
+    for (int i = 0; i < length; i++)
+    {
+        sum[i] = (byte) ((a[i] + b[i] + carry) % 10);
+        carry = (byte) ((a[i] + b[i] + carry) / 10);
+    }
+
+    if (a.Length > b.Length)
+    {
+        for (int i = length; i < a.Length; i++)
+        {
+            sum[i] = (byte) ((a[i] + carry) % 10);
+            carry = (byte) ((a[i] + carry) / 10);
+        }
+        sum[a.Length] = carry;
+    }
+    else
+    {
+        for (int i = length; i < b.Length; i++)
+        {
+            sum[i] = (byte) ((b[i] + carry) % 10);
+            carry = (byte) ((b[i] + carry) / 10);
+        }
+        sum[b.Length] = carry;
+    }
+
+    return sum;
+}
+
+void PrintAddition(byte[] a, byte[] b, byte[] sum)
+{
+    int resizer = Math.Max(a.Length, b.Length) + 1;
+    PrintArrayAsNum(a, a.Length, resizer - a.Length);
+    Console.WriteLine("+");
+    PrintArrayAsNum(b, b.Length, resizer - b.Length);
+    
+    for (int i = 0; i < resizer; i++)
+    {
+        Console.Write("_");
+    }
+    Console.WriteLine();
+    PrintArrayAsNum(sum, sum.Length, 0, resizer);
+    Console.WriteLine();
+}
+
+void PrintArrayAsNum(byte[] array, int length, int pad, int resizer = 0)
+{
+    if (length == 10001)
+    {
+        Array.Resize(ref array, resizer); 
+        length = resizer;  
+    }
+    
+    Array.Reverse(array);
+
+    Console.Write("".PadRight(pad));
+    for (int i = 0; i < length; i++)
+    {
+        if (array[0] == 0 && i == 0)
+        {
+            Console.Write(" ");
+            continue;
+        }
+        Console.Write(array[i]);
+    }
+    Console.WriteLine();
+}
+
+/* Input/Output:
+ 2876465273967
++
+  912265679553
+______________
+ 3788730953520
+
+ 99429        
++
+   685        
+______        
+100114        
+
+ 7693725646782
++
+         92499
+______________
+ 7693725739281
+
+ 2876465273967
++
+           586
+______________
+ 2876465274553
+
+ 355976562219
++
+        99429
+_____________
+ 355976661648
+
+ 912265679553
++
+          685
+_____________
+ 912265680238
+*/
+
+
+/* (Medium Problems) Ex9 - Problem Statement:
+Write a method that finds the biggest element of an array. Use that
+method to implement sorting in descending order.
+*/
+
+int n = 17;
+int lowerBound = -n;
+int upperBound = n + 1;
+int[] array = new int[n];
+FillArray(array, lowerBound, upperBound);
+
+Console.Write("Array: ");
+PrintArray(array);
+Console.WriteLine("\nBiggest element in array: {0}.", FindMaxInRange(array, 0, array.Length)[0]);
+Console.Write("Array after sorting in descending order: ");
+SortArray(array, isAscending: false);  // named argument
+PrintArray(array);
+
+void FillArray(int[] array, int lower, int upper)
+{
+    Random random = new Random();
+    for (int i = 0; i < array.Length; i++)
+    {
+        array[i] = random.Next(lower, upper);
+    }
+}
+
+void PrintArray(int[] array)
+{
+    Console.Write("{ ");
+    for (int i = 0; i < array.Length; i++)
+    {
+        Console.Write((i != array.Length - 1) ? $"{array[i]}, " : $"{array[i]}" + " }.");
+    }
+}
+
+int[] FindMaxInRange(int[] array, int start, int end)
+{
+    int max = int.MinValue;
+    int index = 0;
+    for (int i = start; i < end; i++)
+    {
+        if (array[i] > max)
+        {
+            max = array[i];
+            index = i;
+        }
+    }
+
+    return new int[] {max, index}; 
+}
+
+void SortArray(int[] array, bool isAscending = true)
+{
+    int swapIndex = isAscending ? array.Length - 1 : 0;
+    int maxInRange;
+    int maxIndex;
+    int[] result;
+
+    for (int i = 0; i < array.Length; i++)
+    {
+        result = FindMaxInRange(array, i, array.Length);
+        maxInRange = result[0];
+        maxIndex = result[1];
+        (array[swapIndex], array[maxIndex]) = (maxInRange, array[swapIndex]);
+        swapIndex += isAscending ? -1 : 1; 
+    } 
+}
+
+/* Input/Output:
+Array: { -7, 14, -4, -13, -13, 8, -16, 7, -14, 8, -8, 8, 9, 2, 10, 2, -7 }.
+Biggest element in array: 14.
+Array after sorting in descending order: { 14, 10, 9, 8, 8, 8, 7, 2, 2, -4, -7, -7, -8, -13, -13, -14, -16 }.
+PS C:\Users\Xusniddin\Desktop\Khusniddin\IT\DotNet Development\FofCP with C#\Exers\9.Methods\Medium Problems\Exercises> dotnet run
+Array: { 12, 10, 3, 16, 1, 11, -12, 10, -9, 0, -16, 14, -9, -9, -15, 9, -16 }.
+Biggest element in array: 16.
+Array after sorting in descending order: { 16, 14, 12, 11, 10, 10, 9, 3, 1, 0, -9, -9, -9, -12, -15, -16, -16 }.
+*/
+
+
+
+/* (Medium Problems) Ex10 - Problem Statement:
+Write a program that calculates and prints the n! for any n in the range [1…100].
+*/
+
+int n = 100;
+Console.Write($"{n}! = ");
+byte[] factorial = CalculateFactorial(n);
+PrintArrayAsNumber(factorial);
+
+byte[] CalculateFactorial(int n)
+{
+    byte[] factorial = new byte[160];
+    factorial[0] = 1;
+    int carry = 0;
+    int i, j;
+    int factLength = 1;
+    int previousDigit = 1;
+
+    for (i = 1; i <= n; i++)
+    {
+        for (j = 0; ; j++)
+        {
+            if (factorial[j] == 0 && carry == 0 && j >= factLength)
+            {
+                break;
+            }
+
+            if (j == 0)
+            {
+                previousDigit = factorial[j];
+                factorial[j] = (byte) ((factorial[j] * i) % 10);
+                carry = (previousDigit * i) / 10;
+            }
+            else
+            {
+                previousDigit = factorial[j];
+                factorial[j] = (byte) ((factorial[j] * i + carry) % 10);
+                carry = (previousDigit * i + carry) / 10;
+            }
+        }
+        factLength = j;
+    }
+
+    Array.Resize(ref factorial, factLength);
+    return factorial;
+}
+
+void PrintArrayAsNumber(byte[] array)
+{
+    Array.Reverse(array);
+    for (int i = 0; i < array.Length; i++)
+    {
+        Console.Write(array[i]);
+    }
+    Console.WriteLine();
+}
+
+/* Input/Output:
+100! = 93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000
+30! = 265252859812191058636308480000000
+*/
+
+
+
+/* (Medium Problems) Ex11 - Problem Statement:
+Write a program that solves the following tasks:
+- Put the digits from an integer number into a reversed order.
+- Calculate the average of given sequence of numbers.
+- Solve the linear equation a * x + b = 0.
+Create appropriate methods for each of the above tasks.
+Make the program show a text menu to the user. By choosing an option
+of that menu, the user will be able to choose which task to be invoked.
+Perform validation of the input data:
+- The integer number must be a positive in the range [1…50,000,000].
+- The sequence of numbers cannot be empty.
+- The coefficient a must be non-zero.*/
+
+ConsoleColor back = ConsoleColor.White;
+ConsoleColor front = ConsoleColor.Green;
+Console.BackgroundColor = back;
+Console.ForegroundColor = front;
+Console.Clear();
+
+int option = 0;
+bool unDone = true;
+string input = String.Empty;
+string result = String.Empty;
+
+while(unDone)
+{
+    Console.WriteLine("Choose one of following options: ");
+    Console.WriteLine("To put the digits from an integer number into a reversed order, enter 0,");
+    Console.WriteLine("To calculate the average of given sequence of numbers, enter 1,");
+    Console.WriteLine("To solve the linear equation a * x + b = 0, enter 2,");
+    Console.WriteLine("Or just enter 3 to quit, ");
+    Console.WriteLine("Default option is 0. This is automatically chosen" + 
+                      " if you enter wrong option or invalid input...!");
+    Console.Write("\nAnd your option: ");
+
+    if (int.TryParse(Console.ReadLine(), out option))
+    {
+        switch(option)
+        {
+            default:
+            case 0:
+                Console.Write("Enter an integer number: ");
+                input = Console.ReadLine() ?? "invalid";
+                result = Rerverse(input);
+                break;
+            case 1:
+                Console.Write("Enter a sequence of numbers with just one whitespace between them: ");
+                input = Console.ReadLine() ?? "invalid";
+                result = CalculateAverage(input.Split().ToArray());
+                break;
+            case 2:
+                Console.Write("a = ");    
+                double a = Convert.ToDouble(Console.ReadLine());
+                Console.Write("b = ");    
+                double b = Convert.ToDouble(Console.ReadLine());
+                result = SolveLinearEquation(a, b);
+                input = (b > 0) ? $"{a}x + {b} = 0" : $"{a}x - {(-1 * b)} = 0";
+                break;
+            case 3:
+                unDone = false;
+                break;
+        }
+        Console.Clear();
+        Console.WriteLine(unDone ? $"Entered: {input}" : "Thank you...!");
+        Console.Write(unDone ? $"Result: {result}" : "");
+        Console.Write("\n\nPress any key to ");
+        Console.Write(unDone ? "continue: " : "quit: ");
+        Console.ReadKey();
+        Console.Clear();
+    }
+}
+
+string Rerverse(string number)
+{
+    char[] result = number.ToCharArray();
+    Array.Reverse(result);
+    number = new string(result);
+
+    return number;
+}
+
+string CalculateAverage(params string[] numbers)
+{
+    double average = 0.0d;
+    double sum = 0.0d;
+    double addend;
+
+    foreach (var number in numbers)
+    {
+        if (double.TryParse(number, out addend))
+        {
+            sum += addend;
+        }
+        else
+        {
+            return "Invalid Input";
+        }
+    }
+    average = sum / numbers.Length;
+
+    return average.ToString();
+}
+
+string SolveLinearEquation(double a, double b)
+{
+    double x = -1 * b / a;
+
+    return x.ToString();
+}
+
+/* Input/Output:
+Choose one of following options:
+To put the digits from an integer number into a reversed order, enter 0,
+To calculate the average of given sequence of numbers, enter 1,
+To solve the linear equation a * x + b = 0, enter 2,
+Or just enter 3 to quit,
+Default option is 0. This is automatically chosen if you enter wrong option or invalid input...!
+
+And your option: 1
+Enter a sequence of numbers with just one whitespace between them: 76 -734 73.72 789
+Entered: 76 -734 73.72 789
+Result: 51.18000000000001
+
+Press any key to continue:
+*/

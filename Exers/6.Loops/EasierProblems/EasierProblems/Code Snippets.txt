@@ -1,0 +1,184 @@
+/* Ex1 - Problem Statement:
+Write a program that prints on the console the numbers from 1 to N.
+The number N should be read from the standard input.
+*/
+
+Console.Write("Enter a positive integer number: ");
+int num = Convert.ToInt32(Console.ReadLine());
+
+foreach (int i in Enumerable.Range(1, num))
+{
+    Console.Write(i + " ");
+}
+
+/* Input/Output
+Enter a positive integer number: 77
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 
+28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 
+52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 
+76 77
+*/
+
+
+/* Ex2 - Problem Statement:
+Write a program that prints on the console the numbers from 1 to N,
+which are not divisible by 3 and 7 simultaneously. The number N
+should be read from the standard input.
+*/
+
+Console.Write("Enter a positive integer number: ");
+int num = Convert.ToInt32(Console.ReadLine());
+
+foreach (int i in Enumerable.Range(1, num))
+{
+    if (i % 21 == 0)
+    {
+        continue;
+    }
+    Console.Write(i + " ");
+}
+
+/* Input/Output
+Enter a positive integer number: 47
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 22 23 24 25 
+26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 43 44 45 46 47 
+*/
+
+
+/* Ex3 - Problem Statement:
+Write a program that reads from the console a series of integers and
+prints the smallest and largest of them.
+*/
+
+Console.Write("How many integers do you want to enter: ");
+int n = Convert.ToInt32(Console.ReadLine());
+
+int max = int.MinValue, min = int.MaxValue, counter = 0, num;
+bool unDone = true;
+while (unDone)
+{
+    Console.Write($"Enter number{(++counter)}: ");
+    num = Convert.ToInt32(Console.ReadLine());
+
+    if (num > max)
+    {
+        max = num;
+    }
+
+    if (num < min)
+    {
+        min = num;
+    }
+
+    if (counter == n)
+    {
+        unDone = false;
+    }    
+}
+
+Console.WriteLine($"The smallest: {min}  |  The largest: {max}.");
+
+/* Input/Output
+How many integers do you want to enter: 3
+Enter number1: -4545
+Enter number2: 653
+Enter number3: 6
+The smallest: -4545  |  The largest: 653.
+*/
+
+
+/* Ex5 - Problem Statement:
+Write a program that reads from the console number N and print the sum
+of the first N members of the Fibonacci sequence: 0, 1, 1, 2, 3, 5, 8,
+13, 21, 34, 55, 89, 144, 233, 377, …
+*/
+using System.Numerics;
+
+Console.Write("Enter a positive integer: ");
+int n = Convert.ToInt32(Console.ReadLine());
+
+BigInteger sum = n == 0 ? 0 : 1;
+
+BigInteger previousFibonacci = 0, currentFibonacci = 1, nextFibonacci;
+
+for (int i = 2; i < n; i++)
+{
+    nextFibonacci = previousFibonacci + currentFibonacci;
+    sum += nextFibonacci;
+    
+    previousFibonacci = currentFibonacci;
+    currentFibonacci = nextFibonacci; 
+}
+
+Console.WriteLine("The sum of the first {1} members of Fibonacci sequence: {0}.", sum, n);
+
+/* Input/Output
+Enter a positive integer: 7
+The sum of the first 7 members of Fibonacci sequence: 20.
+Enter a positive integer: 77
+The sum of the first 77 members of Fibonacci sequence: 8944394323791463.
+*/
+
+
+/* Ex6 - Problem Statement:
+Write a program that calculates N!/K! for given N and K (1<K<N).
+*/
+using System.Numerics;
+
+Console.Write("Enter a positive integer: ");
+int n = Convert.ToInt32(Console.ReadLine());
+Console.Write("Enter another positive integer which is less than the previous one: ");
+int k = Convert.ToInt32(Console.ReadLine());
+
+BigInteger result = 1;
+
+for (k = k+1; k <= n; k++)    // for 1<K<N, this is true: N! / K! = (1*2*...*K*(K+1)*...*N) / (1*2*...*K) = (K+1)*(K+2)*...*N. 
+{
+    result *= k;
+}
+
+Console.WriteLine("N! / K! = {0}.", result);
+
+/* Input/Output
+Enter a positive integer: 17
+Enter another positive integer which is less than the previous one: 7
+N! / K! = 70572902400.
+Enter a positive integer: 77
+Enter another positive integer which is less than the previous one: 17
+N! / K! = 408176057291237654129602717613810134702918446397065763012189628020509589276760997888000000000000000.
+*/
+
+
+/* Ex11 - Problem Statement:
+Write a program that calculates with how many zeroes the factorial of
+a given number ends. Examples:
+N = 10 -> N! = 3628800 -> 2
+N = 20 -> N! = 2432902008176640000 -> 4
+*/
+
+Console.Write("Enter a positive integer: ");
+int n = Convert.ToInt32(Console.ReadLine());
+int numOfZeroes = 0;
+System.Numerics.BigInteger result = 1;
+
+for (int i = 5, j = 1; j <= n; j++)
+{
+    numOfZeroes += n / i;
+    if (i <= n)
+    {
+        i *= 5;
+    }
+
+    result *= j;
+}
+
+Console.WriteLine("N = {0} --> N! = {1} --> {2}.", n, result, numOfZeroes);
+
+/* Input/Output
+Enter a positive integer: 7
+N = 7 --> N! = 5040 --> 1.
+Enter a positive integer: 17
+N = 17 --> N! = 355687428096000 --> 3.
+Enter a positive integer: 77
+N = 77 --> N! = 145183092028285869634070784086308284983740379224208358846781574688061991349156420080065207861248000000000000000000 --> 18.
+*/

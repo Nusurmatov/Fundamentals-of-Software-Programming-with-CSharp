@@ -1,0 +1,84 @@
+/* (Difficult Problems) Ex16 - Problem Statement:
+Write a program that by a given integer N prints the numbers from 1 to N
+in random order.
+*/
+
+Console.Write("Enter a positive integer: ");
+int n = Convert.ToInt32(Console.ReadLine());
+Console.Write("How many times do you want to print numbers from 1 to N in random order? : ");
+int count = Convert.ToInt32(Console.ReadLine());
+
+int[] numbers = Enumerable.Range(1, n).ToArray();   // Array of numbers from 1 to n.
+Random ran = new Random();
+
+Console.Write("In order: ");
+PrintArrayElements(numbers, n);
+
+for (int i = 0; i < count; i++)
+{
+    SwapArrayElements(numbers, n);
+    Console.Write("\nIn Random order {0}: ", i+1);
+    PrintArrayElements(numbers, n);
+}
+
+void SwapArrayElements(int[] numbers, int n)    // swap two random numbers in the array 'numbers' n times.
+{
+    for (int k =0; k < n; k++)
+    {
+        int i = ran.Next(1, n);
+        int j = ran.Next(1,n);
+        numbers[i] = numbers[i] ^ numbers[j];   // swap two values at index i and j with bitwise algorithm. 
+        numbers[j] = numbers[j] ^ numbers[i];
+        numbers[i] = numbers[i] ^ numbers[j];
+    }
+}
+
+void PrintArrayElements(int[] numbers, int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        Console.Write("{0} ", numbers[i]);
+    }
+}
+
+/* Input/Output:
+Enter a positive integer: 17
+How many times do you want to print numbers from 1 to N in random order? : 7
+In order: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17
+In Random order 1: 1 2 9 11 5 13 6 15 17 10 4 0 7 14 12 0 16 
+In Random order 2: 1 0 0 13 0 17 9 7 16 2 0 5 15 14 12 10 6  
+In Random order 3: 1 0 7 10 5 13 0 17 0 14 9 0 15 2 12 6 16  
+In Random order 4: 1 9 7 6 0 10 0 15 0 14 13 0 0 2 0 12 16   
+In Random order 5: 1 12 14 15 0 0 9 7 16 10 13 0 0 2 0 0 0   
+In Random order 6: 1 0 16 15 14 0 13 7 0 10 0 0 0 9 12 2 0
+In Random order 7: 1 0 15 12 10 13 0 16 0 7 0 0 0 0 0 14 2 
+*/
+
+
+/* (Difficult Problems) Ex17 - Problem Statement:
+Write a program that given two numbers finds their greatest common divisor (GCD) and their 
+least common multiple (LCM). You may use the formula LCM(a, b) = |a*b| / GCD(a, b).
+*/
+
+Console.Write("Enter a positive integer: ");
+int num1 = Convert.ToInt32(Console.ReadLine());
+Console.Write("Enter another positive integer: ");
+int num2 = Convert.ToInt32(Console.ReadLine());
+
+int gcd = 1;   //LCM - Least Common Multiple  
+int lcm = num1 * num2;    // GCD(a, b) * LCM(a, b) = a * b  =>  LCM(a, b) = a * b / GCD(a, b). 
+
+while (num2 != 0)    // Euclidean Algorithm for finding Greates Common Divisor
+{
+    gcd = num2;
+    num2 = num1 % num2;
+    num1 = gcd;
+}
+
+Console.WriteLine($"GCD (Greatest Common Divisor): {gcd}  |  LCM (Least Common Multiple): {(lcm/gcd)}");
+
+/* Input/Output:
+Enter a positive integer: 80
+Enter another positive integer: 324
+GCD (Greatest Common Divisor): 4  |  LCM (Least Common Multiple): 6480
+*/

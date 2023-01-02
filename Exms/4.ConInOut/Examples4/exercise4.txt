@@ -1,0 +1,149 @@
+Console.WriteLine("{0,6}", 123);
+Console.WriteLine("{0,6}", 1234);
+Console.WriteLine("{0,6}", 12);
+Console.Write("{0,-6}", 123);
+Console.WriteLine("--end");
+
+/* Ouput:
+   123
+  1234     
+    12     
+123   --end
+*/
+
+
+// Standard-defined formats:
+Console.WriteLine("{0:C2}", 123.456);
+//Output: 123,46 лв.
+Console.WriteLine("{0:D6}", -1234);
+//Output: -001234
+Console.WriteLine("{0:E2}", 123);
+//Output: 1,23E+002
+Console.WriteLine("{0:F2}", -123.456);
+//Output: -123,46
+Console.WriteLine("{0:N2}", 1234567.8);
+//Output: 1 234 567,80
+Console.WriteLine("{0:P}", 0.456);
+//Output: 45,60 %
+Console.WriteLine("{0:X}", 254);
+//Output: FE
+
+/* Ouput:
+$123.46
+-001234     
+1.23E+002   
+-123.46     
+1,234,567.80
+45.60%      
+FE
+*/
+
+// Custom numeric format:
+Console.WriteLine("{0:0.00}", 1);
+//Output: 1.00
+Console.WriteLine("{0:#.##}", 0.234);
+//Output: .23
+Console.WriteLine("{0:#####}", 12345.67);
+//Output: 12346
+Console.WriteLine("{0:(0#) ### ## ##}", 29342525);
+//Output: (02) 934 25 25
+Console.WriteLine("{0:%##}", 0.234);
+//Output: %23
+
+// User-defined (Custom) formats for Dates
+DateTime d = new DateTime(2022, 06, 07, 17, 02, 27);
+Console.WriteLine("{0:dd/MM/yyyy HH:mm:ss}", d);
+Console.WriteLine("{0:dd.MM.yyyy}", d);
+
+/* Ouput:
+07/06/2022 17:02:27
+07.06.2022
+*/
+
+
+using System.Globalization;
+
+// Localization:
+DateTime d = new DateTime(2022, 07, 06, 17, 11, 27);
+Thread.CurrentThread.CurrentCulture =
+CultureInfo.GetCultureInfo("en-US");
+Console.WriteLine("{0:N}", 1234.56);
+Console.WriteLine("{0:D}", d);
+Thread.CurrentThread.CurrentCulture =
+CultureInfo.GetCultureInfo("uz-UZ");
+Console.WriteLine("{0:N}", 1234.56);
+Console.WriteLine("{0:D}", d);
+
+/* Ouput:
+1,234.560
+Wednesday, July 6, 2022 
+1 234,560
+chorshanba, 6-iyul, 2022
+*/
+
+
+// Reading by Console.ReadKey():
+ConsoleKeyInfo key = Console.ReadKey();
+Console.WriteLine();
+Console.WriteLine("Character entered: " + key.KeyChar);
+Console.WriteLine("Special keys: " + key.Modifiers);
+
+/* Ouput:
+☺
+Character entered: ☺ 
+Special keys: Control
+A
+Character entered: A
+Special keys: Shift
+*/
+
+
+// Simplified Reading of Numbers through Nakov.IO:
+// http://www.nakov.com/blog/2011/11/23/cin-class-for-csharpread-from-console-nakov-io-cin/. 
+
+/* using Nakov.IO;
+
+// TODO: copy cin.cs file from Nakov.IO.cin and add to this project
+int x = Cin.NextInt();
+double y = Cin.NextDouble();
+decimal d = Cin.NextDecimal();
+Console.WriteLine("Result: {0} {1} {2}", x, y, d);
+*/
+
+/* Input/Ouput:
+3 2.5
+3.58
+Result: 3 2.5 3.58
+*/
+
+
+// Calculates Area of Rectangle or Triangle:
+
+Console.WriteLine("This program calculates " +
+"the area of a rectangle or a triangle");
+Console.Write("Enter a and b (for rectangle) " +
+"or a and h (for triangle): ");
+int a = int.Parse(Console.ReadLine());
+int b = int.Parse(Console.ReadLine());
+Console.Write("Enter 1 for a rectangle or " +
+"2 for a triangle: ");
+int choice = int.Parse(Console.ReadLine());
+double area = (double) (a * b) / choice;  // very good logic...
+Console.WriteLine("The area of your figure is " + area);
+
+
+/* Input/Ouput:
+This program calculates the area of a rectangle or a triangle
+Enter a and b (for rectangle) or a and h (for triangle): 5
+7
+Enter 1 for a rectangle or 2 for a triangle: 1
+The area of your figure is 35
+This program calculates the area of a rectangle or a triangle
+Enter a and b (for rectangle) or a and h (for triangle): 9
+8
+Enter 1 for a rectangle or 2 for a triangle: 2
+The area of your figure is 36
+*/
+
+
+

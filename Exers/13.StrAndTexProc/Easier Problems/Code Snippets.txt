@@ -1,0 +1,820 @@
+/* (Easier) Ex1 - Problems Statement:
+Describe the strings in C#. What is typical for the string type?
+Explain which the most important methods of the string class are.
+*/
+
+/* Answer:
+String is a sequence of characters. In .NET, System.String class is used for working with strings.
+The difference between C/C++ string and C# string is that the latter one does not contain the 
+terminating character (\n - endline). But both are zero-indexed and a pointer/reference type. 
+Albeit immutable, unlike other reference types, changing one of multiple different variables of 
+string type referencing to the same object in the heap does not cause any change in others.
+Several most important methods are: Compare(), CompareTo(), ToUpper(), ToLower(), IndexOf(),
+LastIndexOf(), Substring(), Split() and Replace().
+*/
+
+
+/* (Easier) Ex3 - Problems Statement:
+Write a program that checks whether the parentheses are placed
+correctly in an arithmetic expression. Example of expression with
+correctly placed brackets: ((a+b)/5-d). Example of an incorrect
+expression: )(a+b)).
+*/
+
+string[] strs = { "((a+b)/5-d)", ")(a+b))" };
+int counter = 0;
+
+foreach (var str in strs)
+{
+    for (int i = 0; i < str.Length; i++)
+    {
+        if (str[i] == '(')
+        {
+            counter++;
+        }
+        else if (str[i] == ')')
+        {
+            counter--;
+        }
+    }
+
+    Console.Write($"Are parentheses placed correctly in '{str}' - ");
+    Console.Write(counter == 0 ? "Yes." : "No.");
+    Console.WriteLine();
+    counter = 0;
+}
+
+/* Output:
+Are parentheses placed correctly in '((a+b)/5-d)' - Yes.
+Are parentheses placed correctly in ')(a+b))' - No.
+*/
+
+
+/* (Easier) Ex5 - Problems Statement:
+Write a program that detects how many times a substring is contained in
+the text. For example, let’s look for the substring "in" in the text:
+We are living in a yellow submarine. We don't have anything
+else. Inside the submarine is very tight. So we are drinking
+all the day. We will move out of it in 5 days.
+The result is 9 occurrences.
+*/
+
+string text = String.Empty;
+
+try
+{
+    using (StreamReader reader = new StreamReader("text5.txt"))
+    {
+        text = reader.ReadToEnd();
+    }
+}
+catch (IOException e)
+{
+    Console.WriteLine(e.Message);
+}
+
+int counter = 0;
+string substring = "in";
+int index = text.IndexOf(substring);
+
+while (index != -1)
+{
+    counter++;
+    index = text.IndexOf(substring, index + 1);
+}
+
+Console.WriteLine("All occurences of '{0}' is {1}.", substring, counter);
+
+/* Output:
+All occurences of 'in' is 8.
+*/
+
+
+/* (Easier) Ex2 - Problems Statement:
+Write a program that reads a string, reverse it and prints it to the
+console. For example: "introduction" -> "noitcudortni".
+*/
+
+using System.Text;
+
+Console.Write("Enter a string: ");
+string str = Console.ReadLine() ?? "null";
+Console.WriteLine("Reversed: {0}", Reverse(str));
+
+string Reverse(string str)
+{
+    if (String.IsNullOrEmpty(str))
+    {
+        return "You entered nothing...!";
+    }
+
+    StringBuilder result = new StringBuilder();
+
+    for (int i = str.Length - 1; i >= 0; i--)
+    {
+        result.Append(str[i]);
+    }
+
+    return result.ToString();
+}
+
+/* Output:
+Enter a string: I do not know
+Reversed: wonk ton od I
+Enter a string:
+Reversed: You entered nothing...!
+*/
+
+
+/* (Easier) Ex4 - Problems Statement:
+How many backslashes you must specify as an argument to the method
+Split(…) in order to split the text by a backslash?
+Example: one\two\three. Note: In C# backslash is an escaping character.
+*/
+
+string str = @"one\two\three";
+string[] strs = str.Split("\\");
+
+foreach (var item in strs)
+{
+    Console.Write($"{item} ");
+}
+
+/* Output:
+one two three
+*/
+
+
+/* (Easier) Ex6 - Problems Statement:
+A text is given. Write a program that modifies the casing of letters to
+uppercase at all places in the text surrounded by <upcase> and
+</upcase> tags. Tags cannot be nested.
+Example:
+We are living in a <upcase>yellow submarine</upcase>. We
+don't have <upcase>anything</upcase> else.
+Result:
+We are living in a YELLOW SUBMARINE. We don't have ANYTHING
+else.
+*/
+
+try
+{
+    string result;
+    using (var reader = new StreamReader("text6.txt"))
+    {
+        result = reader.ReadToEnd();
+    }
+
+    int startIndex = result.IndexOf("<u"); 
+    int endIndex = result.IndexOf("</");
+    string substring, replace;
+    string copy = result;
+
+    while (startIndex != -1)
+    {
+        substring = copy[startIndex..(endIndex + 9)];
+        replace = copy[(startIndex + 8)..endIndex].ToUpper();
+        result = result.Replace(substring, replace);
+        startIndex = copy.IndexOf("<u", startIndex + 1);
+        endIndex = copy.IndexOf("</", endIndex + 1);
+    }       
+    
+    Console.WriteLine("Old: {0}", copy);
+    Console.WriteLine("New: {0}", result);
+}
+catch (FileNotFoundException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch (IOException e)
+{
+    Console.WriteLine(e.Message);
+}
+
+/* Output:
+Old: We are living in a <upcase>yellow submarine</upcase>. We
+don't have <upcase>anything</upcase> else.
+New: We are living in a YELLOW SUBMARINE. We
+don't have ANYTHING else.
+*/
+
+
+/* (Easier) Ex7 - Problems Statement:
+Write a program that reads a string from the console (20 characters
+maximum) and if shorter complements it right with "*" to 20 characters.
+*/
+
+Console.Write("Enter a string of maximum length 20: ");
+string str = (Console.ReadLine() ?? String.Empty).PadRight(20, '*');
+Console.WriteLine(str);
+
+/* Output:
+Enter a string of maximum length 20: Hello
+Hello***************
+*/
+
+
+/* (Easier) Ex8 - Problems Statement:
+Write a program that converts a given string into the form of array of
+Unicode escape sequences in the format used in the C# language.
+Sample input: "Test". Result: "\u0054\u0065\u0073\u0074"
+*/
+
+using System.Text;
+
+StringBuilder sb = new StringBuilder();
+
+Console.Write("Enter a string: ");
+foreach(char c in  Console.ReadLine() ?? "Empty")
+{
+    sb.Append($"\\u{((ushort) c):x4}");
+}
+
+Console.WriteLine("Result: {0}", sb);
+
+/* Input/Output:
+Enter a string: Test
+Result: \u0054\u0065\u0073\u0074
+Enter a string: something
+Result: \u0073\u006f\u006d\u0065\u0074\u0068\u0069\u006e\u0067
+*/
+
+
+/* (Easier) Ex9 - Problems Statement:
+Write a program that encrypts a text by applying XOR (excluding or)
+operation between the given source characters and given cipher code.
+The encryption should be done by applying XOR between the first letter
+of the text and the first letter of the code, the second letter of the text
+and the second letter of the code, etc. until the last letter of the code,
+then goes back to the first letter of the code and the next letter of the
+text. Print the result as a series of Unicode escape characters \xxxx.
+Sample source text: "Test". Sample cipher code: "ab". The result should
+be the following: "\u0035\u0007\u0012\u0016".
+*/
+
+using System.Text;
+
+string text = "Test";
+string code = "ab";
+StringBuilder encryption = new StringBuilder();
+
+for (int i = 0; i < text.Length; i++)
+{
+    encryption.Append($"\\u{(text[i] ^ code[i % code.Length]):x4}");
+}
+
+Console.WriteLine("Text - {0}", text);
+Console.WriteLine("Cipher Code - {0}", code);
+Console.WriteLine("Result: {0}", encryption);
+
+/* Output:
+Text - Test    
+Cipher Code - ab
+Result: \u0035\u0007\u0012\u0016
+*/
+
+
+/* (Easier) Ex10 - Problems Statement:
+Write a program that extracts from a text all sentences that contain
+a particular word. We accept that the sentences are separated from
+each other by the character "." and the words are separated from one
+another by a character which is not a letter. Sample text:
+We are living in a yellow submarine. We don't have anything
+else. Inside the submarine is very tight. So we are drinkingChapter 13. Strings and Text Processing 493
+all the day. We will move out of it in 5 days.
+Sample result:
+We are living in a yellow submarine.
+We will move out of it in 5 days.
+*/
+
+string text = String.Empty;
+
+try
+{
+    using (StreamReader reader = new StreamReader("text5.txt"))
+    {
+        text = reader.ReadToEnd();
+    }
+}
+catch (IOException e)
+{
+    Console.WriteLine(e.Message);
+}
+
+string[] sentences = text.Split('.', StringSplitOptions.RemoveEmptyEntries);
+
+Console.Write("Enter a word: ");
+string word = Console.ReadLine() ?? "empty";
+int counter = 0;
+
+for (int i = 0; i < sentences.Length; i++)
+{
+    sentences[i] = sentences[i].ReplaceLineEndings(" ");
+    if (DoesSentenceContains(sentences[i], word))
+    {
+        counter++;
+        if (counter == 1)
+        {
+            Console.WriteLine($"Sentences that contain the word '{word}':");
+        }
+
+        Console.WriteLine($"{counter} - {sentences[i]}.");
+    }    
+}
+
+if (counter == 0)
+{
+    Console.WriteLine("There is no sentence that contain the word '{0}' in the text.", word);
+}
+
+bool DoesSentenceContains(string sentence, string word)
+{
+    foreach (var str in sentence.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+    {
+        if (str == word)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/* Input/Output:
+Enter a word: in
+Sentences that contain the word 'in':
+1 - We are living in a yellow submarine.
+2 -  We will move out of it in 5 days.
+Enter a word: submarine
+Sentences that contain the word 'submarine':
+1 - We are living in a yellow submarine.
+2 -  Inside the submarine is very tight.
+Enter a word: are
+Sentences that contain the word 'are':
+1 - We are living in a yellow submarine.
+2 -  So we are drinking all the day.
+Enter a word: we
+Sentences that contain the word 'we':
+1 -  So we are drinking all the day.
+Enter a word: car
+There is no sentence that contain the word 'car' in the text.
+*/
+
+
+/* (Easier) Ex11 - Problems Statement:
+A string is given, composed of several "forbidden" words separated by
+commas. Also a text is given, containing those words. Write a program
+that replaces the forbidden words with asterisks. Sample text:
+Microsoft announced its next generation C# compiler today.
+It uses advanced parser and special optimizer for the
+Microsoft CLR.
+Sample string containing the forbidden words: "C#,CLR,Microsoft".
+Sample result:
+********* announced its next generation ** compiler today.
+It uses advanced parser and special optimizer for the
+********* ***.
+*/
+
+string text = "Microsoft announced its next generation C# compiler today.\n" + 
+              "It uses advanced parser and special optimizer for the Microsoft CLR.";
+HashSet<string> forbiddenWords = new HashSet<string>{"C#", "Microsoft", "CLR"};
+string result = text;
+string copy;
+
+foreach (var str in text.Split())
+{
+    copy = str.Contains('.') ? str.Remove(str.Length - 1) : str;
+    
+    if (forbiddenWords.Contains(copy))
+    {
+        result = result.Replace(copy, "".PadRight(copy.Length, '*'));
+    }
+}
+
+Console.WriteLine(result);
+
+/* Output:
+********* announced its next generation ** compiler today.
+It uses advanced parser and special optimizer for the ********* ***.
+*/
+
+
+/* (Easier) Ex12 - Problems Statement:
+Write a program that reads a number from console and prints it in 15-
+character field, aligned right in several ways: as a decimal number,
+hexadecimal number, percentage, currency and exponential (scientific)
+notation.
+*/
+
+Console.Write("Enter a integer number: ");
+if (int.TryParse(Console.ReadLine(), out int number))
+{
+    Console.WriteLine("{0} in decimal format:" + "{0, 15}".PadRight(15), number);
+    Console.WriteLine("{0} in decimal format:" + "{0, 15:X}".PadRight(15), number);
+    Console.WriteLine("{0} in decimal format:" + "{0, 15:P0}".PadRight(15), number);
+    Console.WriteLine("{0} in decimal format:" + "{0, 15:C2}".PadRight(15), number);
+    Console.WriteLine("{0} in decimal format:" + "{0, 15:E3}".PadRight(15), number);
+}
+else
+{
+    Console.WriteLine("Invalid Input...!");
+}
+
+/* Input/Output:
+Enter a integer number: 77
+77 in decimal format:             77        
+77 in decimal format:             4D
+77 in decimal format:         7,700%
+77 in decimal format:         $77.00
+77 in decimal format:     7.700E+001
+*/
+
+
+/* (Easier) Ex13 - Problems Statement:
+Write a program that parses an URL in following format:
+[protocol]://[server]/[resource]
+It should extract from the URL the protocol, server and resource parts.
+For example, when http://www.cnn.com/video is passed, the result is:
+[protocol]="http"
+[server]="www.cnn.com"
+[resource]="/video"
+*/
+
+string url = "https://en.wiktionary.org/wiki";
+
+string protocol = url[..(url.IndexOf('/') - 1)];
+string server = url[(url.IndexOf('/') + 2)..(url.LastIndexOf('/'))];
+string resource = url[(url.LastIndexOf('/') + 1)..];
+
+Console.WriteLine($"Protocol - {protocol}");
+Console.WriteLine($"Server - {server}");
+Console.WriteLine($"Resource - {resource}");
+
+/* Output:
+Protocol - https
+Server - en.wiktionary.org
+Resource - wiki
+*/
+
+
+/* (Easier) Ex14 - Problems Statement:
+Write a program that reverses the words in a given sentence without
+changing punctuation and spaces. For example: "C# is not C++ and
+PHP is not Delphi" -> "Delphi not is PHP and C++ not is C#".
+*/
+
+using System.Text;
+
+string sentence = "C# is not C++ and PHP is not Delphi";
+Console.WriteLine("Original: {0}.", sentence);
+Console.WriteLine("Reversed: {0}", ReverseWords(sentence));
+
+string ReverseWords(string sentence)
+{
+    var result = new StringBuilder();
+    string[] words = sentence.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+
+    for (int i = words.Length - 1; i >= 0; i--)
+    {
+        result.Append(words[i]);
+        if (i != 0)
+        {
+            result.Append(" ");
+        }
+        else
+        {
+            result.Append(".");
+        }
+    }
+
+    return result.ToString();
+}
+
+/* Output:
+Original: C# is not C++ and PHP is not Delphi.
+Reversed: Delphi not is PHP and C++ not is C#.
+*/
+
+
+/* (Easier) Ex15 - Problems Statement:
+A dictionary is given, which consists of several lines of text. Each line
+consists of a word and its explanation, separated by a hyphen:
+.NET – platform for applications from Microsoft
+CLR – managed execution environment for .NET
+namespace – hierarchical organization of classes
+Write a program that parses the dictionary and then reads words from
+the console in a loop, gives an explanation for it or writes a message
+on the console that the word is not into the dictionary.
+*/
+
+try
+{
+    string text; 
+    var dictionary = new Dictionary<string, string>();
+    using (var reader = new StreamReader("text15.txt"))
+    {
+        text = reader.ReadToEnd();
+    } 
+
+    foreach (var line in text.Split('\n'))
+    {
+        string[] split = line.Split('–', StringSplitOptions.TrimEntries);
+        dictionary.Add(split[0].Trim().ToLower(), split[1].Trim());
+    }
+
+    Console.WriteLine("Dictionary currently has 5 words: .NET, CLR, namespace, C# and class.");
+    for (int i = 0; i < 5; i++)
+    {
+        Console.Write("Enter a word that the dictionary has to see its meaning: ");
+        string word = Console.ReadLine() ?? "nothing";
+
+        if (dictionary.ContainsKey(word.ToLower()))
+        {
+            Console.WriteLine("{0} - {1}", word, dictionary[word]);
+        }
+        else
+        {
+            Console.WriteLine("Our dictionary does not have this word");
+        }
+    }
+}
+catch (IOException e)
+{
+    Console.WriteLine(e.Message);
+}
+catch (Exception e)
+{
+    Console.WriteLine(e.Message);
+}
+
+/* Output:
+Dictionary currently has 5 words: .NET, CLR, namespace, C# and class.
+Enter a word that the dictionary has to see its meaning: .net
+.net - platform for applications from Microsoft
+Enter a word that the dictionary has to see its meaning: class
+class - a footprint/template for an object in OOP        
+Enter a word that the dictionary has to see its meaning: 
+Our dictionary does not have this word
+Enter a word that the dictionary has to see its meaning: object
+Our dictionary does not have this word
+Enter a word that the dictionary has to see its meaning: clr
+clr - managed execution environment for .NET
+*/
+
+/* (Easier) Ex16 - Problems Statement:
+Write a program that replaces all hyperlinks in a HTML document
+consisting of <a href="…">…</a> and hyperlinks in "forum" style, which
+look like [URL=…]…[/URL].
+Sample text:
+<p>Please visit <a href="http://softuni.org">our site</a> to
+choose a training course. Also visit <a href=
+"http://forum.softuni.org">our forum</a> to discuss the
+courses.</p>
+Sample result:
+<p>Please visit [URL=http://softuni.org]our site[/URL] to
+choose a training course. Also visit [URL=
+http://forum.softuni.org]our forum[/URL] to discuss the
+courses.</p>
+*/
+
+string text = String.Empty;
+try
+{
+    using (var reader = new StreamReader("text16.txt"))
+    {
+        text = reader.ReadToEnd();
+    }
+}
+catch (IOException e)
+{
+    Console.WriteLine(e.Message);
+}
+
+Console.WriteLine("Original text: {0}", text);
+
+text = text.Replace("\">", "]");
+text = text.Replace("<a href=", "[URL=");
+text = text.Replace("\"", String.Empty);
+text = text.Replace("</a>", "[/URL]");
+
+Console.WriteLine("Changed: {0}", text);
+
+/* Output:
+Original text: <p>Please visit <a href="http://softuni.org">our site</a> to
+choose a training course. Also visit <a href=
+"http://forum.softuni.org">our forum</a> to discuss the
+courses.</p>
+Changed: <p>Please visit [URL=http://softuni.org]our site[/URL] to
+choose a training course. Also visit [URL=
+http://forum.softuni.org]our forum[/URL] to discuss the
+courses.</p>
+*/
+
+
+/* (Easier) Ex17 - Problems Statement:
+Write a program that reads two dates entered in the format
+"day.month.year" and calculates the number of days between them.
+Enter the first date: 27.02.2006
+Enter the second date: 3.03.2006
+Distance: 4 days
+*/
+
+Console.Write("Enter the first date (day.month.year): ");
+DateTime firstDate = DateTime.ParseExact(Console.ReadLine(), "dd.MM.yyyy", System.Globalization.CultureInfo.InvariantCulture);
+Console.Write("Enter the second date (day.month.year): ");
+DateTime secondDate = DateTime.Parse(Console.ReadLine());
+TimeSpan difference = secondDate.Subtract(firstDate);
+Console.WriteLine("Distance: {0} days", difference.Days);
+
+/* Output:
+Enter the first date (day.month.year): 27.02.2006 
+Enter the second date (day.month.year): 03.03.2006 
+Distance: 4 days
+*/
+
+
+/* (Easier) Ex18 - Problems Statement:
+ Write a program that reads the date and time entered in the format
+"day.month.year hour:minutes:seconds" and prints the date and time
+after 6 hours and 30 minutes in the same format.
+*/
+
+using System.Globalization;
+
+Console.Write("Enter a date in the format 'day.month.year hour:minutes:seconds': ");
+DateTime time = DateTime.ParseExact(Console.ReadLine(), "dd.MM.yy hh:mm:ss", CultureInfo.InvariantCulture);
+time = time.AddHours(6).AddMinutes(30);
+
+Console.WriteLine("After 6 hours and 30 minutes: {0}", time);
+
+/* Output:
+Enter a date in the format 'day.month.year hour:minutes:seconds': 16.08.22 07:55:50
+After 6 hours and 30 minutes: 2022-08-16 14:25:50
+*/
+
+
+/* (Easier) Ex21 - Problems Statement:
+Write a program that extracts from a text all words which are
+palindromes, such as ABBA", "lamal", "exe".
+*/
+
+string text;
+using (var reader = new StreamReader("text20.txt"))
+{
+    text = reader.ReadToEnd();
+}
+
+Console.Write("All Extracted Panlindromes: ");
+
+foreach (var line in text.Split('\n'))
+{
+    foreach (var word in line.Split(" ", StringSplitOptions.RemoveEmptyEntries))
+    {
+        if (IsPalindrome(word))
+        {
+            Console.Write("{0}  ", word);
+        }
+    }
+}
+
+bool IsPalindrome(string word)
+{
+    char lastChar = word[^1];
+
+    if (lastChar == '.' || lastChar == '!' || lastChar == '?')
+    {
+        word.Remove(word.Length - 1);
+    } 
+
+    for (int i = 0, j = word.Length - 1; i < word.Length / 2; i++, j--)
+    {
+        if (word[i] != word[j])
+        {
+            return false;
+        }
+    }
+
+    return (word.Length == 1) ? false : true;
+}
+
+/* Output:
+All Extracted Panlindromes: pop  civic  radar  level  repaper  racecar  redivider  detartrated 
+*/
+
+
+/* (Easier) Ex22 - Problems Statement:
+Write a program that reads a string from the console and prints in
+alphabetical order all letters from the input string and how many
+times each one of them occurs in the string.
+*/
+
+Console.Write("Enter a string: ");
+string str = Console.ReadLine() ?? String.Empty;
+str = str.ToLower();
+char[] array = str.ToCharArray();
+Array.Sort(array);
+str = new string(array);
+
+Dictionary<char, int> letters = new Dictionary<char, int>();
+for (int i = 0; i < str.Length; i++)
+{
+    if (letters.ContainsKey(str[i]))
+    {
+        letters[str[i]]++;
+    }
+    else
+    {
+        letters[str[i]] = 1;
+    }
+}
+
+Console.WriteLine("Letters       Occurrences");
+foreach (var letter in letters.Keys)
+{
+    if (letter > 96 && letter < 123)
+    {
+        Console.WriteLine("{0,4}      - {1, 5} times.", letter, letters[letter]); 
+    }
+}
+
+/* Output:
+Enter a string: I am just testing how I was able to solve the problem...
+Letters       Occurrences
+   a      -     3 times.
+   b      -     2 times.
+   e      -     5 times.
+   g      -     1 times.
+   h      -     2 times.
+   i      -     3 times.
+   j      -     1 times.
+   l      -     3 times.
+   m      -     2 times.
+   n      -     1 times.
+   o      -     4 times.
+   p      -     1 times.
+   r      -     1 times.
+   s      -     4 times.
+   t      -     5 times.
+   u      -     1 times.
+   v      -     1 times.
+   w      -     2 times.
+*/
+
+
+/* (Easier) Ex24 - Problems Statement:
+Write a program that reads a string from the console and replaces every
+sequence of identical letters in it with a single letter (the repeating
+letter). Example: "aaaaabbbbbcdddeeeedssaa" -> "abcdedsa".
+*/
+
+using System.Text;
+
+Console.Write("Enter a string with repeating letters: ");
+string str = Console.ReadLine() ?? String.Empty;
+
+var sb = new StringBuilder();
+sb.Append(str[0]);
+
+for (int i = 1; i < str.Length; i++)
+{
+    if (str[i] != str[i-1])
+    {
+        sb.Append(str[i]);
+    }
+}
+
+Console.WriteLine("Result: {0}", sb);
+
+/* Output:
+Enter a string with repeating letters: aaaaaaaabbbbbcccccdddddeeefffffffgggghhhiiiiiiiijjjjjjjjkkkkklllllmmmmmnnn
+Result: abcdefghijklmn
+*/
+
+
+/* (Easier) Ex25 - Problems Statement:
+ Write a program that reads a list of words separated by commas from the
+console and prints them in alphabetical order (after sorting).
+*/
+
+Console.Write("Enter words seperated by only commas: ");
+string str = Console.ReadLine() ?? String.Empty;
+str = str.Replace(" ", String.Empty);
+string[] words = str.Split(',');
+Array.Sort(words);
+
+Console.WriteLine("After Sorting:");
+foreach (var word in words)
+{
+    Console.WriteLine(word);
+}
+
+/* Output:
+Enter words seperated by only commas: apple,banana,melon,apricot,pomegranate, cucumber 
+After Sorting:
+apple
+apricot       
+banana        
+cucumber      
+melon
+pomegranate 
+*/

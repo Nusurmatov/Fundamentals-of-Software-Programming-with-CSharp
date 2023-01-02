@@ -1,0 +1,171 @@
+// Ex1 - Sequence:
+
+public class Sequence
+{
+    // Static field, holding the current sequence value
+    private static int currentValue = 0;
+    
+    // Intentionally deny instantiation of this class
+    private Sequence()
+    { }
+    
+    // Static method for taking the next sequence value
+    public static int NextValue()
+    {
+        currentValue++;
+        return currentValue;
+    }
+}
+
+class SequenceManipulating
+{
+    static void Main()
+    {
+        Console.WriteLine("Sequence[1...3]: {0}, {1}, {2}.", Sequence.NextValue(), Sequence.NextValue(), Sequence.NextValue());
+    }
+}
+
+/* Output:
+Sequence[1...3]: 1, 2, 3.
+*/
+
+
+/* Ex2 - System.Environment.TickCount:
+System.Environment is commonly used for:
+- Information about the processors count, the computer network name,
+the version of the operating system, the name of the current user, the current directory, etc.
+- Access to externally defined properties and environment variables,
+which we are not going to consider in this book.
+*/
+
+int sum = 0;
+int startTime = Environment.TickCount;
+// The code fragment to be tested
+for (int i = 0; i < 10000000; i++)
+{
+sum++;
+}
+int endTime = Environment.TickCount;
+Console.WriteLine("The time elapsed is {0} sec.",
+(endTime - startTime) / 1000.0);
+
+/* Output:
+The time elapsed is 0.016 sec.
+*/
+
+
+// Ex3 - System.Math:
+
+System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.GetCultureInfo("uz-UZ");
+
+Console.Write("Length of the first side: ");
+double a = Convert.ToDouble(Console.ReadLine());
+
+Console.Write("Length of the second side: ");
+double b = Convert.ToDouble(Console.ReadLine());
+
+Console.Write("Size of the angle in degrees: ");
+int angle = Convert.ToInt32(Console.ReadLine());
+
+double angleInRadians = Math.PI * angle / 180.0;
+Console.WriteLine("\nArea of the triangle: {0}", 0.5 * a * b * Math.Sin(angleInRadians));
+
+Console.WriteLine(Math.PI);
+Console.WriteLine(Math.E);
+
+
+/* Input/Output:
+Length of the first side: 2
+Length of the second side: 2
+Size of the angle in degrees: 60
+
+Area of the triangle: 1,7320508075688772
+3,141592653589793
+2,718281828459045
+*/
+
+
+/* Ex4 - Generate Random Password (Example):
+To show you how useful the random numbers generator in .NET Framework can be, we are going to set as a
+task to generate a random password which is between 8 and 15 characters long, contains at least two
+capital letters, at least two small letters, at least one digit and at least three special chars. 
+For this purpose we are going to use the following algorithm:
+1. We start with an empty password. We create a generator of random numbers.
+2. We generate twice a random capital letter and place it at a random position in the password.
+3. We generate twice a random small letter and place it at a random position in the password.
+4. We generate twice a random digit and place it at a random position in the password.
+5. We generate three times a random special character and place it at a random position in the password.
+6. Until this moment the password should consist of 8 characters. In orderto supplement it to 15 
+   characters at most, we can insert random count of times (between 0 and 7) at a random position in the 
+   password a random character (a capital letter, a small letter or a special char).
+*/
+
+using System.Text;
+
+class RandomPasswordGenerator
+{
+    private const string CapitalLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";  // in C# constant variables should be in PascalCase
+    private const string SmallLetters = "abcdefghijklmnopqrstuvwxyz";
+    private const string Digits = "0123456789";
+    private const string SpecialChars = "~!@#$%^&*()_+=`{}[]\\|':;.,/?<>";
+    private const string AllChars = CapitalLetters + SmallLetters + Digits + SpecialChars;
+    private static Random rnd = new Random();
+    
+    static void Main()
+    {
+        StringBuilder password = new StringBuilder();
+   
+        // Generate two random capital letters
+        for (int i = 1; i <= 2; i++)
+        {
+            char capitalLetter = GenerateChar(CapitalLetters);
+            InsertAtRandomPosition(password, capitalLetter);
+        }
+
+        // Generate two random small letters
+        for (int i = 1; i <= 2; i++)
+        {
+            char smallLetter = GenerateChar(SmallLetters);
+            InsertAtRandomPosition(password, smallLetter);
+        }
+        
+        // Generate one random digit
+        char digit = GenerateChar(Digits);
+        InsertAtRandomPosition(password, digit);
+        
+        // Generate 3 special characters
+        for (int i = 1; i <= 3; i++)
+        {
+            char specialChar = GenerateChar(SpecialChars);
+            InsertAtRandomPosition(password, specialChar);
+        }
+        
+        // Generate few random characters (between 0 and 7)
+        int count = rnd.Next(8);
+        for (int i = 1; i <= count; i++)
+        {
+            char specialChar = GenerateChar(AllChars);
+            InsertAtRandomPosition(password, specialChar);
+        }
+
+        Console.WriteLine("Random Password: " + password);
+    }
+
+    private static void InsertAtRandomPosition(StringBuilder password, char character)
+    {
+        int randomPosition = rnd.Next(password.Length + 1);
+        password.Insert(randomPosition, character);
+    }
+
+    private static char GenerateChar(string availableChars)
+    {
+        int randomIndex = rnd.Next(availableChars.Length);
+        char randomChar = availableChars[randomIndex];
+        
+        return randomChar;
+    }
+}
+
+/* Output:
+Random Password: %]<0GzdtFS\2
+*/

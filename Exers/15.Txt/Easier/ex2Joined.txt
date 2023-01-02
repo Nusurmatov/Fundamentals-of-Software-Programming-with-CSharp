@@ -1,0 +1,14 @@
+In This Chapter
+In this chapter we will review how to work with text files in C#. We will
+explain what a stream is, what its purpose is, and how to use it. We will
+explain what a text file is and how can you read and write data to a text
+file and how to deal with different character encodings. We will
+demonstrate and explain the good practices for exception handling when
+working with files. All of this will be demonstrated with many examples in this
+chapter.
+Streams
+Streams are an essential part of any input-output library. You can use
+streams when your program needs to "read" or "write" data to an external
+data source such as files, other PCs, servers etc. It is important to say that
+the term input is associated with reading data, whereas the term output is
+associated with writing data.

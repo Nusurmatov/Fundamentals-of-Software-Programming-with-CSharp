@@ -1,0 +1,158 @@
+class Polynomial
+{
+    /*
+    public static string polynomial1 = "(3x2 + x - 3)";       -> 3x2+x-3
+    public static string polynomial2 = "(x - 1)";             -> x-1
+    public static string polynomial3 = "(-7x2 + 5x - 17)";    -> -7x2+5x-17
+    public static string polynomial4 = "(-x2 + 7)";           -> -x2+7       
+    public static string polynomial5 = "(9x3)";               -> 9x3
+    */
+    public string Sum(params string[] monomials)
+    {
+        string result = String.Empty;
+        Dictionary<string, int> polynomials = new Dictionary<string, int>();
+
+        return  result;
+    }
+
+    public string Sum(string polynomialExperssion)
+    {
+        string result = String.Empty;
+        result = Sum(ExtractMonomials(polynomialExperssion));
+
+        return  result;
+    }
+    
+    public string Sum(string polynomial1, string polynomial2)
+    {
+        string result = String.Empty;
+        RemoveBracketsAndWhiteSpaces(ref polynomial1);
+        RemoveBracketsAndWhiteSpaces(ref polynomial2);
+        string concat = (polynomial2[0] == '-') ? (polynomial1 + polynomial2) : (polynomial1 + "+" + polynomial2);
+        result = Sum(concat);
+        
+        return  result;
+    }
+
+    private static void RemoveBracketsAndWhiteSpaces(ref string polynomial)
+    {
+        while (true)
+        {
+            if (polynomial.Contains('('))
+            {
+                polynomial.Remove(polynomial.IndexOf('('), 1);
+            }
+            else if (polynomial.Contains(')'))
+            {
+                polynomial.Remove(polynomial.IndexOf(')'), 1);
+            }
+            else
+            {
+                break;
+            }    
+        }
+
+        polynomial.Replace(" ", String.Empty);
+
+    }
+
+    private static string[] ExtractMonomials(string polynomialExpression)
+    {
+        List<string> result = new List<string>();
+        int startIndex = 0;
+        int counter = 0;
+
+        for (int i = 0; i < polynomialExpression.Length; i++)
+        {
+            if (polynomialExpression[i] == '+')
+            {
+                result.Add(polynomialExpression.Remove(startIndex, counter));
+                startIndex = i + 1;
+            }
+            else if (polynomialExpression[i] == '-')
+            {
+                result.Add(polynomialExpression.Remove(startIndex, counter));
+                startIndex = i;
+            }
+            counter++;
+        }
+        Console.WriteLine(result[0]);
+        Console.WriteLine(result[1]);
+        Console.WriteLine(result[2]);
+
+        return result.ToArray();
+    }
+  
+    public string Product(string[] monomials)
+    {
+        string result = String.Empty;
+
+        return  result;
+    }
+
+    public string Product(string polynomialExperssion)
+    {
+        string result = String.Empty;
+
+        return  result;
+    }
+
+    public string Product(string polynomial1, string polynomial2)
+    {
+        string result = String.Empty;
+
+        return  result;
+    }
+
+    public string Pow(string polynomial, int power)  // for future extension of the class.
+    {
+        string result = String.Empty;
+
+        return  result;
+
+    }
+}
+
+
+
+
+
+public static class TestPolynomials
+{
+        public static string polynomial1 = "(3x2 + x - 3)";
+        public static string polynomial2 = "(x - 1)";
+        public static string polynomial3 = "(-7x2 + 5x - 17)";
+        public static string polynomial4 = "(-x2 + 7)";
+        public static string polynomial5 = "(9x3)";
+        static Polynomial polynomial = new Polynomial();
+
+    public static void TestSumOfTwoPolynomials()
+    {
+
+        string sum = polynomial.Sum(polynomial1, polynomial2);
+        Console.WriteLine($"{polynomial1} + {polynomial2} = {sum}.");
+        sum = polynomial.Sum(polynomial1, polynomial3);
+        Console.WriteLine($"{polynomial1} + {polynomial3} = {sum}.");
+        sum = polynomial.Sum(polynomial1, polynomial4);
+        Console.WriteLine($"{polynomial1} + {polynomial4} = {sum}.");
+        sum = polynomial.Sum(polynomial2, polynomial3);
+        Console.WriteLine($"{polynomial2} + {polynomial3} = {sum}.");
+        sum = polynomial.Sum(polynomial2, polynomial4);
+        Console.WriteLine($"{polynomial2} + {polynomial4} = {sum}.");
+        sum = polynomial.Sum(polynomial2, polynomial5);
+        Console.WriteLine($"{polynomial2} + {polynomial5} = {sum}.");
+        sum = polynomial.Sum(polynomial3, polynomial4);
+        Console.WriteLine($"{polynomial3} + {polynomial4} = {sum}.");
+        sum = polynomial.Sum(polynomial3, polynomial5);
+        Console.WriteLine($"{polynomial3} + {polynomial5} = {sum}.");
+        sum = polynomial.Sum(polynomial4, polynomial5);
+        Console.WriteLine($"{polynomial4} + {polynomial5} = {sum}.");
+    }
+
+    public static void TestProductOfTwoPolynomials()
+    {
+        string product = polynomial.Product(polynomial1, polynomial2);
+        Console.WriteLine($"{polynomial1} * {polynomial2} = {product}.");
+    }
+
+}

@@ -1,0 +1,371 @@
+/* (Easier Problems) Ex1 - Problem Statement:
+Write a code that by given name prints on the console "Hello, <name>!"
+(for example: "Hello, Peter!")
+*/
+
+void Greet(string name)
+{
+    Console.WriteLine("Hello {0}!", name);
+}
+
+Console.Write("What is your name? ");
+string name = Console.ReadLine() ?? "Unknown";
+Greet(name);
+
+/* Input/Output:
+What is your name? Khusniddin
+Hello Khusniddin!
+*/
+
+
+/* (Easier Problems) Ex2 - Problem Statement:
+Create a method GetMax() with two integer (int) parameters, that
+returns maximal of the two numbers. Write a program that reads three
+numbers from the console and prints the biggest of them. Use the
+GetMax() method you just created. Write a test program that validates
+that the methods works correctly.
+*/
+
+int GetMax(params int[] numbers) 
+{
+    int max = int.MinValue;
+    foreach (var number in numbers)
+    {
+        if (number > max)
+        {
+            max = number;
+        }
+    }
+
+    return max;
+}
+
+void FillArray(int[] array)
+{
+    for (int i = 0; i < array.Length; i++)
+    {
+        Console.Write("Enter number{0}: ", i + 1);
+        array[i] = Convert.ToInt32(Console.ReadLine());
+    }
+}
+
+void PrintArray(int[] array)
+{
+    for (int i = 0; i < array.Length; i++)
+    {
+        Console.Write((i != array.Length - 1) ? $"{array[i]}, " : $"{array[i]}.\n");
+    }
+}
+
+Console.Write("How many integer numbers you want to enter: ");
+int n = Convert.ToInt32(Console.ReadLine());
+int[] numbers = new int[n];
+FillArray(numbers);
+
+Console.Write("\nNumbers: ");
+PrintArray(numbers);
+Console.Write("Max: {0}", GetMax(numbers));
+
+/* Input/Output:
+Enter number1: 5456                 
+Enter number2: 64
+Enter number3: -734
+
+Numbers: 5456, 64, -734.
+Max: 5456
+*/
+
+
+/* (Easier Problems) Ex3 - Problem Statement:
+Write a method that returns the English name of the last digit of a
+given number. Example: for 512 prints "two"; for 1024  "four".
+*/
+
+string GetLastDigit(string number)
+{
+    byte lastDigit;
+    if (byte.TryParse((number[number.Length - 1].ToString()), out lastDigit))
+    {
+        switch(lastDigit)
+        {
+            case 0:
+                return "Zero";
+            case 1:
+                return "One";
+            case 2:
+                return "Two";
+            case 3:
+                return "Three";
+            case 4:
+                return "Four";
+            case 5:
+                return "Five";
+            case 6:
+                return "Six";
+            case 7:
+                return "Seven";
+            case 8:
+                return "Eight";
+            case 9:
+                return "Nine";
+        }
+    }
+
+    return "Invalid Input...!";
+}
+
+
+Console.Write("Enter an integer number: ");
+string number = Console.ReadLine() ?? "0";
+string lastDigitName = GetLastDigit(number);
+Console.Write("{0} -> {1}", number, lastDigitName);
+
+/* Input/Output:
+Enter an integer number: 7347
+7347 -> Seven
+*/
+
+
+/* (Easier Problems) Ex4 - Problem Statement:
+Write a method that finds how many times certain number can be
+found in a given array. Write a program to test that the method works
+correctly.
+*/
+
+Console.Write("How many integer numbers you want to enter: ");
+int n = Convert.ToInt32(Console.ReadLine());
+int[] numbers = new int[n];
+FillArray(numbers);
+
+Console.Write("Which numbers you want to find the occurrence of: ");
+int number = Convert.ToInt32(Console.ReadLine());
+
+Console.Write("\nArray: ");
+PrintArray(numbers);
+int occurrence = CountOccurrence(numbers, number);
+Console.Write("Occurence of {0}: {1}.", number, occurrence);
+
+void FillArray(int[] array)
+{
+    for (int i = 0; i < array.Length; i++)
+    {
+        Console.Write("Enter number{0}: ", i + 1);
+        array[i] = Convert.ToInt32(Console.ReadLine());
+    }
+}
+
+void PrintArray(int[] array)
+{
+    Console.Write("{ ");
+    for (int i = 0; i < array.Length; i++)
+    {
+        Console.Write((i != array.Length - 1) ? $"{array[i]}, " : $"{array[i]} ");
+    }
+    Console.Write("}.");
+}
+
+int CountOccurrence(int[] array, int number)
+{
+    var occurrences = new Dictionary<int, int>();
+
+    foreach (var item in array)
+    {
+        if (occurrences.ContainsKey(item))
+        {
+            occurrences[item]++;
+        }
+        else
+        {
+            occurrences[item] = 1;
+        }
+    }
+
+    return (occurrences.ContainsKey(number)) ? occurrences[number] : 0;
+}
+
+/* Input/Output:
+How many integer numbers you want to enter: 7
+Enter number1: 1
+Enter number2: 2
+Enter number3: 3
+Enter number4: 7
+Enter number5: 1
+Enter number6: 87
+Enter number7: 1
+Which numbers you want to find the occurrence of: 1
+
+Array: { 1, 2, 3, 7, 1, 87, 1 }.Occurence of 1: 3.
+*/
+
+
+/* (Easier Problems) Ex5 - Problem Statement:
+Write a method that checks whether an element, from a certain position
+in an array is greater than its two neighbors. Test whether the
+method works correctly
+*/
+
+Console.Write("How many integer numbers you want have in array: ");
+int n = Convert.ToInt32(Console.ReadLine());
+int[] numbers = new int[n];
+FillArray(numbers);
+
+Console.Write("Enter a position: ");
+int position = Convert.ToInt32(Console.ReadLine());
+
+Console.Write("\nArray: ");
+PrintArray(numbers);
+int isGreaterThanTwoNeighbours = CheckWhetherGreaterThanTwoNeighbours(numbers, position);
+Console.Write("\nIs the element at position {0} greater than its two neighbours: ", position);
+Console.Write(isGreaterThanTwoNeighbours == 1 ? "Yes" : "No");
+
+void FillArray(int[] array)
+{
+    for (int i = 0; i < array.Length; i++)
+    {
+        Console.Write("Enter number{0}: ", i + 1);
+        array[i] = Convert.ToInt32(Console.ReadLine());
+    }
+}
+
+void PrintArray(int[] array)
+{
+    Console.Write("{ ");
+    for (int i = 0; i < array.Length; i++)
+    {
+        Console.Write((i != array.Length - 1) ? $"{array[i]}, " : $"{array[i]} ");
+    }
+    Console.Write("}.");
+}
+
+int CheckWhetherGreaterThanTwoNeighbours(int[] array, int position)
+{
+    try
+    {
+        if (array[position] > array[position-1] && array[position] > array[position+1])
+        {
+            return 1;
+        }
+    }
+    catch (IndexOutOfRangeException) { }
+    
+    return -1;     
+}
+
+/* Input/Output:
+How many integer numbers you want have in array: 7
+Enter number1: 1
+Enter number2: 72
+Enter number3: -44
+Enter number4: 64
+Enter number5: 1654
+Enter number6: 71
+Enter number7: 67
+Enter a position: 4
+
+Array: { 1, 72, -44, 64, 1654, 71, 67 }.
+Is the element at position 4 greater than its two neighbours: Yes
+*/
+
+
+/* (Easier Problems) Ex6 - Problem Statement:
+Write a method that returns the position of the first occurrence of an
+element from an array, such that it is greater than its two neighbors
+simultaneously. Otherwise the result must be -1.
+*/
+
+Console.Write("How many integer numbers you want have in array: ");
+int n = Convert.ToInt32(Console.ReadLine());
+int[] numbers = new int[n];
+FillArray(numbers);
+
+int element, prev, next;
+(element, prev, next) = FindFirstOccurrence(numbers, numbers.Length);
+
+Console.Write("\nArray: ");
+PrintArray(numbers);
+Console.WriteLine("\nFirst Element Greater than its Neighbours: {0}", element);
+Console.WriteLine($"Previous Element: {prev}");
+Console.WriteLine($"Next Element: {next}");
+
+void FillArray(int[] array)
+{
+    for (int i = 0; i < array.Length; i++)
+    {
+        Console.Write("Enter number{0}: ", i + 1);
+        array[i] = Convert.ToInt32(Console.ReadLine());
+    }
+}
+
+void PrintArray(int[] array)
+{
+    Console.Write("{ ");
+    for (int i = 0; i < array.Length; i++)
+    {
+        Console.Write((i != array.Length - 1) ? $"{array[i]}, " : $"{array[i]} ");
+    }
+    Console.Write("}.");
+}
+
+(int element, int prev, int next) FindFirstOccurrence(int[] array, int length)
+{
+    for (int i = 1; i < length - 1; i++)
+    {
+        if (array[i] > array[i-1] && array[i] > array[i+1])
+        {
+            return (array[i], array[i-1], array[i+1]);
+        }
+    }
+
+    return (-1, -1, -1);
+}
+
+/* Input/Output:
+How many integer numbers you want have in array: 7
+Enter number1: 1
+Enter number2: 865
+Enter number3: -765
+Enter number4: -65
+Enter number5: 4
+Enter number6: 64
+Enter number7: 7
+
+Array: { 1, 865, -765, -65, 4, 64, 7 }.       
+First Element Greater than its Neighbours: 865
+Previous Element: 1
+Next Element: -765
+*/
+
+
+/* (Easier Problems) Ex7 - Problem Statement:
+Write a method that prints the digits of a given decimal number in a
+reversed order. For example 256, must be printed as 652.
+*/
+
+Console.Write("Enter a decimal number: ");
+Console.Write("\nReversed: {0}", GetReverseOrder(Console.ReadLine() ?? "Invalid Input!"));
+
+string GetReverseOrder(string number)
+{
+    string result = String.Empty;
+    for (int i = number.Length - 1; i >= 0; i--)
+    {
+        result += number[i];
+    }
+
+    
+    return int.TryParse(result, out int n) ? result : "Invalid Input!";
+}
+
+/* Input/Output:
+Enter a decimal number: 707+7
+
+Reversed: Invalid Input!
+PS C:\Users\Xusniddin\Desktop\Khusniddin\IT\DotNet Development\FofCP with C#\Exers\9.Methods\Easier Problems\Exercises> dotnet run
+Enter a decimal number: 784647
+
+Reversed: 746487
+PS C:\Users\Xusniddin\Desktop\Khusniddin\IT\DotNet Development\FofCP with C#\Exers\9.Methods\Easier Problems\Exercises> dotnet run
+Enter a decimal number: 76472
+
+Reversed: 27467
+*/

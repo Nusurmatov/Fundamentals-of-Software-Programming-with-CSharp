@@ -1,0 +1,6 @@
+Streams
+Streams are an essential part of any input-output library. You can use
+streams when your program needs to "read" or "write" data to an external
+data source such as files, other PCs, servers etc. It is important to say that
+the term input is associated with reading data, whereas the term output is
+associated with writing data.

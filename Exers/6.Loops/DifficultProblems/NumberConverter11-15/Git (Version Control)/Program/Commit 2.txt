@@ -1,0 +1,75 @@
+using NumberConverter;
+
+int option = 4;
+bool unDone = true;
+string input = String.Empty;
+string result = String.Empty;
+int fromBase = 10;
+int toBase = 2;
+Console.WriteLine("Checking 5 public static custom methods: ");
+
+while(unDone)
+{
+    Console.WriteLine("Choose one of following options: ");
+    Console.WriteLine("To convert decimal to binary, enter 0,");
+    Console.WriteLine("To convert binary to decimal, enter 1,");
+    Console.WriteLine("To convert decimal to hexadecimal, enter 2,");
+    Console.WriteLine("To convert hexadecimal to decimal, enter 3,");
+    Console.WriteLine("To convert base N to Base M, enter 4,");
+    Console.WriteLine("Or just enter 5 to quit, ");
+    Console.WriteLine("Default option is 4. This is automatically chosen" + 
+                      " if you enter wrong option or invalid input...!");
+    Console.Write("\nAnd your option: ");
+
+    if (int.TryParse(Console.ReadLine(), out option))
+    {
+        switch(option)
+        {
+            case 0:
+                Console.Write("Enter a positive decimal number: ");
+                input = Console.ReadLine() ?? "invalid";
+                result = ConvertNumber.FromPositiveIntegerToBinary(input);
+                break;
+            case 1:
+                Console.Write("Enter a binary number: ");
+                input = Console.ReadLine() ?? "invalid";
+                result = ConvertNumber.FromBinaryToPositiveInteger(input);
+                break;
+            case 2:
+                Console.Write("Enter a decimal number: ");    
+                input = Console.ReadLine() ?? "invalid";
+                result = ConvertNumber.FromPositiveIntegerToHexadecimal(input);
+                break;
+            case 3:
+                Console.Write("Enter a hexadecimal number: ");
+                input = Console.ReadLine() ?? "invalid";
+                result = ConvertNumber.FromHexadecimalToPositiveInteger(input);
+                break;
+            case 4:
+            default:
+                try 
+                {
+                    Console.Write("Enter a base you want to convert a number from: ");
+                    fromBase = Convert.ToInt32(Console.ReadLine());
+                    Console.Write($"Now enter a base {fromBase} number: ");
+                    input = Console.ReadLine() ?? "invalid";
+                    Console.Write("Now, enter a base you want convert a number to: ");
+                    toBase = Convert.ToInt32(Console.ReadLine());
+                    result = ConvertNumber.FromBaseNToBaseM(input, fromBase, toBase);
+                }   
+                catch(Exception) 
+                {
+                    result = "Invalid base";
+                }
+                break;
+            case 5:
+                unDone = false;
+                break;
+        }
+        Console.Clear();
+        Console.Write(unDone ? $"The result: {result}" : "Thank you...!");
+        Console.Write("\n\nPress any key to continue: ");
+        Console.ReadKey();
+        Console.Clear();
+    }
+}

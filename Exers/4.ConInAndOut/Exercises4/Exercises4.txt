@@ -1,0 +1,548 @@
+﻿// Ex1: Read three int numbers and prints their sum:
+
+Console.WriteLine("This program reads three integers" 
+                  + " and prints their sum...!");
+
+Console.Write("Enter the first int number: ");
+int num1 = Convert.ToInt32(Console.ReadLine());
+Console.Write("Enter the second int number: ");
+int num2 = Convert.ToInt32(Console.ReadLine());
+Console.Write("Enter the third int number: ");
+int num3 = Convert.ToInt32(Console.ReadLine());
+
+int sum = num1 + num2 + num3;
+Console.WriteLine($"The sum of {num1}, {num2} and {num3} is {sum}.");
+
+/* Input/Output:
+This program reads three integers and prints their sum...!
+Enter the first int number: 7
+Enter the second int number: 77
+Enter the third int number: 777
+The sum of 7, 77 and 777 is 861.
+*/
+
+
+// Ex2: Read the radius of a circle and prints its perimeter and area:
+
+Console.WriteLine("This program reads the radius of a circle" 
+                + " and prints its perimeter and area...!");
+
+Console.Write("Enter the radius of a circle: ");
+double radius = Convert.ToDouble(Console.ReadLine());
+
+double perimeter = 2 * radius * Math.PI;
+double area = radius * radius * Math.PI;
+
+Console.WriteLine("The perimeter of the circle: {0:f2} m.", perimeter);
+Console.WriteLine("The area of the circle: {0:f2} m.kv.", area);
+
+/* Input/Output:
+This program reads the radius of a circle and prints its perimeter and area...!
+Enter the radius of a circle: 0.87
+The perimeter of the circle: 5.47 m.
+The area of the circle: 2.38 m.kv.  
+*/
+
+
+// Ex3: Read information about a company and print it to the console:
+
+Console.WriteLine("This program reads information about a company"
+                + " and prints it to the console...!");
+
+Console.Write("Enter the name of the company: ");
+string name = Console.ReadLine() ?? "Unknown";
+Console.Write("Enter the address of the company (e.g. Street number Street name, Distric Building): ");
+string address = Console.ReadLine() ?? "Unknown";
+Console.Write("Enter the phone number of the company (e.g. 712051199): ");
+string phoneNumber = Console.ReadLine() ?? "Unknown"; 
+Console.Write("Enter the fax number of the company (e.g. 1234567): ");
+string faxNumber = Console.ReadLine() ?? "Unknown"; 
+Console.Write("Enter the website of the company (e.g. sitename.com): ");
+string website = Console.ReadLine() ?? "Unknown"; 
+Console.Write("Enter the manager's name: ");
+string managerName = Console.ReadLine() ?? "Unknown";
+Console.Write("Enter the manager's surname: ");
+string managerSurname = Console.ReadLine() ?? "Unknown";
+Console.Write("Enter the manager's phone number (e.g. 5551234): ");
+string managerPhoneNumber = Console.ReadLine() ?? "Unknown";
+
+// TODO: Learn how some data should be printed so that 
+// you can format it appropriately!   ✅
+/* 
+ Address: 18/1 Aybek Street, Mirabad district ATRIUM Business  Center, 5th floor 100015 Tashkent Republic of Uzbekista
+phone number: +998712051199
+fax number: 555-123-4567
+website: https://www.epam.com/
+manager: Arkadiy Dobkin, (555) 555-1234
+
+ */
+
+Console.WriteLine($"Company name: {name}.");
+Console.WriteLine("Address: {0}.", address);
+Console.WriteLine($"Phone number: +998{phoneNumber:00 000 00 00}.");
+Console.WriteLine($"Fax number: 555{faxNumber:-###-####}.");
+Console.WriteLine("Website: https://www.{0}/", website?.ToLower());
+Console.WriteLine($"Manager's name: {managerName}.");
+Console.WriteLine($"Manager's surname: {managerSurname}.");
+Console.WriteLine("Managers's phone number: (555) {0:000-0000}.", managerPhoneNumber);
+
+/* Input/Output: // Check it in VS code in did not work as expected in Visual Studio.
+Company name: Epam Tashkent.
+Address: 18/1 Aybek Street, Mirabad district ATRIUM Business Centre, 5th floor 100015.
+Phone number: +998712051199.
+Fax number: 555123457.
+Website: https://www.epam.com/
+Manager's name: Arkadiy.
+Manager's surname: Dobkin.
+Managers's phone number: (555) 5551234.
+*/
+
+
+// Ex4: Write three numbers in 3 virtual columns and rows with 10 left alignment:
+
+Console.WriteLine("This program writes three numbers" 
+                + " in three virtual columns and rows...!");
+
+Console.Write("Enter an integer number: ");
+int hexInt = Convert.ToInt32(Console.ReadLine());
+Console.Write("Enter a positeve fractional number: ");
+double positiveNum = Convert.ToDouble(Console.ReadLine());
+Console.Write("Enter a negative fractional number: ");
+double negativeNum= Convert.ToDouble(Console.ReadLine());
+
+Console.WriteLine("Three numbers in columns:");
+Console.WriteLine("|0x{0, -8:X}|", hexInt);
+Console.WriteLine("|{0, -10:F2}|", positiveNum);
+Console.WriteLine("|{0, -10:F2}|", negativeNum);
+
+Console.WriteLine("Three numbers in rows:");
+Console.Write("|0x{0, -8:X}|", hexInt);
+Console.Write("{0, -10:F2}|", positiveNum);
+Console.Write("{0, -10:F2}|", negativeNum);
+
+/* Input/Output:
+Three numbers in columns:
+|0x7D2     |
+|20.02     |
+|-20.02    |
+Three numbers in rows:
+|0x7D2     |20.02     |-20.02    |
+*/
+
+
+// Ex5: Find how many 5-divisible numbers are there between a range:
+
+Console.WriteLine("This program read two int numbers and prints how many numbers" 
+                + " that are divisible by 5 betweem these two numbers ...!");
+
+Console.Write("Enter the first int number: ");
+int num1 = Convert.ToInt32(Console.ReadLine());
+Console.Write("Enter the second int number: ");
+int num2 = Convert.ToInt32(Console.ReadLine());
+
+int biggerNum = (num1 > num2) ? num1 : num2;
+int smallerNum = (num1 < num2) ? num1 : num2;
+int result = (biggerNum / 5) - (smallerNum / 5);
+Console.WriteLine($"There are {result} five-divisible numbers between {num1} and {num2}");
+
+/* Input/Output:
+This program read two int numbers and prints how many numbers that are divisible by 5 betweem these two numbers ...!
+Enter the first int number: 14
+Enter the second int number: 25
+There are 3 five-divisible numbers between 14 and 25
+*/
+
+
+// Ex6: Which number is greater and which one is smaller without conditional statements:
+
+Console.WriteLine("This program reads two int numbers and prints which" 
+                + " one is greater and which one is smaller ...!");
+
+Console.Write("Enter the first int number: ");
+int num1 = Convert.ToInt32(Console.ReadLine());
+Console.Write("Enter the second int number: ");
+int num2 = Convert.ToInt32(Console.ReadLine());
+
+Console.WriteLine("First approach - using Math class:");
+Console.WriteLine($"Greater: {Math.Max(num1, num2)}.");
+Console.WriteLine($"Smaller: {Math.Min(num1, num2)}.");
+
+Console.WriteLine("Second approach - using Math.Abs() method:");
+Console.WriteLine($"Greater: {(num1 + num2 + Math.Abs(num1 - num2)) / 2}.");
+Console.WriteLine($"Smaller: {(num1 + num2 - Math.Abs(num1 - num2)) / 2}.");
+
+Console.WriteLine("Another approach - using (hidden)conditional/ternary operation:");
+Console.WriteLine(num1 > num2 ? $"Greater: {num1}" : $"Greater: {num2}");
+Console.WriteLine(num1 < num2 ? $"Smaller: {num1}" : $"Smaller: {num2}");
+
+Console.WriteLine("Final approach (the best one) - using bitwise operations:");
+int max = num1 - ((num1 - num2) & ((num1 - num2) >> 31));
+Console.WriteLine($"Greater: {max}.");
+
+//You are now just using without understanding it, you should understand it...
+
+
+
+/* Input/Output: 
+This program reads two int numbers and prints which one is greater and which one is smaller ...!
+Enter the first int number: 2002
+Enter the second int number: 2020
+First approach - using Math class:
+Greater: 2020.
+Smaller: 2002.
+Second approach - using Math.Abs() method:
+Greater: 2020.
+Smaller: 2002.
+Another approach - using (hidden)conditional/ternary operation:
+Greater: 2020
+Smaller: 2002
+Final approach (the best one) - using bitwise operations:
+Greater: 2020.
+*/
+
+
+// Ex7: Sum of five integer numbers:
+
+Console.WriteLine("This program reads five int numbers. Given invalid input, the program " 
+                + "prompts to enter another number. Finally sum of all numbers are printed ...!");
+
+int numCounter = 1;
+bool unDone = true;
+long sum = 0;
+
+while (unDone)
+{
+    Console.Write($"Enter number{numCounter}: ");
+    long num;
+    
+    if (long.TryParse(Console.ReadLine(), out num))
+    {
+        sum += num; 
+        numCounter++;
+    }
+    else
+    {
+        Console.WriteLine("Invalid input. You can exit the program by entering 'quit'...! Or press enter to continue:");
+        string input = Console.ReadLine() ?? "";
+        if (input.Trim().ToLowerInvariant() == "quit")
+        {
+            unDone = false;
+        }
+    }
+
+    if (numCounter == 6)
+    {
+        unDone = false;
+    }
+}
+
+Console.WriteLine("The sum: {0}", sum);
+
+/* Input/Output: // Check it in VS code in did not work as expected in Visual Studio.
+This program reads five int numbers. Given invalid input, the program prompts to enter another number. Finally sum of all numbers are printed ...!
+Enter number1: 48947
+Enter number2: 6548
+Enter number3: 987985654897
+Enter number4: 1658761879
+Enter number5: 25948951
+The sum: 989670421222
+This program reads five int numbers. Given invalid input, the program prompts to enter another number. Finally sum of all numbers are printed ...!
+Enter number1: *454
+Invalid input. You can exit the program by entering 'quit'...! Or press enter to continue:
+
+Enter number1: 48945
+Enter number2: klnl
+Invalid input. You can exit the program by entering 'quit'...! Or press enter to continue:
+Quit
+The sum: 48945
+*/
+
+
+// Ex8: The greatest number between five numbers:
+
+Console.WriteLine("This program reads five numbers and " 
+                + "prints the greatest one to the console...!");
+
+int numCounter = 1;
+bool unDone = true;
+double greatest = Double.MinValue;
+
+while (unDone)
+{
+    Console.Write($"Enter number{numCounter}: ");
+    double num;
+    
+    if (double.TryParse(Console.ReadLine(), out num))
+    {
+        greatest = (greatest < num) ? num : greatest; 
+        numCounter++;
+    }
+    else
+    {
+        Console.WriteLine("Invalid input. You can exit the program by entering 'quit'...! Or press enter to continue:");
+        string input = Console.ReadLine() ?? "";
+        if (input.Trim().ToLowerInvariant() == "quit")
+        {
+            unDone = false;
+        }
+    }
+
+    if (numCounter == 6)
+    {
+        unDone = false;
+    }
+}
+
+Console.WriteLine("The greatest: {0}", greatest);
+
+
+//You are now just using without understanding it, you should understand it...
+
+
+
+/* Input/Output: // Check it in VS code in did not work as expected in Visual Studio.
+This program reads five numbers and prints the greatest one to the console...!
+Enter number1: -48745
+Enter number2: 48947
+Enter number3: 7
+Enter number4: -4654
+Enter number5: 89784556487
+The greatest: 89784556487
+This program reads five numbers and prints the greatest one to the console...!
+Enter number1: 4657
+Enter number2: -7
+Enter number3: *ds45
+Invalid input. You can exit the program by entering 'quit'...! Or press enter to continue:
+54
+Enter number3: 54
+Enter number4: -/
++4456
+Invalid input.You can exit the program by entering 'quit'...! Or press enter to continue:
+
+Enter number4: quit
+Invalid input.You can exit the program by entering 'quit'...! Or press enter to continue:
+quit
+The greatest: 4657
+*/
+
+
+// Ex9: Sum of n integer numbers:
+
+Console.WriteLine("This program reads n int numbers. Given invalid input, the program "
+                + "prompts to enter another number. Finally sum of all numbers are printed ...!");
+
+Console.Write("Now, Enter n: ");
+int n = Convert.ToInt32(Console.ReadLine());
+
+int numCounter = 1;
+bool unDone = true;
+long sum = 0;
+
+while (unDone)
+{
+    Console.Write($"Enter number{numCounter}: ");
+    long num;
+
+    if (long.TryParse(Console.ReadLine(), out num))
+    {
+        sum += num;
+        numCounter++;
+    }
+    else
+    {
+        Console.WriteLine("Invalid input. You can exit the program by entering 'quit'...! Or press enter to continue:");
+        string input = Console.ReadLine() ?? "";
+        if (input.Trim().ToLowerInvariant() == "quit")
+        {
+            unDone = false;
+        }
+    }
+
+    if (numCounter == n + 1)
+    {
+        unDone = false;
+    }
+}
+
+Console.WriteLine("The sum: {0}.", sum);
+
+/* Input/Output: 
+This program reads n int numbers. Given invalid input, the program prompts to enter another number. Finally sum of all numbers are printed ...!
+Now, Enter n: 7
+Enter number1: 56487
+Enter number2: 16541684651465
+Enter number3: 1654
+Enter number4: -4657
+Enter number5: -878478
+Enter number6: 65487
+Enter number7: -9878754
+The sum: 16541674013204.
+This program reads n int numbers. Given invalid input, the program prompts to enter another number. Finally sum of all numbers are printed ...!
+Now, Enter n: 4
+Enter number1: -54*
+Invalid input. You can exit the program by entering 'quit'...! Or press enter to continue:
+9
+Enter number1: 477654
+Enter number2: -768754
+Enter number3: five
+Invalid input. You can exit the program by entering 'quit'...! Or press enter to continue:
+quit
+The sum: -291100.
+*/
+
+
+// Ex10: Print all numbers in range [1...n]:
+Console.WriteLine("This program reads n int numbers. Given invalid input, the program prompts"
+                + " to enter valid INTEGER number. Finally each number is printed on a new line...!");
+
+Console.Write("Now, Enter n: ");
+long n = 0;
+
+bool unDone = true;
+while (unDone)
+{
+    if (long.TryParse(Console.ReadLine(), out n))
+    {
+        Console.WriteLine("Ready? Starting...");
+        unDone = false;
+    }
+    else if (n < 1)
+    {
+        Console.WriteLine($"Sorry, but it is illogical to print from 1 to {n}, isn't it? You can exit the program by entering 'quit'...! Or press enter to continue:");
+        string input = Console.ReadLine() ?? "";
+        if (input.Trim().ToLowerInvariant() == "quit")
+        {
+            break;
+        }
+    }
+    else 
+    {
+        Console.WriteLine("Invalid input. You can exit the program by entering 'quit'...! Or press enter to continue:");
+        string input = Console.ReadLine() ?? "";
+        if (input.Trim().ToLowerInvariant() == "quit")
+        {
+            break;
+        }
+    }
+
+}
+
+/*foreach (int num in Enumerable.Range(1, n))  // I could have done so, but n should be int for Enumerable.Range() method to work properly...!
+{
+    Console.WriteLine(num);                
+}
+*/
+
+for (long i = 1; i <= n; i++)
+{
+    Console.WriteLine(i);
+    if (n < 10) Thread.Sleep(1000);
+    else if (n < 100) Thread.Sleep(500);
+    else if (n < 1000) Thread.Sleep(125);
+    else if (n < 10000) Thread.Sleep(50);
+}
+
+Console.WriteLine((n < 1000) ? "Finished...!" : "At last, finished, it is sweating...!");
+
+Console.ReadKey();
+
+/* Input/Output:
+This program reads n int numbers. Given invalid input, the program prompts to enter valid INTEGER number. Finally each number is printed on a new line...!
+Now, Enter n: 7
+Ready? Starting...
+1
+2
+3
+4
+5
+6
+7
+Finished...!
+This program reads n int numbers. Given invalid input, the program prompts to enter valid INTEGER number. Finally each number is printed on a new line...!
+Now, Enter n: 10000
+Ready? Starting...
+1
+2
+... // Continues
+9998
+9999
+10000
+At last, finished, it is sweating...!
+*/
+
+
+// Ex11: First 100 Fibonacci sequence:
+
+Console.WriteLine("This program prints first 100 Fibonacci sequence numbers...!");
+
+/* static ulong Fibonacci(ulong index)   // This is the recursive way of doing it, but it doesn't seem to be working correctly
+{
+    if (index == 0) return 0;
+    else if (index == 1) return 1;             
+    else return (Fibonacci(index - 1) + Fibonacci(index - 2));
+}
+*/
+
+ulong oldNum, olderNum, currentNum;
+oldNum = olderNum = currentNum = 0;
+
+for (int i = 0; i < 101; i++)
+{
+    if (i == 1) currentNum = 1;
+    else currentNum = olderNum + oldNum;
+    
+    Console.Write(i != 100 ? $"{currentNum}, " : $"{currentNum}.");
+    
+    oldNum = olderNum;
+    olderNum = currentNum;
+}
+
+Console.ReadKey();
+
+/* Input/Output: 
+This program prints first 100 Fibonacci sequence numbers...!
+0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610,
+987, 1597, 2584, 4181, 6765, 10946, 17711, 28657, 46368, 75025, 
+121393, 196418, 317811, 514229, 832040, 1346269, 2178309, 
+3524578, 5702887, 9227465, 14930352, 24157817, 39088169, 
+63245986, 102334155, 165580141, 267914296, 433494437, 
+701408733, 1134903170, 1836311903, 2971215073, 4807526976, 
+7778742049, 12586269025, 20365011074, 32951280099, 
+53316291173, 86267571272, 139583862445, 225851433717, 
+365435296162, 591286729879, 956722026041, 1548008755920, 
+2504730781961, 4052739537881, 6557470319842, 10610209857723, 
+17167680177565, 27777890035288, 44945570212853, 72723460248141, 
+117669030460994, 190392490709135, 308061521170129, 498454011879264, 
+806515533049393, 1304969544928657, 2111485077978050, 3416454622906707, 
+5527939700884757, 8944394323791464, 14472334024676221, 23416728348467685, 
+37889062373143906, 61305790721611591, 99194853094755497, 160500643816367088, 
+259695496911122585, 420196140727489673, 679891637638612258, 1100087778366101931, 
+1779979416004714189, 2880067194370816120, 4660046610375530309, 7540113804746346429, 
+12200160415121876738, 1293530146158671551, 13493690561280548289, 14787220707439219840, 
+9834167195010216513, 6174643828739884737, 16008811023750101250, 3736710778780434371.
+*/
+
+
+// Ex12: Calculate the sum of 1 + 1/2 - 1/3 + 1/4 - 1/5 +... with precision 0.001:
+
+Console.WriteLine("This program calculates the sum of the sequence,  " +
+                  "1 + 1/2 - 1/3 + 1/4 - 1/5 +..., with precision 0.001.");
+
+decimal oldSum = 0, currentSum = 0;
+for (int i = 1; ; i++)
+{
+    currentSum += (i > 1 && i % 2 == 1) ? (-1.0m / i) : (1.0m / i);
+    
+    if (Math.Abs((double)currentSum - (double)oldSum) < 0.001) break;
+    
+    oldSum = currentSum;
+}
+
+Console.WriteLine($"The sum with precision 0.001: {currentSum:f3}");
+
+Console.ReadKey();
+
+/* Input/Output: 
+This program calculates the sum of the sequence,  1 + 1/2 - 1/3 + 1/4 - 1/5 +..., with precision 0.001.
+The sum with precision 0.001: 1.307
+*/

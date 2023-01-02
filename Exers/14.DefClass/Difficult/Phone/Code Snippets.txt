@@ -1,0 +1,503 @@
+// (Difficult) Ex8,9,10,11,12,13,14,15,16,17,18,19:
+
+public class Test
+{
+    private static Random generator = new Random();
+    private static Phone MyPhone { get; set; }
+
+    static Test()
+    {
+        MyPhone = new Phone();
+    }
+
+    private static void Main()
+    {   
+        Console.Clear();
+        TestPhone();
+        TestCallClass();
+    }
+
+    private static void TestPhone()
+    {
+        SetBackground("Phone, GSM, Battery and Display classes", front: ConsoleColor.Magenta, back: ConsoleColor.Black);
+        Phone.GetNokiaN95Info();
+        Console.WriteLine();
+
+        GSM gsmGalaxyA10s = new GSM(Phone.Manufacturers.Samsung, "Galaxy A10s");
+        gsmGalaxyA10s.Owner = "Nusurmatov Khusniddin";
+        var batteryGalaxyA10s = new Battery(Battery.BatteryType.LiPol);
+        var displayGalaxyA10s = new Display("75.8 x 156.9 x 7.8 mm", "Black"); 
+        Console.WriteLine("{0}\n{1}\n{2}\n", gsmGalaxyA10s, batteryGalaxyA10s, displayGalaxyA10s);
+        
+        Phone galaxyA10s = new Phone(gsmGalaxyA10s, batteryGalaxyA10s, displayGalaxyA10s);
+        galaxyA10s.GetInfo();
+        galaxyA10s.SetPhoneNumber("+998993981302");
+        Console.WriteLine("Phone Number: {0}\n\n", galaxyA10s.PhoneNumber);
+        MyPhone = galaxyA10s;
+    }
+
+    private static void TestCallClass()
+    {
+        string text = "GetCallHistory, DeleteCall, DeleteAllCallHistory, CalculateAllCalls and CallSomebody methods";
+        SetBackground(text, front: ConsoleColor.DarkCyan, back: ConsoleColor.Black);
+
+        string[] names = { "Jahongir", "Diyor", "Zaynobiddin", "Rahmiddin", "Abdurauf", "Jasur", "Sardor" };
+
+        foreach (var name in names)  // Calling to seven friends
+        {
+            MyPhone.GSM.CallSomebody(name, (Call.TypeOfCall) generator.Next(3));
+        }
+
+        Console.WriteLine("Complete Call History: \n{0}", MyPhone.GSM.GetCallHistory());
+
+        Console.WriteLine("Assuming call costs 0.37$ per minute, All calls cost: {0}$", MyPhone.GSM.CalculateAllCalls(0.37m));  
+        
+        TimeSpan longestCall = MyPhone.GSM.GetLongestCall().Duration;
+        string nameToBeDeleted = MyPhone.GSM.GetLongestCall().Called; 
+        Console.WriteLine("Deleting {0} from the Call History Archive...", nameToBeDeleted);
+        MyPhone.GSM.DeleteCall(nameToBeDeleted);
+      
+        Console.WriteLine("Now, Call History: \n{0}", MyPhone.GSM.GetCallHistory());
+        Console.WriteLine("Now, All calls cost: {0}$", MyPhone.GSM.CalculateAllCalls(0.37m));  
+
+        Console.WriteLine("Deleting All Calls...");
+        MyPhone.GSM.DeleteAllCallHistory();
+        Console.WriteLine("Now, Call History Archive: {0}", MyPhone.GSM.GetCallHistory());
+    }   
+
+    private static void SetBackground( string text, ConsoleColor front = ConsoleColor.DarkCyan, ConsoleColor back = ConsoleColor.White)
+    {
+        Console.BackgroundColor = back;
+        Console.ForegroundColor = front;
+        Console.WriteLine($" ------------     Testing {text}...      ------------\n");
+    }
+}
+
+/* Output:
+ ------------     Testing Phone, GSM, Battery and Display classes...      ------------
+
+Information about Nokia N95:
+Manufacturer: Nokia
+Model: Nokia N95
+Owner: Unknown
+Price: $99.00
+Battery Model: LiIon
+Display Size: 99 x 53 x 21 mm
+Display Color: Silver
+
+Samsung, Galaxy A10s - $68.00 owned by Nusurmatov Khusniddin.
+Battery Type - LiPol, Total Hours Talk - 00:00:00.
+75.8 x 156.9 x 7.8 mm, Black.
+
+Manufacturer: Samsung
+Model: Galaxy A10s
+Owner: Nusurmatov Khusniddin
+Price: $68.00
+Battery Model: LiPol
+Display Size: 75.8 x 156.9 x 7.8 mm
+Display Color: Black
+Phone Number: +99899 398 13 02
+
+
+ ------------     Testing GetCallHistory, DeleteCall, DeleteAllCallHistory, CalculateAllCalls and CallSomebody methods...      ------------
+
+Complete Call History:
+1. Jasur, Missed call, started: Wednesday, August 19, 2020 16:33:44, duration: 2 minutes and 14 secunds.
+2. Sardor, Incoming call, started: Tuesday, October 6, 2020 03:11:52, duration: 1 minutes and 15 secunds.
+3. Zaynobiddin, Outgoing call, started: Tuesday, October 13, 2020 15:32:24, duration: 1 minutes and 22 secunds.
+4. Jahongir, Incoming call, started: Thursday, July 22, 2021 18:24:49, duration: 4 minutes and 24 secunds.
+5. Rahmiddin, Incoming call, started: Monday, August 2, 2021 05:28:35, duration: 4 minutes and 43 secunds.
+6. Diyor, Outgoing call, started: Friday, October 7, 2022 04:17:32, duration: 3 minutes and 0 secunds.
+7. Abdurauf, Missed call, started: Tuesday, October 11, 2022 22:30:00, duration: 4 minutes and 9 secunds.
+
+Assuming call costs 0.37$ per minute, All calls cost: 7.03$
+Deleting Rahmiddin from the Call History Archive...
+Now, Call History:
+1. Jasur, Missed call, started: Wednesday, August 19, 2020 16:33:44, duration: 2 minutes and 14 secunds.
+2. Sardor, Incoming call, started: Tuesday, October 6, 2020 03:11:52, duration: 1 minutes and 15 secunds.
+3. Zaynobiddin, Outgoing call, started: Tuesday, October 13, 2020 15:32:24, duration: 1 minutes and 22 secunds.
+4. Jahongir, Incoming call, started: Thursday, July 22, 2021 18:24:49, duration: 4 minutes and 24 secunds.
+5. Diyor, Outgoing call, started: Friday, October 7, 2022 04:17:32, duration: 3 minutes and 0 secunds.
+6. Abdurauf, Missed call, started: Tuesday, October 11, 2022 22:30:00, duration: 4 minutes and 9 secunds.
+
+Now, All calls cost: 5.55$
+Deleting All Calls...
+Now, Call History Archive: Empty...
+*/
+
+
+
+public class Phone
+{
+    public enum Manufacturers { Apple, Huawei, LG, Nokia, RedMi, Samsung }
+
+    private static Phone nokiaN95;
+    
+    public static Phone NokiaN95 { get { return nokiaN95; } }
+    public GSM GSM { get; private set; } 
+    public Battery Battery { get; private set; } 
+    public Display Display { get; private set; }
+    public PhoneNumber PhoneNumber { get; private set; } = new PhoneNumber();
+
+    static Phone()
+    {
+        GSM gsmNokiaN95 = new GSM(Phone.Manufacturers.Nokia, "Nokia N95", 99);
+        Battery batteryNokiaN95 = new Battery(Battery.BatteryType.LiIon);
+        Display displayNokiaN95 = new Display("99 x 53 x 21 mm", "Silver");
+        nokiaN95 = new Phone(gsmNokiaN95, batteryNokiaN95, displayNokiaN95);
+    }
+
+    public Phone() : this(new GSM(), new Battery(), new Display()) { } 
+    public Phone(GSM gsm) : this(gsm, new Battery(), new Display()) { }
+    public Phone(GSM gsm, Battery battery) : this(gsm, battery, new Display()) { }
+    public Phone(GSM gsm, Battery battery, Display display)
+    {
+        this.GSM = gsm;
+        this.Battery = battery;
+        this.Display = display;
+    } 
+    
+    public static void GetNokiaN95Info()
+    {
+        Console.WriteLine("Information about Nokia N95:");
+        NokiaN95.GSM.GetInfo();
+        NokiaN95.Battery.GetInfo();
+        NokiaN95.Display.GetInfo();
+    }
+
+    public void GetInfo()
+    {
+        GSM.GetInfo();
+        Battery.GetInfo();
+        Display.GetInfo();
+    }
+
+    public void SetPhoneNumber(string tel)
+    {
+        try
+        {
+            this.PhoneNumber = new PhoneNumber(tel[..4], int.Parse(tel[4..6]), int.Parse(tel[6..]));
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("Invalid phone number...!");
+        }
+    }
+
+    public void SetPhoneNumber(string countryCode, int areaCode, int number)
+    {
+        this.PhoneNumber = new PhoneNumber(countryCode, areaCode, number);
+    }
+
+    public override string ToString()
+    {
+        return $"{GSM.Manufacturer}, {GSM.Model} owned by {GSM.Owner}.";
+    }
+}
+
+
+
+public class GSM: Call
+{
+    private const string defaultValue = "Unknown";
+    private static Random generator = new Random();
+    public Phone.Manufacturers Manufacturer { get; private set; }
+    public string Model { get; private set; }
+    public string Owner { get; set; }
+    public int Price { get; private set; }
+
+    public GSM(): this((Phone.Manufacturers) generator.Next(6)) { }
+
+    public GSM(Phone.Manufacturers manufacturer, string model = defaultValue, string owner = defaultValue)
+        : this(manufacturer, model, owner, generator.Next(100, 900)*25/100) { }
+
+    public GSM(Phone.Manufacturers manufacturer, string model, int price)
+        : this(manufacturer, model, defaultValue, price) { }  
+
+    public GSM(Phone.Manufacturers manufacturer, string model, string owner, int price)
+    {
+        this.Manufacturer = manufacturer;
+        this.Model = model;
+        this.Owner = owner;
+        this.Price = price;
+        _ = new Call();
+    }
+
+    public void GetInfo()
+    {
+        Console.WriteLine("Manufacturer: {0}", Manufacturer);
+        Console.WriteLine("Model: {0}", Model);
+        Console.WriteLine("Owner: {0}", Owner);
+        Console.WriteLine("Price: {0:C2}", Price);
+    }
+
+    public void ChangePrice(int priceChange)
+    {
+        if (Price + priceChange < 0)
+        {
+            throw new ArgumentException("Price cannot be lower than ZERO...!");
+        }
+
+        Price += priceChange; 
+    }
+
+    public override string ToString()
+    {
+        return $"{Manufacturer}, {Model} - {Price:C2} owned by {Owner}.";
+    }
+}
+
+
+
+public class Call
+{
+    public enum TypeOfCall { Outgoing, Incoming, Missed }
+
+    protected TypeOfCall CallType { get; set; }
+    protected DateTime EndTime { get; set; }
+    protected DateTime StartTime { get; set; }
+    public TimeSpan Duration { get; set; }
+    public string Called { get; set; } = String.Empty;
+    private static Random generator = new Random(); 
+
+    public List<Call> CallHistory { get; private set; } = new List<Call>();
+    private int CallCounter { get; set; } = 0;
+
+    private Call LongestCall { get; set; }
+
+    public virtual void CallSomebody(string name, TypeOfCall type)
+    { 
+        CallHistory.Add(new Call());
+        CallHistory[CallCounter].StartTime = GetRandomDate();
+        CallHistory[CallCounter].Called = name;
+        CallHistory[CallCounter].CallType = type;
+        CallHistory[CallCounter].EndTime = CallHistory[CallCounter].StartTime.AddSeconds(generator.Next(30, 300));
+        CallHistory[CallCounter].Duration = CallHistory[CallCounter].EndTime - CallHistory[CallCounter].StartTime;
+        CallCounter++;
+    }
+
+    public virtual void DeleteCall(string name)
+    {
+        for (int i = 0; i < this.CallCounter; i++)
+        {
+            if (this.CallHistory[i].Called == name)
+            {
+                this.CallHistory.Remove(this.CallHistory[i]);
+                break;
+            }
+        }
+
+        this.CallCounter--;
+    }
+
+    public virtual void DeleteAllCallHistory()
+    {
+        this.CallHistory.Clear();
+        this.CallCounter = 0;
+    }
+
+    public virtual string CalculateAllCalls(decimal price)
+    {
+        decimal result = 0.0m;
+
+        foreach (var call in this.CallHistory)
+        {
+            result += call.Duration.Minutes * price;
+        }
+        
+        return result.ToString();
+    }
+
+    public virtual string GetCallHistory()
+    {
+        var result = new System.Text.StringBuilder();
+        int counter = 1;
+
+        if (this.CallCounter == 0)
+        {
+            result.Append("Empty...");
+        }
+        else
+        {
+            var query = from call in this.CallHistory
+                        orderby call.StartTime
+                        select call;
+            this.CallHistory = query.ToList(); 
+            
+            foreach (var call in this.CallHistory)
+            {
+                result.Append($"{counter}. {call.Called}, ");
+                result.Append($"{call.CallType} call, ");
+                result.Append($"started: {call.StartTime.ToString("F")}, ");
+                result.Append($"duration: {call.Duration.Minutes} minutes and {call.Duration.Seconds} secunds.\n");
+                counter++;
+            }
+        }
+
+        return result.ToString();
+    }
+
+    public virtual Call GetLongestCall()
+    {
+        TimeSpan max = TimeSpan.Zero;
+        LongestCall = new Call();
+
+        foreach (var call in CallHistory)
+        {
+            if (call.Duration > max)
+            {
+                max = call.Duration;
+                this.LongestCall.Called = call.Called;
+            }
+        }
+
+        this.LongestCall.Duration = max;
+
+        return LongestCall;
+    }
+
+    private static DateTime GetRandomDate()
+    {
+        string randomDay = generator.Next(1, 29).ToString();
+        string randomMonth = generator.Next(1, 13).ToString();
+        string randomYear = generator.Next(2020, 2023).ToString();
+        string randomHour = generator.Next(24).ToString();
+        string randomMinute = generator.Next(60).ToString();
+        string randomSecond = generator.Next(60).ToString();
+
+        var randomDate = new System.Text.StringBuilder();
+        randomDate.Append($"{randomMonth}/{randomDay}/{randomYear} ");
+        randomDate.Append($"{randomHour}:{randomMinute}:{randomSecond}");
+
+        return DateTime.Parse(randomDate.ToString());
+    }
+}
+
+
+
+public struct PhoneNumber
+{
+    private const string defaultContryCode = "+998";
+    public static HashSet<int> validUzbekAreaCodes; 
+    public string CountryCode { get; set; }
+    public int AreaCode { get; private set; }
+    public string Number { get; set; }
+
+    static PhoneNumber()
+    {
+        validUzbekAreaCodes = new HashSet<int>()
+        {
+            33, 88, 90, 91, 93, 94, 95, 97, 98, 99
+        };
+    }
+
+    public PhoneNumber() 
+    {
+        this.CountryCode = defaultContryCode;
+        this.AreaCode = 99;
+        this.Number = SetPhoneNumber(this.CountryCode, 0);
+    }
+    public PhoneNumber(string countryCode) : this(countryCode, 99, 0) { }
+    public PhoneNumber(int phoneNumber) : this(defaultContryCode, 99, phoneNumber) { }
+    public PhoneNumber(string countryCode, int areaCode, int phoneNumber)
+    {
+        this.CountryCode = countryCode;
+        this.AreaCode = areaCode;
+        this.Number = SetPhoneNumber(countryCode, areaCode, phoneNumber);
+    }
+
+    private static string SetPhoneNumber(string countryCode, int areaCode = 99, int phoneNumber = 0)
+    {
+        var result = new System.Text.StringBuilder();
+
+        if (phoneNumber == 0)
+        {
+            result.Append($"{countryCode}** *** ** **");
+        }
+        else
+        {
+            result.Append($"{countryCode}{areaCode} ");
+            result.Append($"{(phoneNumber / 10000)} ");
+            result.Append($"{(phoneNumber % 10000 / 100)} ");
+            result.Append($"{(phoneNumber % 100):D2}");
+        }
+
+        return result.ToString();
+    }
+
+/* For future rafactoring:  
+    private static bool ValidatePhoneNumber(string number)
+    {
+
+    }
+
+    private static bool ValidateCountryCode(string countryCode)
+    {
+
+    }
+
+    private static bool ValidateAreaCode() {}
+*/
+
+    public override string ToString()
+    {
+        return this.Number;
+    }
+}
+
+
+
+public class Battery
+{
+    public enum BatteryType { LiIon, LiPol, NiCd, NiMH, NonOEM, OEM }
+
+    private static Random generator = new Random();
+    public BatteryType Model { get; private set; }
+    public TimeSpan IdleTime { get; private set; }
+    
+    // private bool IdleMode = true;
+    public TimeSpan TotalHoursTalk { get; private set; } 
+
+    public Battery() : this((BatteryType) generator.Next(6)) { }
+
+    public Battery(BatteryType model)
+    {
+        this.Model = model;
+    }
+
+    public void GetInfo()
+    {
+        Console.WriteLine("Battery Model: {0}", Model);
+    }
+
+    public override string ToString()
+    {
+        return $"Battery Type - {Model}, Total Hours Talk - {TotalHoursTalk}.";
+    }
+}
+
+
+
+public class Display
+{
+    private const string defaultValue = "Unknown";
+    public string Size { get; private set; }
+    public string Color { get; private set; }
+
+    public Display(string size = defaultValue, string color = defaultValue)
+    {
+        this.Size = size;
+        this.Color = color;    
+    }
+
+    public void GetInfo()
+    {
+        Console.WriteLine("Display Size: {0}", Size);
+        Console.WriteLine("Display Color: {0}", Color);
+    }
+
+    public override string ToString()
+    {
+        return $"{Size}, {Color}.";
+    }
+}

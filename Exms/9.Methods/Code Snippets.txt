@@ -1,0 +1,281 @@
+// Exm1 - Variable Number of Arguments:
+
+static void PrintTotalAmountForBooks(params decimal[] prices)
+{
+    decimal totalAmount = 0;
+    foreach (decimal singleBookPrice in prices)
+    {
+        totalAmount += singleBookPrice;
+    }
+
+    Console.WriteLine("The total amount of all books is:" + totalAmount);
+}
+
+PrintTotalAmountForBooks(3m, 2.5m);
+PrintTotalAmountForBooks(1m, 2m, 3.5m, 7.5m);
+
+decimal[] pricesArr = new decimal[] { 3m, 2.5m };
+// Passing initialized array as var-arg:
+PrintTotalAmountForBooks(pricesArr);
+
+/* Input/Output:
+The total amount of all books is:5.5
+The total amount of all books is:14.0
+The total amount of all books is:5.5 
+*/
+
+
+// Exm2 - Optional Parameters and Named Arguments:
+
+void SomeMethod(int x, int y = 5, int z = 7)  // y and z has default values
+{ 
+    // some code...
+}
+
+// Normal call of SomeMethod
+SomeMethod(1, 2, 3);
+// Omitting z - equivalent to SomeMethod(1, 2, 7)
+SomeMethod(1, 2);
+// Omitting both y and z – equivalent to SomeMethod(1, 5, 7)
+SomeMethod(1);
+
+// Passing z by name and x by position
+SomeMethod(1, z: 3);
+// Passing both x and z by name
+SomeMethod(x: 1, z: 3);
+// Reversing the order of the arguments passed by name
+SomeMethod(z: 3, x: 1);
+
+/* Input/Output:
+
+*/
+
+
+// Exm3 - Method Overloading Caution:
+
+int Sum(int a, int b)
+{
+    return a + b;
+}
+long Sum(int a, int b)
+{
+    return a + b;
+}
+void Main()
+{
+    Console.WriteLine(Sum(2, 3));  // ambiguous call
+}
+
+/* Input/Output:
+Program.cs(7,6): error CS0128: A local variable or function named 'Sum' is already defined in this scope.
+*/
+
+
+// Exm4 - Triangle:
+
+// Entering the value of the variable n
+Console.Write("n = ");
+int n = int.Parse(Console.ReadLine() ?? "7");
+Console.WriteLine();
+
+// Printing the upper part of the triangle
+for (int line = 1; line <= n; line++)
+{
+    PrintLine(1, line);
+}
+
+// Printing the bottom part of the triangle
+// that is under the longest line
+for (int line = n - 1; line >= 1; line--)
+{
+    PrintLine(1, line);
+}
+
+void PrintLine(int start, int end)
+{
+    for (int i = start; i <= end; i++)
+    {
+        Console.Write(i + " ");
+    }
+    Console.WriteLine();
+}
+
+/* Input/Output:
+n = 7
+
+1 
+1 2 
+1 2 3         
+1 2 3 4       
+1 2 3 4 5     
+1 2 3 4 5 6   
+1 2 3 4 5 6 7 
+1 2 3 4 5 6   
+1 2 3 4 5     
+1 2 3 4       
+1 2 3
+1 2
+1
+*/
+
+
+// Ex5 - Return Operator in Void Method:
+
+void PrintPositiveNumber(int number)
+{
+    if (number <= 0)
+    {
+        // If the number is NOT positive, terminate the method
+        return;
+    }
+    
+    Console.WriteLine(number);
+}
+
+PrintPositiveNumber(1);
+PrintPositiveNumber(-1);
+
+/* Input/Output:
+1
+*/
+
+
+// Ex6 - Fahrenheit to Celsius Conversion:
+
+static double ConvertFahrenheitToCelsius(double temperatureF)
+{
+    double temperatureC = (temperatureF - 32) * 5 / 9;
+    return temperatureC;
+}
+
+Console.Write("Enter your body temperature in Fahrenheit degrees: ");
+double temperature = double.Parse(Console.ReadLine() ?? "100");
+
+temperature = ConvertFahrenheitToCelsius(temperature);
+Console.WriteLine("Your body temperature in Celsius degrees is {0}.", temperature);
+
+if (temperature >= 37)
+{
+    Console.WriteLine("You are ill!");
+}
+
+/* Input/Output:
+Enter your body temperature in Fahrenheit degrees: 107
+Your body temperature in Celsius degrees is 41.666666666666664.
+You are ill!
+*/
+
+
+// Ex7 - Difference between Two Months:
+
+string GetMonthName(int month)
+{
+    string monthName;
+    switch (month)
+    {
+        case 1:
+            monthName = "January";
+            break;
+        case 2:
+            monthName = "February";
+            break;
+        case 3:
+            monthName = "March";
+            break;
+        case 4:
+            monthName = "April";
+            break;
+        case 5:
+            monthName = "May";
+            break;
+        case 6:
+            monthName = "June";
+            break;
+        case 7:
+            monthName = "July";
+            break;
+        case 8:
+            monthName = "August";
+            break;
+        case 9:
+            monthName = "September";
+            break;
+        case 10:
+            monthName = "October";
+            break;
+        case 11:
+            monthName = "November";
+            break;
+        case 12:
+            monthName = "December";
+            break;
+        default:
+            Console.WriteLine("Invalid month!");
+            return null;
+    }
+    
+    return monthName;
+}
+
+void SayPeriod(int startMonth, int endMonth)
+{
+int period = endMonth - startMonth;
+    if (period < 0)
+    {
+        // Fix negative distance
+        period = period + 12;
+    }
+    Console.WriteLine(
+    "There is {0} months period from {1} to {2}.",period, GetMonthName(startMonth), GetMonthName(endMonth));
+}
+
+Console.Write("First month (1-12): ");
+int firstMonth = int.Parse(Console.ReadLine() ?? "1");
+Console.Write("Second month (1-12): ");
+int secondMonth = int.Parse(Console.ReadLine() ?? "12");
+SayPeriod(firstMonth, secondMonth);
+
+/* Input/Output:
+First month (1-12): 2
+Second month (1-12): 7
+There is 5 months period from February to July.
+*/
+
+
+// Ex8 - Input Data Validation :
+
+Console.WriteLine("What time is it?");
+Console.Write("Hours: ");
+int hours = int.Parse(Console.ReadLine() ?? "00");
+Console.Write("Minutes: ");
+int minutes = int.Parse(Console.ReadLine() ?? "00");
+
+bool isValidTime = ValidateHours(hours) && ValidateMinutes(minutes);
+if (isValidTime)
+{
+    Console.WriteLine("The time is {0:0#}:{1:0#} now.",
+    hours, minutes);
+}
+else
+{
+    Console.WriteLine("Incorrect time!");
+}
+
+bool ValidateHours(int hours)
+{
+    bool result = (hours >= 0) && (hours < 24);
+    return result;
+}
+
+bool ValidateMinutes(int minutes)
+{
+    bool result = (minutes >= 0) && (minutes <= 59);
+    return result;
+}
+
+/* Input/Output:
+What time is it?
+Hours: 07
+Minutes: 7
+The time is 07:07 now.
+*/

@@ -1,0 +1,145 @@
+namespace NumberConverter
+{
+    public static class ConvertNumber
+    {
+        enum Numbers { A = 10, B, C, D, E, F };
+
+        public static string FromPositiveIntegerToBinary(int num)
+        {
+            return FromBase10ToBinary(num.ToString());
+        }
+
+        public static string FromBinaryToPositiveInteger(int binNum)
+        {
+            return FromBinaryToBase10(binNum.ToString());
+        }
+
+        public static string FromPositiveIntegerToHexadecimal(int num)
+        {
+            return FromBase10ToBinary(num.ToString(), 16);
+        }
+
+        public static string FromHexadecimalToPositiveInteger(string hexNum)
+        {
+            return FromBinaryToBase10(hexNum, 16);
+        }
+
+        public static string FromBaseNToBaseN(string num, int fromBase = 2, int toBase = 10)
+        {
+            string result = String.Empty;
+            result = FromBinaryToBase10(num.ToUpperInvariant(), fromBase);
+            result = FromBase10ToBinary(result, toBase);
+
+            return result;
+        }
+
+        private static string FromBase10ToBinary(string num, int toBase = 2)
+        {
+            string result = String.Empty;
+            int n; 
+            if (int.TryParse(num, out n)) 
+            { 
+                if (n < 0)
+                {
+                    result = "This program is intended to work on only positive integers FOR NOW...!";
+                }
+            }
+            else
+            {
+                result = $"The entered number is not an integer but {num.GetType()}...!";
+            }
+
+            if (toBase == 10)
+            {
+                return num;
+            }
+            else if ((toBase > 1 && toBase < 10) || (toBase > 10 && toBase < 17))
+            {
+                while (n > 0)
+                {
+                    switch (n % toBase)    // with dictionary it would even become easier...
+                    {
+                        case 10:
+                            result = Numbers.A + result;
+                            break;
+                        case 11:
+                            result = Numbers.B + result;
+                            break;
+                        case 12:
+                            result = Numbers.C + result;
+                            break;
+                        case 13:
+                            result = Numbers.D + result;
+                            break;
+                        case 14:
+                            result = Numbers.E + result;
+                            break;
+                        case 15:
+                            result = Numbers.F + result;
+                            break;
+                        default:
+                            result = (n % toBase) + result;
+                            break;
+                    }
+                    
+                    n /= toBase;
+                }
+            }
+            else 
+            {
+                result = $"A number cannot have a base {toBase}...!";
+            }
+            
+            if (toBase == 16)
+            {
+                result = "0x" + result;
+            }
+
+            return result;
+        }
+
+        private static string FromBinaryToBase10(string num, int fromBase = 2)
+        {
+            int result = 0;
+            if (num.ToLowerInvariant().Contains("0x"))
+            {
+                num = num.Remove(0, 2);   // removing '0x'
+            }
+
+            if (fromBase == 10)
+            {
+                result = int.Parse(num);
+            }
+            else if ((fromBase > 1 && fromBase < 10) || (fromBase > 10 && fromBase < 17))
+            {
+                var NumbersDictionary = new Dictionary<char, int> { ['A'] = 10, ['B'] = 11, ['C'] = 12, ['D'] = 13, ['E'] = 14, ['F'] = 16 };
+                // ['A'] = 11 .NET 6 feature (that should be checked...)
+
+                for (int i = num.Length - 1, j = 1; i >= 0; i--, j *= fromBase)
+                {
+                    switch(num[i])
+                    {
+                        case 'A':
+                        case 'B':
+                        case 'C':
+                        case 'D':
+                        case 'E':
+                        case 'F':
+                            result += NumbersDictionary[num[i]] * j;
+                            break;
+                        default:
+                            result += (int.Parse(num[i].ToString())) * j;
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                return "Invalid Parameter Input";
+            }
+
+            return result.ToString();
+        }
+
+    }
+}

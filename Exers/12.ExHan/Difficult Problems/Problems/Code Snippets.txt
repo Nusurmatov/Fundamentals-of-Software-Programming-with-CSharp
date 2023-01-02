@@ -1,0 +1,153 @@
+/* (Difficult) Ex11 - Problem Statement:
+Search for information in Internet and define your own class for exception
+FileParseException. The exception has to contain the name of the
+processed file and the number of the row where the problem is occurred.
+Add appropriate constructors in the exception. Write a program that
+reads integers from a text file. If the during reading a row does not
+contain an integer throw FileParseException and pass it to the calling
+method.
+*/
+
+class FileParseException: Exception
+{
+   public override string Message { get; }
+   public string FileName { get; }
+   public int Line { get; }
+   public override string StackTrace { get; } 
+   
+   public FileParseException(string message, string fileName, int line) : base(message)
+   {
+      this.Message = message;
+      this.FileName = fileName;
+      this.Line = line;
+      this.StackTrace = $"Problem occured in {fileName} on line {line}.";
+   }
+}
+
+class ParseInteger
+{
+   static void Main()
+   {
+      string path = @"C:\Users\Xusniddin\Desktop\Khusniddin\IT\DotNet Development" +
+                    @"\FofCP with C#\Exers\12.ExHan\Difficult Problems\Numbers.txt";
+      string fileName = path.Substring(path.LastIndexOf('\\') + 1);
+      int line = 1;
+      StreamReader reader = new StreamReader(path);
+      int character;
+      string number = String.Empty;
+
+      do 
+      {
+         character = reader.Read();
+         if (character > 47 && character < 58)
+         {
+            number += character;
+         }
+
+         if (character == 10)
+         {
+            if (number == String.Empty)
+            {
+               throw new FileParseException("Could not find an integer:", fileName, line);
+            }
+            line++;
+            number = String.Empty;
+         }
+      } while (character != -1);     
+   }   
+}
+
+/* Output:
+Unhandled exception. FileParseException: Could not find an integer:
+Problem occured in Numbers.txt on line 13.
+*/
+
+
+/* (Difficult) Ex11 - Problem Statement:
+Write a program that gets from the user the full path to a file (for
+example C:\Windows\win.ini), reads the content of the file and prints it
+to the console. Find in MSDN how to us the System.IO.File.
+ReadAllText(…) method. Make sure all possible exceptions will be
+caught and a user-friendly message will be printed on the console.
+*/
+
+Console.Write("Enter the full path to a file: ");
+string path = Console.ReadLine() ?? "Nothing Entered";
+string content = String.Empty;
+
+try
+{
+   content = File.ReadAllText(path);
+   Console.WriteLine(content);
+}
+catch (ArgumentException e)
+{
+   Console.WriteLine(e.Message);
+}
+catch (PathTooLongException e)
+{
+   Console.WriteLine(e.Message);
+}
+catch (DirectoryNotFoundException e)
+{
+   Console.WriteLine(e.Message);
+}
+catch (IOException e)
+{
+   Console.WriteLine(e.Message);
+}
+
+/* Output:
+Enter the full path to a file:  C:\Windows\win.ini
+The filename, directory name, or volume label syntax is incorrect. : 'C:\Users\Xusniddin\Desktop\Khusniddin\IT\DotNet Development
+\FofCP with C#\Exers\12.ExHan\Difficult Problems\Problems\ C:\Windows\win.ini'
+Enter the full path to a file:
+Empty path name is not legal. (Parameter 'path')
+Enter the full path to a file: text
+Could not find file 'C:\Users\Xusniddin\Desktop\Khusniddin\IT\DotNet Development\FofCP with C#\Exers\12.ExHan\Difficult Problems\Problems\text'.
+Enter the full path to a file: C:\Windows\win.ini
+; for 16-bit app support
+[fonts]
+[extensions]
+[mci extensions]
+[files]
+[Mail]
+MAPI=1
+*/
+
+
+/* (Difficult) Ex12 - Problem Statement:
+Write a program to download a file from Internet by given URL, e.g.
+http://introprogramming.info/wp-content/themes/introprograming_en/
+images/Intro-Csharp-Book-front-cover-big_en.png.
+*/
+
+using System.Net;
+
+string url = "https://github.com/SoftUni/Programming-Basics-Book-CSharp-EN/blob/master/resources/Programming-Basics-CSharp-Book-and-Video-Lessons-Nakov-v2019.epub?raw=true.";
+string destination = @"C:\Users\Xusniddin\Desktop\Khusniddin\C#.epub";
+
+try
+{
+   using (var client = new WebClient())
+   {
+      client.DownloadFile(url, destination);
+   }
+   Console.WriteLine("Successfully downloaded at {0}.", destination);
+}
+catch (ArgumentException e)
+{
+   Console.WriteLine(e.Message);
+}
+catch (WebException e)
+{
+   Console.WriteLine(e.Message);
+}
+catch (NotSupportedException e)
+{
+   Console.WriteLine(e.Message);
+}
+
+/* Output:
+Successfully downloaded at C:\Users\Xusniddin\Desktop\Khusniddin\C#.epub.
+*/

@@ -1,0 +1,102 @@
+﻿/* (Medium Problems) Ex3 - Problem Statement:
+Write a program, which compares two arrays of type char
+lexicographically (character by character) and checks, which one is first
+in the lexicographical order.
+*/
+
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        char[] array1 = { 'a', 's', 's', 'o', 'c', 'i', 'a', 't', 'i', 'o', 'n' };
+        char[] array2 = { 'a', 'p', 'p', 'r', 'e', 'c', 'i', 'a', 't', 'i', 'o', 'n' };
+        char[] array3 = { 'a', 'd', 'm', 'i', 'n', 'i', 's', 't', 'r', 'a', 't', 'i', 'o', 'n' };
+        char[] array4 = { 'a', 'd', 'm', 'i', 'n', 'i', 's', 't', 'r', 'a', 't', 'i', 'v', 'e' };
+        char[] array5 = { 'a', 's', 's', 'o', 'c', 'i', 'a', 't', 'e' };
+
+        string result1 = Program.LexicographicalCompareOfCharArrays(array1, array2);
+        Console.WriteLine($"Comparing {new string(array1)} and {new string(array2)} lexicographically: ");
+        Console.WriteLine("Bigger one is {0}.", result1);
+        string result2 = Program.LexicographicalCompareOfCharArrays(array1, array2, array3);
+        Console.WriteLine("Bigger one is {0}.", result2);
+        string result3 = Program.LexicographicalCompareOfCharArrays(array1, array2, array3, array4);
+        Console.WriteLine("Bigger one is {0}.", result3);
+        string result4 = Program.LexicographicalCompareOfCharArrays(array1, array2, array3, array4, array5);
+        Console.WriteLine("Bigger one is {0}.", result4);
+    }
+
+        public static string LexicographicalCompareOfCharArrays(char[] arr1, char[] arr2)
+        {
+            int len = arr1.Length > arr2.Length ? arr2.Length : arr1.Length;
+            for (int i = 0; i < len; i++)
+            {
+                if (arr1[i] > arr2[i])
+                {
+                    return new string(arr1);
+                }
+                
+                if (arr1[i] < arr2[i])
+                {
+                    return new string(arr2);
+                }    
+            }
+
+            return "Equal";
+        }
+
+        public static string LexicographicalCompareOfCharArrays(char[] arr1, char[] arr2, char[] arr3)
+        {
+            Console.WriteLine($"Comparing {new string(arr1)}, {new string(arr2)} and {new string(arr3)} lexicographically: ");
+            
+            string result1 = LexicographicalCompareOfCharArrays(arr1, arr2);
+            string result2 = LexicographicalCompareOfCharArrays(arr1, arr3);
+            string result;
+
+            if (String.Compare(result1, result2) == 0)
+            {
+                result = result1;
+            }
+            else
+            {
+                result = LexicographicalCompareOfCharArrays(result1.ToCharArray(), result2.ToCharArray());
+            }
+            
+            return result;
+        }
+
+        public static string LexicographicalCompareOfCharArrays(char[] arr1, char[] arr2, char[] arr3, char[] arr4)
+        {
+            Console.WriteLine($"Comparing {new string(arr1)}, {new string(arr2)}, {new string(arr3)}" 
+            + $" and {new string(arr4)} lexicographically: ");
+
+            string result1 = LexicographicalCompareOfCharArrays(arr1, arr2);
+            string result2 = LexicographicalCompareOfCharArrays(arr3, arr4);
+            string result = LexicographicalCompareOfCharArrays(result1.ToCharArray(), result2.ToCharArray());
+            
+            return result;
+        }
+
+        public static string LexicographicalCompareOfCharArrays(char[] arr1, char[] arr2, char[] arr3, char[] arr4, char[] arr5)
+        {
+            Console.WriteLine($"Comparing {new string(arr1)}, {new string(arr2)}, {new string(arr3)}," 
+            + $" {new string(arr4)} and {new string(arr5)} lexicographically: ");
+
+            string result1 = LexicographicalCompareOfCharArrays(arr1, arr2);
+            string result2 = LexicographicalCompareOfCharArrays(arr3, arr4);
+            string result3 = LexicographicalCompareOfCharArrays(result1.ToCharArray(), result2.ToCharArray());
+            string result = LexicographicalCompareOfCharArrays(result3.ToCharArray(), arr5);
+
+            return result;
+        }
+}
+
+/* Input/Output
+Comparing association and appreciation lexicographically:
+Bigger one is association.
+Comparing association, appreciation and administration lexicographically:
+Bigger one is association.
+Comparing association, appreciation, administration and administrative lexicographically:
+Bigger one is association.
+Comparing association, appreciation, administration, administrative and associate lexicographically:
+Bigger one is association.
+*/
