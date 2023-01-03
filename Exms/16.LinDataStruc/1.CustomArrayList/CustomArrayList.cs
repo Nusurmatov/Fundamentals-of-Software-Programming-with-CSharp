@@ -22,7 +22,7 @@ public class CustomArrayList<T>
 
     public void Insert(T item, int index)
     {
-        CheckThrowArgumentOutOfRangeException(index);
+        CheckArgumentOutOfRangeException(index);
 
         GrowIfArraySizeIsFull();
         Array.Copy(this.arr, index, this.arr, index + 1, this.count - index);
@@ -43,7 +43,7 @@ public class CustomArrayList<T>
 
     public T RemoveAt(int index)
     {
-        CheckThrowArgumentOutOfRangeException(index);
+        CheckArgumentOutOfRangeException(index);
 
         T item = this.arr[index];
         Array.Copy(this.arr, index + 1, this.arr, index, this.count - index - 1);
@@ -84,13 +84,13 @@ public class CustomArrayList<T>
     {
         get 
         {
-            CheckThrowArgumentOutOfRangeException(index);
+            CheckArgumentOutOfRangeException(index);
 
             return this.arr[index];
         }
         set
         {
-            CheckThrowArgumentOutOfRangeException(index);
+            CheckArgumentOutOfRangeException(index);
 
             this.arr[index] = value;
         }
@@ -106,7 +106,7 @@ public class CustomArrayList<T>
         }
     }
 
-    private void CheckThrowArgumentOutOfRangeException(int index)
+    private void CheckArgumentOutOfRangeException(int index)
     {
         if (index > this.count || index < 0) 
         { 
