@@ -2,9 +2,15 @@
 {
     public static class CustomListCheck
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
-            CustomArrayList<string> shoppingList = new CustomArrayList<string>();
+            Console.Clear();
+            Console.Write("Enter 1 to choose CustomArrayList, or 2 to choose DynamicList: ");
+            string input = Console.ReadLine() ?? "customarraylist";
+
+            CustomList<string> shoppingList = (input.Contains("2")) ? 
+                    new DynamicList<string>() : new CustomArrayList<string>();
+            
             shoppingList.Add("Milk");
             shoppingList.Add("Honey");
             shoppingList.Add("Olives");
@@ -20,7 +26,7 @@
             shoppingList.RemoveAt(0);
             shoppingList[3] = "A lot of " + shoppingList[3];
 
-            Console.WriteLine("We need to buy:");
+            Console.WriteLine("\nWe need to buy:");
             for (int i = 0; i < shoppingList.Count; i++)
             {
                 Console.WriteLine(" - " + shoppingList[i]);

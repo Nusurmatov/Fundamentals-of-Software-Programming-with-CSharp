@@ -21,7 +21,10 @@ namespace CustomList
 
         public override void Insert(T item, int index)
         {
-            base.CheckArgumentOutOfRangeException(index);
+            if (index > this.count || index < 0)
+            {
+                throw new IndexOutOfRangeException("Invalid index: " + index);
+            }
 
             GrowIfArraySizeIsFull();
             Array.Copy(this.arr, index, this.arr, index + 1, base.count - index);
@@ -79,7 +82,7 @@ namespace CustomList
             base.count = 0;
         }
 
-        public T this[int index]
+        public override T this[int index]
         {
             get
             {

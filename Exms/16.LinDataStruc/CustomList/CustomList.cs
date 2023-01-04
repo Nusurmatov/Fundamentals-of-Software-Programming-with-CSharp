@@ -19,10 +19,12 @@ namespace CustomList
         public abstract int IndexOf(T item);
 
         public abstract void Clear();
+
+        public abstract T this[int index] { get; set; }
         
         protected void CheckArgumentOutOfRangeException(int index)
         {
-            if (index > this.count || index < 0) 
+            if (index >= this.count || index < 0) 
             { 
                 throw new ArgumentOutOfRangeException($"Invalid index: {index}.");
             }

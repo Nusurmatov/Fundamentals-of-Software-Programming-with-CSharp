@@ -49,7 +49,25 @@ namespace CustomList
 
         public override void Insert(T item, int index)
         {
+            if (index > this.count || index < 0)
+            {
+                throw new IndexOutOfRangeException("Invalid index: " + index);
+            }
             
+            if (this.head == null)
+            {
+                this.head = new ListNode(item);
+                this.tail = this.head;
+            }
+
+            ListNode? currentNode = this.head;
+            
+            for (int i = 0; i < index; i++)
+            {
+                currentNode = currentNode.NextNode;
+            }
+
+            currentNode.Element = item;
         }
 
         public override int Remove(T item)
@@ -130,6 +148,34 @@ namespace CustomList
             base.count = 0;
         }
 
+        public override T this[int index]
+        {
+            get
+            {
+                CheckArgumentOutOfRangeException(index);
+
+                ListNode? currentNode = this.head;
+                for (int i = 0; i < index; i++)
+                {
+                    currentNode = currentNode.NextNode;
+                }
+
+                return currentNode.Element;
+            }
+            set
+            {
+                CheckArgumentOutOfRangeException(index);
+
+                ListNode? currentNode = this.head;
+                for (int i = 0; i < index; i++)
+                {
+                    currentNode = currentNode.NextNode;
+                }
+
+                currentNode.Element = value;
+            }
+        }
+        
         private void RemoveListNode(ListNode node, ListNode prevNode)
         {
             base.count--;
@@ -154,35 +200,6 @@ namespace CustomList
             if (Object.Equals(this.tail, node))
             {
                 this.tail = prevNode;
-            }
-        }
-
-        public T this[int index]
-        {
-            get
-            {
-                CheckArgumentOutOfRangeException(index);
-
-                ListNode? currentNode = this.head;
-                for (int i = 0; i < index; i++)
-                {
-                    currentNode = currentNode.NextNode;
-                }
-
-
-                return currentNode.Element;
-            }
-            set
-            {
-                CheckArgumentOutOfRangeException(index);
-
-                ListNode? currentNode = this.head;
-                for (int i = 0; i < index; i++)
-                {
-                    currentNode = currentNode.NextNode;
-                }
-
-                currentNode.Element = value;
             }
         }
     }
