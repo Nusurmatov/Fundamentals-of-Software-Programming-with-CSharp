@@ -1,6 +1,8 @@
-﻿namespace CustomList
+﻿using CustomList;
+
+namespace LinearDataStructure
 {
-    public static class CustomListCheck
+    public static class LinearDataStructureCheck
     {
         public static void Main()
         {
@@ -8,9 +10,9 @@
             Console.Write("Enter 1 to choose CustomArrayList, or 2 to choose DynamicList: ");
             string input = Console.ReadLine() ?? "customarraylist";
 
-            CustomList<string> shoppingList = (input.Contains("2")) ? 
+            CustomList<string> shoppingList = (input.Contains("2")) ?
                     new DynamicList<string>() : new CustomArrayList<string>();
-            
+
             shoppingList.Add("Milk");
             shoppingList.Add("Honey");
             shoppingList.Add("Olives");
