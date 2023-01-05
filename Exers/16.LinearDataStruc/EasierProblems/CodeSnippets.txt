@@ -37,3 +37,94 @@ Sum of entered integers: 154
 Average of entered integers: 25.67
 */
 
+
+/* Ex2 - Problem Statement:
+Write a program, which reads from the console N integers and prints
+them in reversed order. Use the Stack<int> class.
+*/
+
+Stack<int> intStack = new Stack<int>();
+int input;
+
+Console.Write("Enter a postive integer bigger than 1: ");
+int n = Convert.ToInt32(Console.ReadLine());
+
+for (int i = 0; i < n; i++)
+{
+    Console.Write($"Enter integer{i+1}: ");
+    if (int.TryParse(Console.ReadLine(), out input))
+    {
+        intStack.Push(input);
+    }
+    else
+    {
+        Console.WriteLine("Incorrect value!");
+    }
+}
+
+for (int i = n; i > 0; i--)
+{
+    Console.WriteLine($"integer{i} -> {intStack.Pop()}");
+}
+
+/* Input/Output:
+Enter a postive integer bigger than 1: 7 
+Enter integer1: 78
+Enter integer2: -4
+Enter integer3: 4
+Enter integer4: 98
+Enter integer5: 7
+Enter integer6: 9
+Enter integer7: 89
+integer7 -> 89
+integer6 -> 9 
+integer5 -> 7 
+integer4 -> 98
+integer3 -> 4 
+integer2 -> -4
+integer1 -> 78
+*/
+
+
+/* Ex3 - Problem Statement:
+Write a program that reads from the console a sequence of positive
+integer numbers. The sequence ends when an empty line is entered. Print
+the sequence sorted in ascending order.
+*/
+
+bool undone = true;
+List<int> intList = new List<int>();
+int input;
+
+while (undone)
+{
+    Console.Write("Enter a positeve integer or nothing to quit: ");
+    if (int.TryParse(Console.ReadLine(), out input))
+    {
+        intList.Add(input);
+    }
+    else
+    {
+        undone = false;
+    }
+}
+
+intList.Sort();
+
+Console.Write("Entered integers after Ascending Sorting: ");
+foreach (var item in intList)
+{
+    Console.Write($"{item} ");
+}
+
+/* Input/Output:
+Enter a positeve integer or nothing to quit: 7
+Enter a positeve integer or nothing to quit: 79
+Enter a positeve integer or nothing to quit: 1654
+Enter a positeve integer or nothing to quit: 4
+Enter a positeve integer or nothing to quit: 654
+Enter a positeve integer or nothing to quit: 7
+Enter a positeve integer or nothing to quit: 98
+Enter a positeve integer or nothing to quit: 
+Entered integers after Ascending Sorting: 4 7 7 79 98 654 1654 
+*/

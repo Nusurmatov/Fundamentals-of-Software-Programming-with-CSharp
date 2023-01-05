@@ -1,38 +1,42 @@
-﻿/* Ex1 - Problem Statement:
-Write a program that reads from the console a sequence of positive
-integer numbers. The sequence ends when empty line is entered.
-Calculate and print the sum and the average of the sequence. Keep
-the sequence in List<int>.
+﻿/* Ex4 - Problem Statement:
+Write a method that finds the longest subsequence of equal numbers
+in a given List<int> and returns the result as new List<int>. Write a
+program to test whether the method works correctly.
 */
 
-bool undone = true;
-List<int> intList = new List<int>();
-int input;
+Random random = new Random();
+List<int> intList = GenerateRandomList(random.Next(1, 17), random.Next(1, 7), random.Next(7, 10));
 
-while (undone)
+ void PrintList<T>(List<T> items)
 {
-    Console.Write("Enter a positeve integer or nothing to quit: ");
-    if (int.TryParse(Console.ReadLine(), out input))
+    Console.Write("{ ");
+    foreach (var item in items)
     {
-        intList.Add(input);
+        Console.Write($"{item} ");
     }
-    else
-    {
-        undone = false;
-    }
+    Console.WriteLine("}");
 }
+    
+ List<int> GenerateRandomList(int length, int lowerBound, int upperBound)
+{
+    var result = new List<int>();
 
-Console.WriteLine("Sum of entered integers: {0}", intList.Sum());
-Console.WriteLine("Average of entered integers: {0}", Math.Round(intList.Average(), 2));
+    for (int i = 0; i < length; i++)
+    {
+        result.Add(random.Next(lowerBound, upperBound));
+    }
+
+    return result;
+}
 
 /* Input/Output:
 Enter a positeve integer or nothing to quit: 7
-Enter a positeve integer or nothing to quit: 8
-Enter a positeve integer or nothing to quit: 9
-Enter a positeve integer or nothing to quit: 17
-Enter a positeve integer or nothing to quit: 35
-Enter a positeve integer or nothing to quit: 78
-Enter a positeve integer or nothing to quit:
-Sum of entered integers: 154
-Average of entered integers: 25.67
+Enter a positeve integer or nothing to quit: 79
+Enter a positeve integer or nothing to quit: 1654
+Enter a positeve integer or nothing to quit: 4
+Enter a positeve integer or nothing to quit: 654
+Enter a positeve integer or nothing to quit: 7
+Enter a positeve integer or nothing to quit: 98
+Enter a positeve integer or nothing to quit: 
+Entered integers after Ascending Sorting: 4 7 7 79 98 654 1654 
 */
