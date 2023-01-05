@@ -4,7 +4,7 @@ namespace BuiltInDataStructure
 {
     public static class DynamicArrayList
     {
-        public static void ShowArrayList()
+        public static void DemoArrayListContent()
         {
             ArrayList list = new ArrayList(); // untyped dynamically-extendable array
             list.Add("Hello");

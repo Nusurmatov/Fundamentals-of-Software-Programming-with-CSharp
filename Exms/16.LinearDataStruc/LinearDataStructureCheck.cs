@@ -1,4 +1,5 @@
 ﻿using CustomList;
+using BuiltInDataStructure;
 
 namespace LinearDataStructure
 {
@@ -7,10 +8,41 @@ namespace LinearDataStructure
         public static void Main()
         {
             Console.Clear();
-            Console.Write("Enter 1 to choose CustomArrayList, or 2 to choose DynamicList: ");
-            string input = Console.ReadLine() ?? "customarraylist";
+            bool undone = true;
+            var consoleOutput = new System.Text.StringBuilder();
+            
+            consoleOutput.AppendLine("Enter c -> CustomArrayList");
+            consoleOutput.AppendLine("      d -> DynamicList");
+            consoleOutput.AppendLine("      a -> ArrayList");
+            consoleOutput.AppendLine("      l -> List");
+            consoleOutput.AppendLine("      s -> Stack");
+            consoleOutput.AppendLine("      q -> Queue");
+            consoleOutput.Append("      e -> Exit Program : ");
 
-            CustomList<string> shoppingList = (input.Contains("2")) ?
+            while (undone)
+            {
+                Console.Write(consoleOutput);
+                ConsoleKeyInfo input = Console.ReadKey();
+                Console.Clear();
+
+                switch (input.Key)
+                {
+                    case ConsoleKey.D: DemoCustomListContent(1); break;
+                    case ConsoleKey.A: DynamicArrayList.DemoArrayListContent(); break;
+                    case ConsoleKey.L: GenericList.DemoeGenericListContent(); break;
+                    case ConsoleKey.S: StackAndQueue.DemoStackContent(); break;
+                    case ConsoleKey.Q: StackAndQueue.DemoQueueContent(); break;
+                    case ConsoleKey.E: undone = false; break;
+                    default: DemoCustomListContent(0); break;
+                }
+
+                Console.WriteLine();
+            }
+        }
+
+        private static void DemoCustomListContent(int input)
+        {
+            CustomList<string> shoppingList = (input == 1) ?
                     new DynamicList<string>() : new CustomArrayList<string>();
 
             shoppingList.Add("Milk");
@@ -40,15 +72,3 @@ namespace LinearDataStructure
         }
     }
 }
-/* Output:
-We need to buy:
- - Milk
- - Fruits
- - Honey
- - A lot of Water
- - Beer
- - Vegetables
-Position of 'Beer' = 4        
-Position of 'Water' = -1      
-Do we have to buy Bread? False
-*/
