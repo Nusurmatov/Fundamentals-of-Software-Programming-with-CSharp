@@ -34,16 +34,19 @@ namespace BuiltInDataStructure
         {
             var primesList = new List<int>();
             List<bool> isPrime = new List<bool>();
-            isPrime.AddRange(Enumerable.Repeat<bool>(true, end - start + 3));
+            isPrime.AddRange(Enumerable.Repeat<bool>(true, end + 1));
             
             // Sieve of Eratosthenes Algorithm for finding all primes in a given range
             for (int i = 2; i <= end; i++)
             {
                 if (isPrime[i])
                 {
-                    primesList.Add(i);
+                    if (i > 200) 
+                    {
+                        primesList.Add(i);
+                    }
 
-                    for (int j = i*i; j <= end; j = j + i)
+                    for (int j = i*i; j <= end; j += i)
                     {
                         isPrime[j] = false;
                     }
@@ -52,7 +55,6 @@ namespace BuiltInDataStructure
 
             return primesList; 
         }
-
 
         public static List<int> Union(List<int> firstList, List<int> secondList)
         {

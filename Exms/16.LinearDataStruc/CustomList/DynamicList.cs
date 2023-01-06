@@ -49,25 +49,35 @@ namespace CustomList
 
         public override void Insert(T item, int index)
         {
-            if (index > this.count || index < 0)
-            {
-                throw new IndexOutOfRangeException("Invalid index: " + index);
-            }
+            CheckArgumentOutOfRangeException(index);
+
+            ListNode? newNode = new ListNode(item);
             
             if (this.head == null)
             {
-                this.head = new ListNode(item);
+                this.head = newNode;
                 this.tail = this.head;
             }
-
-            ListNode? currentNode = this.head;
-            
-            for (int i = 0; i < index; i++)
+            else
             {
-                currentNode = currentNode.NextNode;
+                ListNode? currentNode = this.head;
+                ListNode? prevNode = null;
+                
+                for (int i = 0; i < index; i++)
+                {
+                    prevNode = currentNode;
+                    currentNode = currentNode.NextNode;
+                }
+
+                newNode.NextNode = currentNode;
+
+                if (prevNode != null)
+                {
+                    prevNode.NextNode = newNode;
+                }
             }
 
-            currentNode.Element = item;
+            base.count++;
         }
 
         public override int Remove(T item)

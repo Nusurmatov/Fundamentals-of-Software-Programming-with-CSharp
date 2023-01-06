@@ -55,7 +55,7 @@ namespace LinearDataStructure
 
             shoppingList.Insert("Fruits", 1);
             shoppingList.Insert("Cheese", 0);
-            shoppingList.Insert("Vegetables", 6);
+            shoppingList.Insert("Vegetables", 5);
 
             shoppingList.RemoveAt(0);
             shoppingList[3] = "A lot of " + shoppingList[3];
