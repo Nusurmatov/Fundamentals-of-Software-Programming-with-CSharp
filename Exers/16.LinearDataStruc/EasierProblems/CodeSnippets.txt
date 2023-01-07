@@ -1,3 +1,33 @@
+// Util Class:
+public static class Util
+{
+    public static Random Random = new Random();
+
+    public static void PrintIEnumerable<T>(List<T> items)
+    {
+        Console.Write("{ ");
+        foreach (var item in items)
+        {
+            Console.Write($"{item} ");
+        }
+        Console.Write("}");
+    }
+        
+    public static List<int> GenerateRandomList(int length, int lowerBound, int upperBound)
+    {
+        var result = new List<int>();
+
+        for (int i = 0; i < length; i++)
+        {
+            result.Add(Random.Next(lowerBound, upperBound));
+        }
+
+        return result;
+    }    
+}
+
+
+
 /* Ex1 - Problem Statement:
 Write a program that reads from the console a sequence of positive
 integer numbers. The sequence ends when empty line is entered.
@@ -138,9 +168,9 @@ program to test whether the method works correctly.
 
 Random random = new Random();
 List<int> intList = GenerateRandomList(random.Next(7, 17), random.Next(1, 7), random.Next(7, 10));
-PrintList(intList);
+PrintIEnumerable(intList);
 Console.Write(" -> ");
-PrintList(GetLongestSubsequenceOfEqualNumbers(intList));
+PrintIEnumerable(GetLongestSubsequenceOfEqualNumbers(intList));
 
 List<int> GetLongestSubsequenceOfEqualNumbers(List<int> list)
 {
@@ -171,7 +201,7 @@ List<int> GetLongestSubsequenceOfEqualNumbers(List<int> list)
     return result;
 }
 
-void PrintList<T>(List<T> items)
+void PrintIEnumerable<T>(List<T> items)
 {
     Console.Write("{ ");
     foreach (var item in items)
@@ -206,35 +236,12 @@ Write a program, which removes all negative numbers from a sequence.
 Example: array = {19, -10, 12, -6, -3, 34, -2, 5} -> {19, 12, 34, 5}
 */
 
-Random random = new Random();
-List<int> intList = GenerateRandomList(random.Next(7, 17), random.Next(-17, -1), random.Next(1, 17));
-PrintList(intList);
+List<int> intList = Util.GenerateRandomList(Util.Random.Next(7, 17), Util.Random.Next(-17, -1), Util.Random.Next(1, 17));
+Util.PrintIEnumerable(intList);
 Console.Write(" -> ");
 
 var removeNegatives = intList.FindAll(n => (n >= 0));
-PrintList(removeNegatives);
-
-void PrintList<T>(List<T> items)
-{
-    Console.Write("{ ");
-    foreach (var item in items)
-    {
-        Console.Write($"{item} ");
-    }
-    Console.Write("}");
-}
-    
-List<int> GenerateRandomList(int length, int lowerBound, int upperBound)
-{
-    var result = new List<int>();
-
-    for (int i = 0; i < length; i++)
-    {
-        result.Add(random.Next(lowerBound, upperBound));
-    }
-
-    return result;
-}
+Util.PrintIEnumerable(removeNegatives);
 
 /* Output:
 { -8 7 5 10 3 10 -1 6 -6 -3 -2 4 } -> { 7 5 10 3 10 6 4 }
@@ -243,3 +250,208 @@ List<int> GenerateRandomList(int length, int lowerBound, int upperBound)
 */
 
 
+/* Ex6, 7, 8 - Problem Statements:
+6. Write a program that removes from a given sequence all numbers that appear an odd count of times.
+   Example: array = {4, 2, 2, 5, 2, 3, 2, 3, 1, 5, 2} -> {5, 3, 3, 5}
+7. Write a program that finds in a given array of integers (in the range [0…1000]) how many times each of them occurs.
+   Example: array = {3, 4, 4, 2, 3, 3, 4, 3, 2}
+   2 -> 2 times
+   3 -> 4 times
+   4 -> 3 times
+8. The majorant of an array of size N is a value that occurs in it at least N/2 + 1 times. Write a program that 
+   finds the majorant of given array and prints it. If it does not exist, print "The majorant does not exist!".
+   Example: {2, 2, 3, 3, 2, 3, 4, 3, 3} -> 3
+*/
+
+List<int> intList = Util.GenerateRandomList(Util.Random.Next(7, 17), Util.Random.Next(3), Util.Random.Next(3, 11));
+List<int> numberOccurances = GetNumberOccurances(intList);
+int majorant = GetSequenceMajorant();
+
+Console.Write("Removal numbers with odd counts: ");
+Util.PrintIEnumerable(intList);
+Console.Write(" -> ");
+Util.PrintIEnumerable(RemoveNumbersWithOddCounts());
+
+Console.Write("\n\nCount of Number Occurances: ");
+Util.PrintIEnumerable(intList);
+PrintNumberOccurances();
+
+Console.Write("\nMajorant of Sequence: ");
+Util.PrintIEnumerable(intList);
+Console.Write($" -> {majorant}");
+
+List<int> RemoveNumbersWithOddCounts()
+{
+    List<int> result = new List<int>(); 
+
+    foreach (var number in intList)
+    {
+        if (numberOccurances[number] % 2 == 0)
+        {
+            result.Add(number);
+        }
+    }
+
+    return result;
+}
+
+List<int> GetNumberOccurances(List<int> list)
+{
+    List<int> result = new List<int>();   
+    result.AddRange(Enumerable.Repeat(0, 11));  // range is [0,10] inclusive
+
+    foreach (var number in list)
+    {
+        result[number]++;
+    }
+
+    return result;
+}
+
+int GetSequenceMajorant()
+{
+    int count = numberOccurances.Max();
+    int result = numberOccurances.IndexOf(count);
+
+    return (count >= (intList.Count/2 + 1)) ? result : -1;
+}
+
+void PrintNumberOccurances()
+{
+    Console.WriteLine();
+    for (int i = 0; i < numberOccurances.Count; i++)
+    {
+        Console.WriteLine($"{i} -> {numberOccurances[i]} times");
+    }
+}
+
+/* Output:
+Removal numbers with odd counts: { 5 0 1 5 0 5 6 4 4 1 9 8 2 8 1 0 } -> { 4 4 8 8 }
+
+Count of Number Occurances: { 5 0 1 5 0 5 6 4 4 1 9 8 2 8 1 0 }
+0 -> 3 times
+1 -> 3 times
+2 -> 1 times
+4 -> 2 times
+5 -> 3 times
+6 -> 1 times
+7 -> 0 times
+8 -> 2 times
+9 -> 1 times
+10 -> 0 times
+
+Majorant of Sequence: { 5 0 1 5 0 5 6 4 4 1 9 8 2 8 1 0 } -> -1
+PS E:\KhN\IT\.NET Development\Fundamentals-of-Software-Programming-with-CSharp\Exers\16.LinearDataStruc\EasierProblems> dotnet run
+Removal numbers with odd counts: { 3 3 4 3 2 3 2 3 4 } -> { 4 2 2 4 }
+
+Count of Number Occurances: { 3 3 4 3 2 3 2 3 4 }
+0 -> 0 times
+1 -> 0 times
+2 -> 2 times
+3 -> 5 times
+4 -> 2 times
+5 -> 0 times
+6 -> 0 times
+7 -> 0 times
+8 -> 0 times
+9 -> 0 times
+10 -> 0 times
+
+Majorant of Sequence: { 3 3 4 3 2 3 2 3 4 } -> 3
+*/
+
+
+/* Ex9 - Problem Statements:
+We are given the following sequence:
+    S1 = N;
+    S2 = S1 + 1;
+    S3 = 2*S1 + 1;
+    S4 = S1 + 2;
+    S5 = S2 + 1;
+    S6 = 2*S2 + 1;
+    S7 = S2 + 2; ...
+Using the Queue<T> class, write a program which by given N prints on the console the first 50 elements of the sequence.
+Example: N=2 -> 2, 3, 5, 4, 4, 7, 5, 6, 11, 7, 5, 9, 6, …
+*/
+
+Queue<int> queue = new Queue<int>();
+Console.Write("Enter integer N (N < 50): ");
+int n = Convert.ToInt32(Console.ReadLine());
+queue.Enqueue(n);
+
+Console.Write($"N = {n} -> ");
+for (int i = 0; i < 50; i++)
+{
+    int first = queue.Dequeue();
+    
+    queue.Enqueue(first + 1);
+    queue.Enqueue(2*first + 1);
+    queue.Enqueue(first + 2);
+
+    Console.Write((i != 49) ? $"{first}, " : $"{first}.");
+}
+
+/* Output:
+Enter integer N (N < 50): 2
+N = 2 -> 2, 3, 5, 4, 4, 7, 5, 6, 11, 7, 5, 9, 6, 5, 9, 6, 8, 15, 9, 6, 11, 7, 7, 13, 8, 12, 23, 
+        13, 8, 15, 9, 6, 11, 7, 10, 19, 11, 7, 13, 8, 6, 11, 7, 10, 19, 11, 7, 13, 8, 9.
+*/
+
+
+/* Ex10 - Problem Statements:
+We are given N and M and the following operations:
+N = N+1
+N = N+2
+N = N*2
+Write a program, which finds the shortest subsequence from the
+operations, which starts with N and ends with M. Use queue.
+Example: N = 5, M = 16
+Subsequence: 5 -> 7 -> 8 -> 16
+*/
+
+Queue<int> queue = new Queue<int>();
+Console.Write("Enter integer N: ");
+int n = Convert.ToInt32(Console.ReadLine());
+Console.Write("Enter integer M (M > N): ");
+int m = Convert.ToInt32(Console.ReadLine());
+queue.Enqueue(n);
+
+Console.Write($"Subsequence: {n} -> ");
+while (true)
+{
+    int s = queue.Dequeue();
+
+    if (AddToQueueOptimized(s += 1)) break;
+    if (AddToQueueOptimized(s += 2)) break;
+    if (AddToQueueOptimized(s *= 2)) break;
+}
+
+bool AddToQueueOptimized(int number)
+{
+    if (number != m)
+    {
+        if (!queue.Contains(number))
+        {
+            queue.Enqueue(number);
+            Console.Write($"{number} -> ");
+        }
+    
+        return false;
+    }
+    else
+    {
+        Console.Write(number);
+ 
+        return true;
+    }
+}
+
+/* Output:
+Enter integer N: 5
+Enter integer M (M > N): 16
+Subsequence: 5 -> 6 -> 8 -> 16
+
+Enter integer N: 7
+Enter integer M (M > N): 25
+Subsequence: 7 -> 8 -> 10 -> 20 -> 9 -> 11 -> 22 -> 13 -> 26 -> 21 -> 23 -> 46 -> 10 -> 12 -> 24 -> 14 -> 28 -> 25
+*/

@@ -1,40 +1,57 @@
-﻿/* Ex5 - Problem Statement:
-Write a program, which removes all negative numbers from a sequence. 
-Example: array = {19, -10, 12, -6, -3, 34, -2, 5} -> {19, 12, 34, 5}
+﻿/* Ex10 - Problem Statements:
+We are given N and M and the following operations:
+N = N+1
+N = N+2
+N = N*2
+Write a program, which finds the shortest subsequence from the
+operations, which starts with N and ends with M. Use queue.
+Example: N = 5, M = 16
+Subsequence: 5 -> 7 -> 8 -> 16
 */
 
-Random random = new Random();
-List<int> intList = GenerateRandomList(random.Next(7, 17), random.Next(-17, -1), random.Next(1, 17));
-PrintList(intList);
-Console.Write(" -> ");
+Queue<int> queue = new Queue<int>();
+Console.Write("Enter integer N: ");
+int n = Convert.ToInt32(Console.ReadLine());
+Console.Write("Enter integer M (M > N): ");
+int m = Convert.ToInt32(Console.ReadLine());
+queue.Enqueue(n);
 
-var removeNegatives = intList.FindAll(n => (n >= 0));
-PrintList(removeNegatives);
-
-void PrintList<T>(List<T> items)
+Console.Write($"Subsequence: {n} -> ");
+while (true)
 {
-    Console.Write("{ ");
-    foreach (var item in items)
-    {
-        Console.Write($"{item} ");
-    }
-    Console.Write("}");
+    int s = queue.Dequeue();
+
+    if (AddToQueueOptimized(s += 1)) break;
+    if (AddToQueueOptimized(s += 2)) break;
+    if (AddToQueueOptimized(s *= 2)) break;
 }
-    
-List<int> GenerateRandomList(int length, int lowerBound, int upperBound)
+
+bool AddToQueueOptimized(int number)
 {
-    var result = new List<int>();
-
-    for (int i = 0; i < length; i++)
+    if (number != m)
     {
-        result.Add(random.Next(lowerBound, upperBound));
+        if (!queue.Contains(number))
+        {
+            queue.Enqueue(number);
+            Console.Write($"{number} -> ");
+        }
+    
+        return false;
     }
-
-    return result;
+    else
+    {
+        Console.Write(number);
+ 
+        return true;
+    }
 }
 
 /* Output:
-{ -8 7 5 10 3 10 -1 6 -6 -3 -2 4 } -> { 7 5 10 3 10 6 4 }
-{ 8 -7 7 -5 -7 1 -8 4 8 -6 1 3 } -> { 8 7 1 4 8 1 3 }
-{ 13 7 6 2 5 -1 2 -3 -2 0 2 -1 -1 12 11 -2 } -> { 13 7 6 2 5 2 0 2 12 11 }
+Enter integer N: 5
+Enter integer M (M > N): 16
+Subsequence: 5 -> 6 -> 8 -> 16
+
+Enter integer N: 7
+Enter integer M (M > N): 25
+Subsequence: 7 -> 8 -> 10 -> 20 -> 9 -> 11 -> 22 -> 13 -> 26 -> 21 -> 23 -> 46 -> 10 -> 12 -> 24 -> 14 -> 28 -> 25
 */
