@@ -71,7 +71,15 @@ namespace CustomList
 
                 newNode.NextNode = currentNode;
 
-                if (prevNode != null)
+                if (index == 0)
+                {
+                    this.head = newNode;
+                }
+                else if (index == base.count - 1)
+                {
+                    this.tail = newNode;
+                }
+                else 
                 {
                     prevNode.NextNode = newNode;
                 }
