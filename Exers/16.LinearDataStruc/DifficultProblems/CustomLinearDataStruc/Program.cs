@@ -16,8 +16,13 @@ Console.Write(shoppingList);
 Console.WriteLine("Size: {0}", shoppingList.Size);
 Console.WriteLine("Is there milk in the list? {0}", shoppingList.Contains("Milk"));
 Console.WriteLine("Index of honey: {0}", shoppingList.IndexOf("Honey"));
-Console.WriteLine("Index of mango: {0}", shoppingList.IndexOf("Mango"));
+Console.WriteLine("Index of mango: {0}\n", shoppingList.IndexOf("Mango"));
 
+shoppingList.Remove("Apples");
+shoppingList.Remove("Bananas");
+shoppingList.Remove("Honey");
+
+Console.WriteLine("Size: {0}", shoppingList.Size);
 foreach (var item in shoppingList)
 {
     Console.Write($"{item} ");

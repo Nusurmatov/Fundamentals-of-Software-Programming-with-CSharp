@@ -34,7 +34,7 @@ public class DoubleLinkedList<T> : IEnumerable<T>
     {
         if (this.IsEmpty())
         {
-            Node newNode = new Node(value, null, null);
+            Node newNode = new Node(value);
             this.head = newNode;
             this.tail = newNode;
         }
@@ -82,6 +82,7 @@ public class DoubleLinkedList<T> : IEnumerable<T>
                 {
                     Node newNode = new Node(valueToInsert, currentNode, currentNode.prev);
                     currentNode.prev.next = newNode;
+                    currentNode.next.prev = newNode;
                 }                
 
                 currentNode = currentNode.next;
@@ -111,27 +112,31 @@ public class DoubleLinkedList<T> : IEnumerable<T>
         {
             if (currentNode.value.Equals(value))
             {
-                if (currentNode == this.head)
+                if (currentNode.prev != null)
                 {
-                    this.head = currentNode.next;
-                    currentNode.next = null;
-                }
-                else if (currentNode == this.tail)
-                {
-                    this.tail = currentNode.prev;
-                    currentNode = null;
+                    currentNode.prev.next = currentNode.next;
                 }
                 else
                 {
-                    currentNode.prev.next = currentNode.next;
-                    currentNode = null;
+                    this.head = currentNode.next;
                 }
+
+                if (currentNode.next != null)
+                {
+                    currentNode.next.prev = currentNode.prev;
+                }
+                else
+                {
+                    this.tail = currentNode.prev;
+                }
+
+                break;
             } 
 
             currentNode = currentNode.next;   
         }
 
-
+        this.Size--;
         return -1;
     }
     
@@ -185,6 +190,9 @@ public class DoubleLinkedList<T> : IEnumerable<T>
     {
         if (IsEmpty())  return "Empty!";
 
+        Console.WriteLine(this.head.value);
+        Console.WriteLine(this.tail.value);
+
         var result = new System.Text.StringBuilder("{ ");
         Node? currentNode = this.head;
         int currentIndex = 0;
@@ -209,6 +217,9 @@ public class DoubleLinkedList<T> : IEnumerable<T>
 
     public IEnumerator<T> GetEnumerator()
     {
+        Console.WriteLine(this.head.value);
+        Console.WriteLine(this.tail.value);
+
         Node? currentNode = this.head;
         while (currentNode != null)
         {
@@ -217,8 +228,5 @@ public class DoubleLinkedList<T> : IEnumerable<T>
         }
     }
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return this.GetEnumerator();
-    }
+    IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 }
