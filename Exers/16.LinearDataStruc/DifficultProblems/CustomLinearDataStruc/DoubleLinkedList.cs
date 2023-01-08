@@ -21,6 +21,10 @@ public class DoubleLinkedList<T> : IEnumerable<T>
 
     public int Size { get; private set; }
 
+    public T? First => (this.head != null) ? this.head.value : default(T);
+
+    public T? Last => (this.tail != null) ? this.tail.value : default(T);
+
     public DoubleLinkedList()
     {
         this.head = null;
@@ -57,7 +61,14 @@ public class DoubleLinkedList<T> : IEnumerable<T>
         this.Size++;
     }
 
-    public void Insert(T valueToInsert, int index)
+    public void Insert(T valueToInsert, T key, bool IsInsertAfter = true)  // key is the item which the value is to be inserted after or before
+    {
+        
+
+        throw new KeyNotFoundException($"There is no such item: {key}!");
+    }
+
+    public void InsertAt(T valueToInsert, int index)
     {
         if (index > this.Size || index < 0)
         {
@@ -73,8 +84,8 @@ public class DoubleLinkedList<T> : IEnumerable<T>
         }
         else
         {
-            Node? currentNode = this.head.next;
-            int currentIndex = 1;
+            Node? currentNode = this.head;
+            int currentIndex = 0;
 
             while (currentNode != null)
             {
@@ -82,7 +93,7 @@ public class DoubleLinkedList<T> : IEnumerable<T>
                 {
                     Node newNode = new Node(valueToInsert, currentNode, currentNode.prev);
                     currentNode.prev.next = newNode;
-                    currentNode.next.prev = newNode;
+                    currentNode.prev = newNode;
                 }                
 
                 currentNode = currentNode.next;
@@ -91,13 +102,6 @@ public class DoubleLinkedList<T> : IEnumerable<T>
 
             this.Size++;
         }
-    }
-
-    public void Insert(T valueToInsert, T key, bool IsInsertAfter = true)  // key is the item which the value is to be inserted after or before
-    {
-        
-
-        throw new KeyNotFoundException($"There is no such item: {key}!");
     }
 
     public int Remove(T value)
@@ -130,16 +134,74 @@ public class DoubleLinkedList<T> : IEnumerable<T>
                     this.tail = currentNode.prev;
                 }
 
+                this.Size--;
                 break;
             } 
 
             currentNode = currentNode.next;   
         }
 
-        this.Size--;
         return -1;
     }
     
+    public void RemoveAt(int index)
+    {
+        if (index >= this.Size || index < 0)
+        {
+            throw new ArgumentOutOfRangeException($"Invalid index: {index}!");
+        }
+
+        Node? currentNode = this.head;
+        int currentIndex = 0;
+        
+        while (currentNode != null)
+        {
+            if (currentIndex == index)
+            {
+                this.Remove(currentNode.value);
+                break;
+            }
+
+            currentNode = currentNode.next;
+            currentIndex++;
+        }
+    }
+
+    public T GetAt(int index)
+    {
+        if (index >= this.Size || index < 0)
+        {
+            throw new ArgumentOutOfRangeException($"Invalid index: {index}!");
+        }
+
+        Node? currentNode;
+        int currentIndex;
+        bool startFromHead = true;
+        if (index < this.Size/2)
+        {
+            currentNode = this.head;
+            currentIndex = 0;
+        }
+        else
+        {
+            currentNode = this.tail;
+            currentIndex = this.Size - 1;
+            startFromHead = false;
+        }
+
+        while (currentNode != null)
+        {
+            if (currentIndex == index)
+            {
+                break;
+            }
+
+            currentNode = (startFromHead) ? currentNode.next : currentNode.prev;
+            currentIndex += (startFromHead) ? 1 : -1;
+        }
+
+        return currentNode.value;
+    }
 
     public bool Contains(T value)
     {
@@ -186,12 +248,14 @@ public class DoubleLinkedList<T> : IEnumerable<T>
         this.Size = 0;
     }
 
+    public T this[int index] => this.GetAt(index);
+
     public override string ToString()
     {
         if (IsEmpty())  return "Empty!";
 
-        Console.WriteLine(this.head.value);
-        Console.WriteLine(this.tail.value);
+        //Console.WriteLine(this.head.value);
+        //Console.WriteLine(this.tail.value);
 
         var result = new System.Text.StringBuilder("{ ");
         Node? currentNode = this.head;
@@ -207,9 +271,19 @@ public class DoubleLinkedList<T> : IEnumerable<T>
             {
                 result.Append($"{currentNode.value} ");
             }
+            // if (currentNode.prev != null)
+            // {
+            //     Console.WriteLine(currentNode.prev.value);
+            // } 
+            // Console.WriteLine(currentNode.value);
+            // if (currentNode.next != null)
+            // {
+            //     Console.WriteLine(currentNode.next.value);
+            // }
 
             currentNode = currentNode.next;
             currentIndex++;
+            //Console.WriteLine();
         }
 
         return result.AppendLine("}").ToString();
@@ -217,9 +291,6 @@ public class DoubleLinkedList<T> : IEnumerable<T>
 
     public IEnumerator<T> GetEnumerator()
     {
-        Console.WriteLine(this.head.value);
-        Console.WriteLine(this.tail.value);
-
         Node? currentNode = this.head;
         while (currentNode != null)
         {
