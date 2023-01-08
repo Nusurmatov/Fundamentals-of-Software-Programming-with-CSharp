@@ -2,7 +2,6 @@ using System.Collections;
 
 public class DoubleLinkedList<T> : IEnumerable<T>
 {
-
     private class Node
     {
         public T value;
@@ -60,7 +59,7 @@ public class DoubleLinkedList<T> : IEnumerable<T>
 
     public void Insert(T valueToInsert, int index)
     {
-        if (index >= this.Size || index < 0)
+        if (index > this.Size || index < 0)
         {
             throw new ArgumentOutOfRangeException($"Invalid index: {index}!");
         }
@@ -68,7 +67,7 @@ public class DoubleLinkedList<T> : IEnumerable<T>
         {
             this.Add(valueToInsert, IsAddLast: false);
         }
-        else if (index == this.Size - 1)
+        else if (index == this.Size)
         {
             this.Add(valueToInsert);
         }
@@ -88,9 +87,9 @@ public class DoubleLinkedList<T> : IEnumerable<T>
                 currentNode = currentNode.next;
                 currentIndex++;
             } 
-        }
 
-        this.Size++;
+            this.Size++;
+        }
     }
 
     public void Insert(T valueToInsert, T key, bool IsInsertAfter = true)  // key is the item which the value is to be inserted after or before
@@ -102,7 +101,36 @@ public class DoubleLinkedList<T> : IEnumerable<T>
 
     public int Remove(T value)
     {
-        
+        if (IsEmpty())
+        {
+            return -1;
+        }
+
+        Node? currentNode = this.head;
+        while (currentNode != null)
+        {
+            if (currentNode.value.Equals(value))
+            {
+                if (currentNode == this.head)
+                {
+                    this.head = currentNode.next;
+                    currentNode.next = null;
+                }
+                else if (currentNode == this.tail)
+                {
+                    this.tail = currentNode.prev;
+                    currentNode = null;
+                }
+                else
+                {
+                    currentNode.prev.next = currentNode.next;
+                    currentNode = null;
+                }
+            } 
+
+            currentNode = currentNode.next;   
+        }
+
 
         return -1;
     }
@@ -129,11 +157,13 @@ public class DoubleLinkedList<T> : IEnumerable<T>
     {
         Node? currentNode = this.head;
         int currentIndex = this.IsEmpty() ? -1 : 0;
+        bool contains = false;
 
         while (currentNode != null)
         {
             if (currentNode.value.Equals(value))
             {
+                contains = true;
                 break;
             }
 
@@ -141,7 +171,7 @@ public class DoubleLinkedList<T> : IEnumerable<T>
             currentIndex++;
         }
 
-        return currentIndex;
+        return (contains) ? currentIndex : -1;
     }
 
     public void Clear()
@@ -153,16 +183,42 @@ public class DoubleLinkedList<T> : IEnumerable<T>
 
     public override string ToString()
     {
-        return base.ToString();
+        if (IsEmpty())  return "Empty!";
+
+        var result = new System.Text.StringBuilder("{ ");
+        Node? currentNode = this.head;
+        int currentIndex = 0;
+
+        while (currentNode != null)
+        {
+            if (currentIndex < this.Size - 1)
+            {
+                result.Append($"{currentNode.value}, ");
+            }
+            else
+            {
+                result.Append($"{currentNode.value} ");
+            }
+
+            currentNode = currentNode.next;
+            currentIndex++;
+        }
+
+        return result.AppendLine("}").ToString();
     }
 
     public IEnumerator<T> GetEnumerator()
     {
-        throw new NotImplementedException();
+        Node? currentNode = this.head;
+        while (currentNode != null)
+        {
+            yield return currentNode.value;
+            currentNode = currentNode.next;
+        }
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        throw new NotImplementedException();
+        return this.GetEnumerator();
     }
 }
