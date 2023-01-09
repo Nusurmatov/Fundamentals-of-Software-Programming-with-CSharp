@@ -254,9 +254,6 @@ public class DoubleLinkedList<T> : IEnumerable<T>
     {
         if (IsEmpty())  return "Empty!";
 
-        //Console.WriteLine(this.head.value);
-        //Console.WriteLine(this.tail.value);
-
         var result = new System.Text.StringBuilder("{ ");
         Node? currentNode = this.head;
         int currentIndex = 0;
@@ -271,19 +268,9 @@ public class DoubleLinkedList<T> : IEnumerable<T>
             {
                 result.Append($"{currentNode.value} ");
             }
-            // if (currentNode.prev != null)
-            // {
-            //     Console.WriteLine(currentNode.prev.value);
-            // } 
-            // Console.WriteLine(currentNode.value);
-            // if (currentNode.next != null)
-            // {
-            //     Console.WriteLine(currentNode.next.value);
-            // }
 
             currentNode = currentNode.next;
             currentIndex++;
-            //Console.WriteLine();
         }
 
         return result.AppendLine("}").ToString();

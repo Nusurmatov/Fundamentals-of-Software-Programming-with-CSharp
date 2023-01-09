@@ -1,0 +1,56 @@
+/* Difficult Problem, Exersice 11 - Problem Statement:
+Implement the data structure dynamic doubly linked list (DoublyLinkedList<T>) – list, the 
+elements of which have pointers both to the next and the previous elements. Implement 
+the operations for adding, removing and searching for an element, as well as inserting an
+element at a given index, retrieving an element by a given index and a method, which returns 
+an array with the elements of the list.
+*/
+
+DoubleLinkedList<string> shoppingList = new DoubleLinkedList<string>();
+
+shoppingList.Add("Milk");
+shoppingList.Add("Honey");
+shoppingList.Add("Olives", false);
+shoppingList.Add("Water");
+shoppingList.Add("Meat", false);
+
+shoppingList.InsertAt("Apples", 0);
+shoppingList.InsertAt("Bananas", 6);
+shoppingList.InsertAt("Coffee", 3);
+
+Console.Write(shoppingList);
+Console.WriteLine("Item at position 3: {0}", shoppingList.GetAt(3));
+Console.WriteLine("Item at position 4: {0}", shoppingList[4]);
+Console.WriteLine("Size: {0}", shoppingList.Size);
+Console.WriteLine("Is there milk in the list? {0}", shoppingList.Contains("Milk"));
+Console.WriteLine("Index of honey: {0}", shoppingList.IndexOf("Honey"));
+Console.WriteLine("Index of mango: {0}\n", shoppingList.IndexOf("Mango"));
+
+shoppingList.Remove("Apples");
+shoppingList.Remove("Honey");
+shoppingList.Remove("Bananas");
+shoppingList.Remove("Bananas");
+shoppingList.RemoveAt(1);
+
+Console.WriteLine("Size: {0}", shoppingList.Size);
+string[] array = shoppingList.ToArray<string>();
+
+foreach (var item in array)
+{
+    Console.Write($"{item} ");
+}
+
+/* Output:
+{ Apples, Meat, Olives, Coffee, Milk, Honey, Water, Bananas }
+Item at position 3: Coffee
+Item at position 4: Milk
+Size: 8
+Is there milk in the list? True
+Index of honey: 5
+Index of mango: -1     
+
+Size: 4
+Meat Coffee Milk Water 
+*/
+
+
