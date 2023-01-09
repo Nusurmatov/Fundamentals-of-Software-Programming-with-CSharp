@@ -1,7 +1,7 @@
 ﻿/* Difficult Problem, Exersice 12 - Problem Statement:
-Create a DynamicStack<T> class to implement dynamically a stack (like a linked list, 
-where each element knows its previous element and the stack knows its last element). 
-Add methods for all commonly used operations like Push(), Pop(), Peek(), Clear() and Count.
+Implement the data structure "Deque". This is a specific list-like structure, similar to stack and queue, 
+allowing to add elements at the beginning and at the end of the structure. Implement the operations for adding 
+and removing elements, as well as clearing the deque. If an operation is invalid, throw an appropriate exception.
 */
 
 Console.Clear();
@@ -21,33 +21,64 @@ customStack.Push("three");
 customStack.Push("four");
 customStack.Push("five");
 
-Console.Write("This is coming from Stack: ");
+Console.Write("This is coming from Stack:          ");
 foreach (var item in stack)
 {
     Console.Write($"{item} ");
 }
 
-Console.Write("This is coming from Custom Stack: ");
+Console.Write("\nThis is coming from Custom Stack:   ");
 foreach (var item in customStack)
 {
     Console.Write($"{item} ");
 }
 
-Console.WriteLine($"Stack.Pop() - {stack.Pop()}, and the count - {stack.Count}");
-Console.WriteLine($"Stack.Peek() - {stack.Peek()}, and the count - {stack.Count}");
+Console.WriteLine("\n\nStack contains 'three': {0}", stack.Contains("three"));
+Console.WriteLine("Custom Stack contains 'three': {0}", customStack.Contains("three"));
 
-Console.WriteLine($"CustomStack.Pop() - {customStack.Pop()}, and the count - {customStack.Count}");
-Console.WriteLine($"CustomStack.Peek() - {customStack.Peek()}, and the count - {customStack.Count}");
+Console.WriteLine($"\nStack Count - {stack.Count}, Stack.Pop() - {stack.Pop()}");
+Console.WriteLine($"Stack Count - {stack.Count}, Stack.Peek() - {stack.Peek()}");
+
+Console.WriteLine($"\nCustom Stack Count - {customStack.Count}, CustomStack.Pop() - {customStack.Pop()}");
+Console.WriteLine($"Custom Stack Count - {customStack.Count}, CustomStack.Peek() - {customStack.Peek()}");
+
+Console.WriteLine("\nStack can Peek now: {0}", stack.TryPeek(out string? resultStackPeek));
+Console.WriteLine("Custom Stack can Peek now: {0}\n", customStack.TryPeek(out string? resultCustomStackPeek));
+
+Console.WriteLine("ToString() - {0}", stack);
+Console.Write("ToString() - {0}", customStack);
+
+stack.Clear();  
+customStack.Clear();  
+
+Console.WriteLine("\nStack Count {0}", stack.Count);
+Console.WriteLine("Custom Stack Count: {0}", customStack.Count);
+
+Console.WriteLine("\nStack can Pop now: {0}", stack.TryPop(out string? resultStackPop));
+Console.WriteLine("Custom Stack can Pop now: {0}", customStack.TryPop(out string? resultCustomStackPop));
 
 /* Output:
-{ Apples, Meat, Olives, Coffee, Milk, Honey, Water, Bananas }
-Item at position 3: Coffee
-Item at position 4: Milk
-Size: 8
-Is there milk in the list? True
-Index of honey: 5
-Index of mango: -1     
+This is coming from Stack:          five four three two one
+This is coming from Custom Stack:   five four three two one   
 
-Size: 4
-Meat Coffee Milk Water 
+Stack contains 'three': True
+Custom Stack contains 'three': True
+
+Stack Count - 5, Stack.Pop() - five
+Stack Count - 4, Stack.Peek() - four
+
+Custom Stack Count - 5, CustomStack.Pop() - five
+Custom Stack Count - 4, CustomStack.Peek() - four
+
+Stack can Peek now: True
+Custom Stack can Peek now: True
+
+ToString() - System.Collections.Generic.Stack`1[System.String]
+ToString() - { four, three, two, one }
+
+Stack Count 0
+Custom Stack Count: 0
+
+Stack can Pop now: False
+Custom Stack can Pop now: False 
 */

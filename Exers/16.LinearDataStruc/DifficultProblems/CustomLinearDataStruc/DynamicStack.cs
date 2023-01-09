@@ -29,6 +29,7 @@ public class DynamicStack<T> : IEnumerable<T>, IReadOnlyCollection<T>
     {
         Node? newNode = new Node(item, lastAdded);
         lastAdded = newNode;
+        this.count++;
     }
 
     public T? Peek() => (this.lastAdded != null) ? this.lastAdded.value : default(T);
@@ -39,6 +40,7 @@ public class DynamicStack<T> : IEnumerable<T>, IReadOnlyCollection<T>
         {
             T returnValue = lastAdded.value;
             lastAdded = lastAdded.prev;
+            this.count--;
             
             return returnValue;
         }
@@ -70,6 +72,7 @@ public class DynamicStack<T> : IEnumerable<T>, IReadOnlyCollection<T>
         {
             result = lastAdded.value;
             lastAdded = lastAdded.prev;
+            this.count--;
 
             return true;
         }
@@ -90,6 +93,8 @@ public class DynamicStack<T> : IEnumerable<T>, IReadOnlyCollection<T>
             {
                 return true;
             }
+
+            currentNode = currentNode.prev;
         }
 
         return false;
@@ -119,6 +124,9 @@ public class DynamicStack<T> : IEnumerable<T>, IReadOnlyCollection<T>
             {
                 result.Append($"{currentNode.value} ");
             }
+
+            currentNode = currentNode.prev;
+            currentIndex++;
         }
 
         return result.AppendLine("}").ToString();
@@ -130,7 +138,7 @@ public class DynamicStack<T> : IEnumerable<T>, IReadOnlyCollection<T>
         while (currendNode != null)
         {
             yield return currendNode.value;
-            currendNode = lastAdded.prev;
+            currendNode = currendNode.prev;
         }
     }
 
