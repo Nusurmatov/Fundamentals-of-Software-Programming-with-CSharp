@@ -140,3 +140,59 @@ Custom Stack can Pop now: False
 */
 
 
+/* Difficult Problem, Exersice 13 - Problem Statement:
+Implement the data structure "Deque". This is a specific list-like structure, similar to stack and queue, 
+allowing to add elements at the beginning and at the end of the structure. Implement the operations for adding 
+and removing elements, as well as clearing the deque. If an operation is invalid, throw an appropriate exception.
+*/
+
+Console.Clear();
+
+Deque<string> deque = new Deque<string>();
+
+deque.Enqueue("one");
+deque.Enqueue("two");
+deque.Enqueue("three");
+
+deque.Push("four");
+deque.Push("five");
+deque.Push("six");
+
+Console.WriteLine("Count: {0}", deque.Count);
+Console.WriteLine(deque);
+
+Console.WriteLine("\nItem at front: {0}", deque.Dequeue());
+Console.WriteLine("Item at end: {0}", deque.Pop());
+
+Console.WriteLine("\nCount: {0}", deque.Count);
+Console.WriteLine(deque);
+
+Console.WriteLine("\nItem at front: {0}", deque.Peek());
+Console.WriteLine("Item at end: {0}", deque.Peek(atFront: false));
+Console.WriteLine("Count: {0}", deque.Count);
+
+Console.WriteLine("\nDeque contains 'six': {0}", deque.Contains("six"));
+Console.WriteLine("Deque contains 'one': {0}", deque.Contains("one"));
+
+deque.Clear();
+Console.WriteLine("\nCount: {0}, Deque: {1}", deque.Count, deque);
+
+/* Output:
+Count: 6
+{ six, five, four, one, two, three }
+
+Item at front: three
+Item at end: six
+
+Count: 4
+{ five, four, one, two }
+
+Item at front: five
+Item at end: two
+Count: 4
+
+Deque contains 'six': False
+Deque contains 'one': True
+
+Count: 0, Deque: Empty!
+*/

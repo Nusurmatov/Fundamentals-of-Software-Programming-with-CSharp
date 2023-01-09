@@ -19,7 +19,7 @@ public class DoubleLinkedList<T> : IEnumerable<T>
     private Node? head;
     private Node? tail;
 
-    public int Size { get; private set; }
+    public int Count { get; private set; }
 
     public T? First => (this.head != null) ? this.head.value : default(T);
 
@@ -29,10 +29,10 @@ public class DoubleLinkedList<T> : IEnumerable<T>
     {
         this.head = null;
         this.tail = null;
-        this.Size = 0;
+        this.Count = 0;
     }
 
-    public bool IsEmpty() => this.Size == 0;
+    public bool IsEmpty() => this.Count == 0;
 
     public void Add(T value, bool IsAddLast = true)
     {
@@ -58,7 +58,7 @@ public class DoubleLinkedList<T> : IEnumerable<T>
             }
         }
 
-        this.Size++;
+        this.Count++;
     }
 
     public void Insert(T valueToInsert, T key, bool IsInsertAfter = true)  // key is the item which the value is to be inserted after or before
@@ -70,7 +70,7 @@ public class DoubleLinkedList<T> : IEnumerable<T>
 
     public void InsertAt(T valueToInsert, int index)
     {
-        if (index > this.Size || index < 0)
+        if (index > this.Count || index < 0)
         {
             throw new ArgumentOutOfRangeException($"Invalid index: {index}!");
         }
@@ -78,7 +78,7 @@ public class DoubleLinkedList<T> : IEnumerable<T>
         {
             this.Add(valueToInsert, IsAddLast: false);
         }
-        else if (index == this.Size)
+        else if (index == this.Count)
         {
             this.Add(valueToInsert);
         }
@@ -100,7 +100,7 @@ public class DoubleLinkedList<T> : IEnumerable<T>
                 currentIndex++;
             } 
 
-            this.Size++;
+            this.Count++;
         }
     }
 
@@ -134,7 +134,7 @@ public class DoubleLinkedList<T> : IEnumerable<T>
                     this.tail = currentNode.prev;
                 }
 
-                this.Size--;
+                this.Count--;
                 break;
             } 
 
@@ -146,7 +146,7 @@ public class DoubleLinkedList<T> : IEnumerable<T>
     
     public void RemoveAt(int index)
     {
-        if (index >= this.Size || index < 0)
+        if (index >= this.Count || index < 0)
         {
             throw new ArgumentOutOfRangeException($"Invalid index: {index}!");
         }
@@ -169,7 +169,7 @@ public class DoubleLinkedList<T> : IEnumerable<T>
 
     public T GetAt(int index)
     {
-        if (index >= this.Size || index < 0)
+        if (index >= this.Count || index < 0)
         {
             throw new ArgumentOutOfRangeException($"Invalid index: {index}!");
         }
@@ -177,7 +177,7 @@ public class DoubleLinkedList<T> : IEnumerable<T>
         Node? currentNode;
         int currentIndex;
         bool startFromHead = true;
-        if (index < this.Size/2)
+        if (index < this.Count/2)
         {
             currentNode = this.head;
             currentIndex = 0;
@@ -185,7 +185,7 @@ public class DoubleLinkedList<T> : IEnumerable<T>
         else
         {
             currentNode = this.tail;
-            currentIndex = this.Size - 1;
+            currentIndex = this.Count - 1;
             startFromHead = false;
         }
 
@@ -245,7 +245,7 @@ public class DoubleLinkedList<T> : IEnumerable<T>
     {
         this.head = null;
         this.tail = null;
-        this.Size = 0;
+        this.Count = 0;
     }
 
     public T this[int index] => this.GetAt(index);
@@ -260,7 +260,7 @@ public class DoubleLinkedList<T> : IEnumerable<T>
 
         while (currentNode != null)
         {
-            if (currentIndex < this.Size - 1)
+            if (currentIndex < this.Count - 1)
             {
                 result.Append($"{currentNode.value}, ");
             }
