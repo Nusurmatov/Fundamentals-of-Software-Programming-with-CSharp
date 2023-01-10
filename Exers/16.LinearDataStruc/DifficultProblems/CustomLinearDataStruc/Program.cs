@@ -1,30 +1,53 @@
-﻿/* Difficult Problem, Exersice 15 - Problem Statement:
-Implement numbers sorting in a dynamic linked list without using an additional array or other data structure.
+﻿/* Difficult Problem, Exersice 14 - Problem Statement:
+Implement the structure "Circular Queue" with array, which doubles its capacity when its capacity is full. 
+Implement the necessary methods for adding, removing the element in succession and retrieving without removing 
+the element in succession. If an operation is invalid, throw an appropriate exception.
 */
 
 Console.Clear();
-Random random = new Random();
-List<int> list = new List<int>();
+CircularQueue<string> cQueue = new CircularQueue<string>();
 
-for (int i = 0; i < 17; i++)
-{
-    list.Add(random.Next(-17, 17));
-}
+cQueue.Enqueue("one");
+cQueue.Enqueue("two");
+cQueue.Enqueue("three");
+cQueue.Enqueue("four");
+cQueue.Enqueue("five");
+cQueue.Enqueue("six");
+cQueue.Enqueue("seven");
 
-Console.WriteLine("Sorting in ascending order: ");
-list.Print();
-list.SortCustom();
-list.Print();
+Console.WriteLine("Count: {0}", cQueue.Count);
+Console.WriteLine(cQueue);
 
-Console.WriteLine("\nSorting in descending order: ");
-list.SortCustom(IsAscending: false);
-list.Print();
+Console.WriteLine("\nDequeueing: {0}", cQueue.Dequeue());
+Console.WriteLine("Dequeueing: {0}", cQueue.Dequeue());
+Console.WriteLine("Dequeueing: {0}", cQueue.Dequeue());
+Console.WriteLine("Peeking: {0}", cQueue.Peek());
+Console.WriteLine("Count: {0}", cQueue.Count);
+cQueue.Print();
+
+Console.WriteLine("\nCircular Queue contains 'seven': {0}", cQueue.Contains("seven"));
+Console.WriteLine("Circular Queue contains 'one': {0}", cQueue.Contains("one"));
+
+cQueue.Clear();
+Console.WriteLine("\nClearing...");
+Console.WriteLine("Count: {0}", cQueue.Count);
+Console.WriteLine("Circular Queue now: {0}", cQueue);
 
 /* Output:
-Sorting in ascending order:
-{ 9 -12 -3 -4 -7 8 -1 -12 10 7 -16 7 -2 -12 2 -13 -7 }
-{ -16 -13 -12 -12 -12 -7 -7 -4 -3 -2 -1 2 7 7 8 9 10 }
+Count: 7
+{ one, two, three, four, five, six, seven }
 
-Sorting in descending order:
-{ 10 9 8 7 7 2 -1 -2 -3 -4 -7 -7 -12 -12 -12 -13 -16 }
+Dequeueing: one
+Dequeueing: two
+Dequeueing: three
+Peeking: four
+Count: 4
+{ four five six seven }
+
+Circular Queue contains 'seven': True
+Circular Queue contains 'one': False
+
+Clearing...
+Count: 0
+Circular Queue now: Circular Queue is Empty!
 */
