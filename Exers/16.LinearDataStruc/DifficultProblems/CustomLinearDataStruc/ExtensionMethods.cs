@@ -20,7 +20,7 @@ public static class ExtensionMethods
 
         for (int i = 0; i < list.Count - 1; i++)
         {
-            for (int j = i; j < list.Count- 1; j++)
+            for (int j = 0; j < list.Count- 1; j++)
             {
                 if (IsAscending)
                 {
@@ -38,5 +38,15 @@ public static class ExtensionMethods
                 }
             }
         }
+    }
+
+    public static void Print<T>(this IEnumerable<T> enumerable)
+    {
+        Console.Write("{");
+        foreach (var item in enumerable)
+        {
+            Console.Write($" {item}");
+        }
+        Console.WriteLine(" }");
     }
 }

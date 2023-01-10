@@ -9,33 +9,22 @@ List<int> list = new List<int>();
 for (int i = 0; i < 17; i++)
 {
     list.Add(random.Next(-17, 17));
-    Console.Write($"{list[i]} ");
 }
 
+Console.WriteLine("Sorting in ascending order: ");
+list.Print();
 list.SortCustom();
-Console.WriteLine();
+list.Print();
 
-for (int i = 0; i < 17; i++)
-{
-    Console.Write($"{list[i]} ");
-}
+Console.WriteLine("\nSorting in descending order: ");
+list.SortCustom(IsAscending: false);
+list.Print();
 
 /* Output:
-Count: 6
-{ six, five, four, one, two, three }
+Sorting in ascending order:
+{ 9 -12 -3 -4 -7 8 -1 -12 10 7 -16 7 -2 -12 2 -13 -7 }
+{ -16 -13 -12 -12 -12 -7 -7 -4 -3 -2 -1 2 7 7 8 9 10 }
 
-Item at front: three
-Item at end: six
-
-Count: 4
-{ five, four, one, two }
-
-Item at front: five
-Item at end: two
-Count: 4
-
-Deque contains 'six': False
-Deque contains 'one': True
-
-Count: 0, Deque: Empty!
+Sorting in descending order:
+{ 10 9 8 7 7 2 -1 -2 -3 -4 -7 -7 -12 -12 -12 -13 -16 }
 */
