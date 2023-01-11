@@ -15,28 +15,88 @@ Example:
 */
 
 // x = -1,  * = -2
-int[,] labyrinth = { {0,  0,  0, -1,  0, -1},
-                     {0, -1,  0, -1,  0, -1},               
-                     {0, -2, -1,  0, -1,  0},               
-                     {0, -1,  0,  0,  0,  0},               
-                     {0,  0,  0, -1, -1,  0},               
-                     {0,  0,  0, -1,  0, -1},               
+char[,] labyrinth = { {'0', '0', '0', 'x', '0', 'x'},
+                      {'0', 'x', '0', 'x', '0', 'x'},               
+                      {'0', '*', 'x', '0', 'x', '0'},               
+                      {'0', 'x', '0', '0', '0', '0'},               
+                      {'0', '0', '0', 'x', 'x', '0'},               
+                      {'0', '0', '0', 'x', '0', 'x'},               
  };
 int startPositionRow = 1;
 int startPositionColumn = 2;
+bool[,] visited = { {false, false, false, false, false, false},
+                    {false, false, false, false, false, false},
+                    {false, false, false, false, false, false},
+                    {false, false, false, false, false, false},
+                    {false, false, false, false, false, false},
+                    {false, false, false, false, false, false}
+};
 
 Console.Clear();
 Console.WriteLine("Labyrinth: ");
 labyrinth.PrintMatrix(0, labyrinth.GetLength(0), 0, labyrinth.GetLength(1));
 
 CalculateMinDistanceBetweenEachCellAndStartPosition(labyrinth);
-Console.WriteLine("Minimal Distance from the start position (1, 2) to each cell:");
+Console.WriteLine("\n\nMinimal Distance from the start position (1, 2) to each cell:");
 labyrinth.PrintMatrix(0, labyrinth.GetLength(0), 0, labyrinth.GetLength(1));
 
-void CalculateMinDistanceBetweenEachCellAndStartPosition(int[,] matrix, int startPositionRow = 1, int startPositionColumn = 2)
+void CalculateMinDistanceBetweenEachCellAndStartPosition(char[,] matrix, int startPositionRow = 1, int startPositionColumn = 2)
 {
     Queue<(int, int)> positions = new Queue<(int, int)>();
     positions.Enqueue((startPositionRow, startPositionColumn));
+    char distanceInChar = '1';
+    int distanceInNumber = 1;
+    int row, column;
+
+    while (positions.Any())
+    {
+        (row, column) = positions.Dequeue();
+        Console.Write("({0}, {1})  ", row, column);
+        if (visited[row, column])
+        {
+            continue;
+        }
+        else
+        {
+            visited[row, column] = true;
+        }
+
+        if (row + 1 < 6)  // check right
+        {
+            if (labyrinth[row + 1, column] == '0')  
+            {
+                labyrinth[row + 1, column] = distanceInChar;
+                positions.Enqueue((row + 1, column));
+            }
+        }
+        if (row - 1 >= 0)  // check left
+        {
+            if (labyrinth[row - 1, column] == '0')
+            {
+                labyrinth[row - 1, column] = distanceInChar;
+                positions.Enqueue((row - 1, column));
+            }
+        }
+        if (column - 1 >= 0)  // check top
+        {
+            if (labyrinth[row, column - 1] == '0')
+            {
+                labyrinth[row, column - 1] = distanceInChar;
+                positions.Enqueue((row, column - 1));
+            }
+        }
+        if (column + 1 < 6)  // check bottom
+        {
+            if (labyrinth[row, column + 1] == '0')
+            {
+                labyrinth[row, column + 1] = distanceInChar;
+                positions.Enqueue((row, column + 1));
+            }            
+        }
+
+        distanceInNumber++;
+        distanceInChar = Convert.ToChar(distanceInNumber);
+    }
 }
 
 /* Output:
