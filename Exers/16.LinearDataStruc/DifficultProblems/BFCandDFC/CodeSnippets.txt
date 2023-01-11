@@ -5,7 +5,7 @@ Implement the algorithm Breadth-First-Search (BFS) – you may find some article
 Implement the algorithm Depth-First-Search (DFS) – you may find some articles in the internet.
 */
 
-DriveInfo eDrive = new DriveInfo("E");
+DirectoryInfo myDir = new DirectoryInfo(@"C:\Users\Xusniddin\Desktop\Khusniddin");
 Queue<DirectoryInfo> queueDir = new Queue<DirectoryInfo>();
 Stack<DirectoryInfo> stackDir = new Stack<DirectoryInfo>();
 int numberForColor = 1;
@@ -31,8 +31,7 @@ else
 
 void PrintAllDirectoriesOfHardDiskUsingBFC()
 {
-    queueDir.Enqueue(eDrive.RootDirectory);
-    Console.WriteLine(eDrive.RootDirectory);
+    queueDir.Enqueue(myDir);
     
     while (queueDir.Any())
     {
@@ -44,20 +43,20 @@ void PrintAllDirectoriesOfHardDiskUsingBFC()
             foreach (var subDir in dir.GetDirectories())
             {
                 queueDir.Enqueue(subDir);
-                Console.WriteLine(subDir); 
             }     
         }
         catch (UnauthorizedAccessException e)
         {
             Console.WriteLine(e.Message);
         }
+
+        Console.WriteLine(dir); 
     }
 }
 
 void PrintAllDirectoriesOfHardDiskUsingDFC()
 {
-    stackDir.Push(eDrive.RootDirectory);
-    Console.WriteLine(eDrive.RootDirectory);
+    stackDir.Push(myDir);
     
     while (stackDir.Any())
     {
@@ -69,14 +68,61 @@ void PrintAllDirectoriesOfHardDiskUsingDFC()
             foreach (var subDir in dir.GetDirectories())
             {
                 stackDir.Push(subDir);
-                Console.WriteLine(subDir); 
             }     
         }
         catch (UnauthorizedAccessException e)
         {
             Console.WriteLine(e.Message);
         }
+
+        Console.WriteLine(dir);
     }
 }
+
+/* Output Extracts:
+Which one do you want, BFC or DFC to traverse and print all the directories of hard disk?
+BFC - Breadth First Search, DFC - Depth First Search, enter 'b' or 'd': b
+C:\Users\Xusniddin\Desktop\Khusniddin
+C:\Users\Xusniddin\Desktop\Khusniddin\Books world
+C:\Users\Xusniddin\Desktop\Khusniddin\Database
+C:\Users\Xusniddin\Desktop\Khusniddin\Islam
+C:\Users\Xusniddin\Desktop\Khusniddin\IT
+C:\Users\Xusniddin\Desktop\Khusniddin\Russian
+C:\Users\Xusniddin\Desktop\Khusniddin\????? ?????
+C:\Users\Xusniddin\Desktop\Khusniddin\Books world\Botir
+C:\Users\Xusniddin\Desktop\Khusniddin\Books world\Islam
+C:\Users\Xusniddin\Desktop\Khusniddin\Books world\IT
+C:\Users\Xusniddin\Desktop\Khusniddin\Books world\Literature
+C:\Users\Xusniddin\Desktop\Khusniddin\Books world\Math
+C:\Users\Xusniddin\Desktop\Khusniddin\Database\Hujjat uchun
+C:\Users\Xusniddin\Desktop\Khusniddin\Database\Photos
+C:\Users\Xusniddin\Desktop\Khusniddin\Database\Software
+
+Which one do you want, BFC or DFC to traverse and print all the directories of hard disk?
+BFC - Breadth First Search, DFC - Depth First Search, enter 'b' or 'd': d
+C:\Users\Xusniddin\Desktop\Khusniddin
+C:\Users\Xusniddin\Desktop\Khusniddin\????? ?????
+C:\Users\Xusniddin\Desktop\Khusniddin\????? ?????\Linq.Tests
+C:\Users\Xusniddin\Desktop\Khusniddin\????? ?????\Linq.Tests\obj
+C:\Users\Xusniddin\Desktop\Khusniddin\????? ?????\Linq.Tests\obj\Debug
+C:\Users\Xusniddin\Desktop\Khusniddin\????? ?????\Linq.Tests\obj\Debug\netcoreapp3.1
+C:\Users\Xusniddin\Desktop\Khusniddin\????? ?????\Linq.Tests\bin
+C:\Users\Xusniddin\Desktop\Khusniddin\????? ?????\Linq.Tests\bin\Debug
+C:\Users\Xusniddin\Desktop\Khusniddin\????? ?????\Linq.Tests\bin\Debug\netcoreapp3.1
+C:\Users\Xusniddin\Desktop\Khusniddin\????? ?????\Linq.Tests\bin\Debug\netcoreapp3.1\zh-Hant
+C:\Users\Xusniddin\Desktop\Khusniddin\????? ?????\Linq.Tests\bin\Debug\netcoreapp3.1\zh-Hans
+C:\Users\Xusniddin\Desktop\Khusniddin\????? ?????\Linq.Tests\bin\Debug\netcoreapp3.1\tr
+C:\Users\Xusniddin\Desktop\Khusniddin\????? ?????\Linq.Tests\bin\Debug\netcoreapp3.1\ru
+C:\Users\Xusniddin\Desktop\Khusniddin\????? ?????\Linq.Tests\bin\Debug\netcoreapp3.1\pt-BR
+C:\Users\Xusniddin\Desktop\Khusniddin\????? ?????\Linq.Tests\bin\Debug\netcoreapp3.1\pl
+C:\Users\Xusniddin\Desktop\Khusniddin\????? ?????\Linq.Tests\bin\Debug\netcoreapp3.1\ko
+C:\Users\Xusniddin\Desktop\Khusniddin\????? ?????\Linq.Tests\bin\Debug\netcoreapp3.1\ja
+C:\Users\Xusniddin\Desktop\Khusniddin\????? ?????\Linq.Tests\bin\Debug\netcoreapp3.1\it
+C:\Users\Xusniddin\Desktop\Khusniddin\????? ?????\Linq.Tests\bin\Debug\netcoreapp3.1\fr
+C:\Users\Xusniddin\Desktop\Khusniddin\????? ?????\Linq.Tests\bin\Debug\netcoreapp3.1\es
+C:\Users\Xusniddin\Desktop\Khusniddin\????? ?????\Linq.Tests\bin\Debug\netcoreapp3.1\de
+C:\Users\Xusniddin\Desktop\Khusniddin\????? ?????\Linq.Tests\bin\Debug\netcoreapp3.1\cs
+C:\Users\Xusniddin\Desktop\Khusniddin\????? ?????\Linq
+*/
 
 

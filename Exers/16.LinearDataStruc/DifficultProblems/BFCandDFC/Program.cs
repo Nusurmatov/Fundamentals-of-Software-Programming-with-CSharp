@@ -4,78 +4,41 @@ We can move from an empty cell to another empty cell, if the cells are separated
 Calculate and fill the labyrinth as follows: in each empty cell put the minimal distance from the start position to this cell. 
 If some cell cannot be reached, fill it with "u".
 Example:
+     _______________________            ________________________   
+    | 0 | 0 | 0 | x | 0 | x |          | 3 | 4 | 5 | x | u |  x |
+    | 0 | x | 0 | x | 0 | x |          | 2 | x | 6 | x | u |  x |
+    | 0 | * | x | 0 | x | 0 | ________ | 1 | * | x | 8 | x | 10 |
+    | 0 | x | 0 | 0 | 0 | 0 | ‾‾‾‾‾‾‾‾ | 2 | x | 6 | 7 | 8 |  9 |
+    | 0 | 0 | 0 | x | x | 0 |          | 3 | 4 | 5 | x | x | 10 |
+    | 0 | 0 | 0 | x | 0 | x |          | 4 | 5 | 6 | x | u |  x |
+     ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾            ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
 */
 
-DriveInfo eDrive = new DriveInfo("E");
-Queue<DirectoryInfo> queueDir = new Queue<DirectoryInfo>();
-Stack<DirectoryInfo> stackDir = new Stack<DirectoryInfo>();
-int numberForColor = 1;
+// x = -1,  * = -2
+int[,] labyrinth = { {0,  0,  0, -1,  0, -1},
+                     {0, -1,  0, -1,  0, -1},               
+                     {0, -2, -1,  0, -1,  0},               
+                     {0, -1,  0,  0,  0,  0},               
+                     {0,  0,  0, -1, -1,  0},               
+                     {0,  0,  0, -1,  0, -1},               
+ };
+int startPositionRow = 1;
+int startPositionColumn = 2;
 
 Console.Clear();
-Console.WriteLine("Which one do you want, BFC or DFC to traverse and print all the directories of hard disk?");
-Console.Write("BFC - Breadth First Search, DFC - Depth First Search, enter 'b' or 'd': ");
-string algorithm = Console.ReadLine() ?? "Invalid value!";
-algorithm = algorithm.Trim().ToLowerInvariant();
+Console.WriteLine("Labyrinth: ");
+labyrinth.PrintMatrix(0, labyrinth.GetLength(0), 0, labyrinth.GetLength(1));
 
-if (algorithm == "b")
+CalculateMinDistanceBetweenEachCellAndStartPosition(labyrinth);
+Console.WriteLine("Minimal Distance from the start position (1, 2) to each cell:");
+labyrinth.PrintMatrix(0, labyrinth.GetLength(0), 0, labyrinth.GetLength(1));
+
+void CalculateMinDistanceBetweenEachCellAndStartPosition(int[,] matrix, int startPositionRow = 1, int startPositionColumn = 2)
 {
-    PrintAllDirectoriesOfHardDiskUsingBFC();
-}
-else if (algorithm == "d")
-{
-    PrintAllDirectoriesOfHardDiskUsingDFC();
-}
-else
-{
-    Console.WriteLine(algorithm);
+    Queue<(int, int)> positions = new Queue<(int, int)>();
+    positions.Enqueue((startPositionRow, startPositionColumn));
 }
 
-void PrintAllDirectoriesOfHardDiskUsingBFC()
-{
-    queueDir.Enqueue(eDrive.RootDirectory);
-    Console.WriteLine(eDrive.RootDirectory);
-    
-    while (queueDir.Any())
-    {
-        var dir = queueDir.Dequeue();
-        numberForColor = (numberForColor != 15) ? numberForColor + 1 : 1;
-        Console.ForegroundColor = (ConsoleColor)numberForColor;
-        try
-        {
-            foreach (var subDir in dir.GetDirectories())
-            {
-                queueDir.Enqueue(subDir);
-                Console.WriteLine(subDir); 
-            }     
-        }
-        catch (UnauthorizedAccessException e)
-        {
-            Console.WriteLine(e.Message);
-        }
-    }
-}
+/* Output:
 
-void PrintAllDirectoriesOfHardDiskUsingDFC()
-{
-    stackDir.Push(eDrive.RootDirectory);
-    Console.WriteLine(eDrive.RootDirectory);
-    
-    while (stackDir.Any())
-    {
-        var dir = stackDir.Pop();
-        numberForColor = (numberForColor != 15) ? numberForColor + 1 : 1;
-        Console.ForegroundColor = (ConsoleColor)numberForColor;
-        try
-        {
-            foreach (var subDir in dir.GetDirectories())
-            {
-                stackDir.Push(subDir);
-                Console.WriteLine(subDir); 
-            }     
-        }
-        catch (UnauthorizedAccessException e)
-        {
-            Console.WriteLine(e.Message);
-        }
-    }
-}
+*/
