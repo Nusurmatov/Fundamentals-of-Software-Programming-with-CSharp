@@ -31,25 +31,24 @@ bool[,] visited = { {false, false, false, false, false, false},
 };
 
 Console.Clear();
-Console.WriteLine(labyrinth[1,2]);
 Console.WriteLine("Labyrinth: ");
 labyrinth.PrintMatrix(0, labyrinth.GetLength(0), 0, labyrinth.GetLength(1));
 
 CalculateMinDistanceBetweenEachCellAndStartPosition(labyrinth);
-Console.WriteLine("\n\nMinimal Distance from the start position (1, 2) to each cell:");
-labyrinth.PrintMatrix(0, labyrinth.GetLength(0), 0, labyrinth.GetLength(1));
+Console.WriteLine("\nMinimal Distance from the start position (2, 1) to each cell:");
+labyrinth.PrintMatrix(0, labyrinth.GetLength(0), 0, labyrinth.GetLength(1), isLabyrinthProblemDone: true);
 
-void CalculateMinDistanceBetweenEachCellAndStartPosition(int[,] matrix, int startPositionRow = 1, int startPositionColumn = 2)
+void CalculateMinDistanceBetweenEachCellAndStartPosition(int[,] matrix, int startPositionRow = 2, int startPositionColumn = 1)
 {
-    Queue<(int, int)> positions = new Queue<(int, int)>();
-    positions.Enqueue((startPositionRow, startPositionColumn));
-    int distanceInNumber = 0;
+    Queue<(int row, int column, int distance)> positions = new Queue<(int, int, int)>();
+    int distance = 0;
+    positions.Enqueue((startPositionRow, startPositionColumn, distance));
     int row, column;
 
     while (positions.Any())
     {
-        (row, column) = positions.Dequeue();
-        Console.Write("({0}, {1})  ", row, column);
+        (row, column, distance) = positions.Dequeue();
+
         if (visited[row, column])
         {
             continue;
@@ -59,43 +58,64 @@ void CalculateMinDistanceBetweenEachCellAndStartPosition(int[,] matrix, int star
             visited[row, column] = true;
         }
 
-        if (row + 1 < 6)  // check right
+        if (row + 1 < 6)  // check bottom
         {
             if (labyrinth[row + 1, column] == 0)  
             {
-                labyrinth[row + 1, column] = distanceInNumber;
-                positions.Enqueue((row + 1, column));
+                labyrinth[row + 1, column] = distance + 1;
+                positions.Enqueue((row + 1, column, distance + 1));
             }
         }
-        if (row - 1 >= 0)  // check left
+        if (row - 1 >= 0)  // check top
         {
             if (labyrinth[row - 1, column] == 0)
             {
-                labyrinth[row - 1, column] = distanceInNumber;
-                positions.Enqueue((row - 1, column));
+                labyrinth[row - 1, column] = distance + 1;
+                positions.Enqueue((row - 1, column, distance + 1));
             }
         }
-        if (column - 1 >= 0)  // check top
+        if (column - 1 >= 0)  // check left
         {
             if (labyrinth[row, column - 1] == 0)
             {
-                labyrinth[row, column - 1] = distanceInNumber;
-                positions.Enqueue((row, column - 1));
+                labyrinth[row, column - 1] = distance + 1;
+                positions.Enqueue((row, column - 1, distance + 1));
             }
         }
-        if (column + 1 < 6)  // check bottom
+        if (column + 1 < 6)  // check right
         {
             if (labyrinth[row, column + 1] == 0)
             {
-                labyrinth[row, column + 1] = distanceInNumber;
-                positions.Enqueue((row, column + 1));
+                labyrinth[row, column + 1] = distance + 1;
+                positions.Enqueue((row, column + 1, distance + 1));
             }            
         }
 
-        distanceInNumber++;
     }
 }
 
 /* Output:
+Labyrinth:
+ ___                    ___
+|                          |
+|   0   0   0   x   0   x  |
+|   0   x   0   x   0   x  |
+|   0   *   x   0   x   0  |
+|   0   x   0   0   0   0  |
+|   0   0   0   x   x   0  |
+|   0   0   0   x   0   x  |
+|                          |
+ ‾‾‾                    ‾‾‾
 
+Minimal Distance from the start position (2, 1) to each cell:
+ ___                    ___
+|                          |
+|   3   4   5   x   u   x  |
+|   2   x   6   x   u   x  |
+|   1   *   x   8   x  10  |
+|   2   x   6   7   8   9  |
+|   3   4   5   x   x  10  |
+|   4   5   6   x   u   x  |
+|                          |
+ ‾‾‾                    ‾‾‾ 
 */
