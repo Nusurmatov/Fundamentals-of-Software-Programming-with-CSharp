@@ -1,6 +1,6 @@
 public static class ExtensionMethod
 {
-    public static void PrintMatrix(this char[,] matrix, int rowStart, int rowEnd, int columnStart, int columnEnd)
+    public static void PrintMatrix(this int[,] matrix, int rowStart, int rowEnd, int columnStart, int columnEnd)
     {
         Console.OutputEncoding = System.Text.Encoding.Unicode;
         int padding = columnEnd - columnStart;
