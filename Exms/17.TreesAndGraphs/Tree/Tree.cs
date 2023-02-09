@@ -31,13 +31,13 @@ public class Tree<T>
 
         string output = $"{spaces}{root.Value}";
         Console.WriteLine(output);
-        OutputUtil.LogToFile(output);
+        OutputUtil.LogToFile(output, isAppend: true);
 
         TreeNode<T>? child = null;
         for (int i = 0; i < root.ChildrenCount; i++)
         {
             child = root.GetChild(i);
-            PrintDFS(child, "   ");
+            PrintDFS(child, $"{spaces}   ");
         }
     }
 }
