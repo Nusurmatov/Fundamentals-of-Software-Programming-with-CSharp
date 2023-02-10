@@ -4,7 +4,7 @@ var output = new System.Text.StringBuilder();
 var input = new ConsoleKeyInfo();
 
 output.AppendLine("Enter 1 -> TreeExample");
-//output.AppendLine("      2 -> ");
+output.AppendLine("      2 -> TraverseExample");
 //output.AppendLine("      3 -> ");
 //output.AppendLine("      4 -> ");
 output.Append("      0 -> Exit Program : ");
@@ -22,6 +22,9 @@ while (undone)
             break;
         case ConsoleKey.D1: 
             TreeExample(); 
+            break;
+        case ConsoleKey.D2:
+            TraverseExample(); 
             break;
         default: 
             Console.WriteLine("Invalid Option!!!, please try again...\n\n"); 
@@ -46,4 +49,25 @@ void TreeExample()
         );
 
     tree.TraverseDFS();
+}
+
+void TraverseExample()
+{
+    var path = @"E:\KhN\IT\.NET Development\Fundamentals-of-Software-Programming-with-CSharp";
+    Console.WriteLine("Enter B -> Birdth First Search");
+    Console.Write("      D -> Depth First Search : ");
+    var input = Console.ReadKey();
+
+    switch (input.Key)
+    {
+        case ConsoleKey.B:
+            Traverser.TraverseBFS(path);   // = path.TraverseBFS();      
+            break;
+        case ConsoleKey.D:
+            path.TraverseDFS();  // = Traverser.TraverseDFS(path);
+            break;
+        default:
+            Console.WriteLine("Invalid Option!!!, please try again...\n\n");
+            break;
+    }
 }
