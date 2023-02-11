@@ -5,8 +5,9 @@ var input = new ConsoleKeyInfo();
 
 output.AppendLine("Enter 1 -> TreeExample");
 output.AppendLine("      2 -> TraverseExample");
-//output.AppendLine("      3 -> ");
+output.AppendLine("      3 -> BinaryTreeExample");
 //output.AppendLine("      4 -> ");
+//output.AppendLine("      5 -> ");
 output.Append("      0 -> Exit Program : ");
 
 while (undone)
@@ -25,6 +26,9 @@ while (undone)
             break;
         case ConsoleKey.D2:
             TraverseExample(); 
+            break;
+        case ConsoleKey.D3:
+            BinaryTreeExample(); 
             break;
         default: 
             Console.WriteLine("Invalid Option!!!, please try again...\n\n"); 
@@ -53,7 +57,8 @@ void TreeExample()
 
 void TraverseExample()
 {
-    var path = @"E:\KhN\IT\.NET Development\Fundamentals-of-Software-Programming-with-CSharp";
+    var path = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+    Console.WriteLine(path);
     Console.WriteLine("Enter B -> Birdth First Search");
     Console.Write("      D -> Depth First Search : ");
     var input = Console.ReadKey();
@@ -70,4 +75,26 @@ void TraverseExample()
             Console.WriteLine("Invalid Option!!!, please try again...\n\n");
             break;
     }
+}
+
+void BinaryTreeExample()
+{
+    // binary tree image link: https://media.geeksforgeeks.org/wp-content/cdn-uploads/Preorder-from-Inorder-and-Postorder-traversals.jpg
+    var binaryTree = new BinaryTree<int>(25, 
+        new BinaryTree<int>(15, 
+            new BinaryTree<int>(10,
+                new BinaryTree<int>(4),
+                new BinaryTree<int>(12)),
+            new BinaryTree<int>(22,
+                new BinaryTree<int>(18),
+                new BinaryTree<int>(24))),
+        new BinaryTree<int>(50,
+            new BinaryTree<int>(35,
+                new BinaryTree<int>(31),
+                new BinaryTree<int>(44)),
+            new BinaryTree<int>(70,
+                new BinaryTree<int>(66),
+                new BinaryTree<int>(90))));
+
+    binaryTree.PrintInOrder();
 }

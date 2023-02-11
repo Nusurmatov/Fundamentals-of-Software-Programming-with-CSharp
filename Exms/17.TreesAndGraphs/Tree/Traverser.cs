@@ -9,7 +9,7 @@ public static class Traverser
         {
             var currentDir = visitedDirectories.Dequeue();
             Console.WriteLine(currentDir.FullName);
-            OutputUtil.LogToFile(currentDir.FullName);
+            OutputUtil.LogToFile(currentDir.FullName, isAppend: true);
 
             var children = currentDir.GetDirectories();
             foreach (var child in children)
