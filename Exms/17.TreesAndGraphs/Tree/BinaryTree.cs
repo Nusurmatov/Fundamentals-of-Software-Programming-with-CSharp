@@ -25,7 +25,7 @@ public class BinaryTree<T>
         //2. Visit the root of this sub-tree
         var output = $"{this.Value} ";
         Console.Write(output);
-        OutputUtil.LogToFile(output, isAppend: true);
+        OutputUtil.LogToFile(output, isAppend: true, isOneLine: true);
 
         //3. Visit the right child
         if (this.RightChild != null)

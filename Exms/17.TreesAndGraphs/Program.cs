@@ -1,21 +1,19 @@
-﻿//Console.Clear();
+﻿Console.Clear();
 var undone = true;
 var output = new System.Text.StringBuilder();
 var input = new ConsoleKeyInfo();
-BinarySearchTreeExample();
 output.AppendLine("Enter 1 -> TreeExample");
 output.AppendLine("      2 -> TraverseExample");
 output.AppendLine("      3 -> BinaryTreeExample");
 output.AppendLine("      4 -> BinarySearchTreeExample");
-//output.AppendLine("      5 -> ");
-//output.AppendLine("      6 -> ");
+output.AppendLine("      5 -> GraphExample");
 output.Append("      0 -> Exit Program : ");
 
 while (undone)
 {
     Console.Write(output);
     input = Console.ReadKey();
-    //Console.Clear();
+    Console.Clear();
 
     switch(input.Key)
     {
@@ -33,6 +31,9 @@ while (undone)
             break;
         case ConsoleKey.D4:
             BinarySearchTreeExample(); 
+            break;
+        case ConsoleKey.D5:
+            GraphExample(); 
             break;
         default: 
             Console.WriteLine("Invalid Option!!!, please try again...\n\n"); 
@@ -117,4 +118,54 @@ void BinarySearchTreeExample()
     binarySearchTree.Insert(5);
     binarySearchTree.Insert(18);
     binarySearchTree.Insert(22);
+
+    binarySearchTree.PrintTreeDFS();
+    Console.WriteLine("\nThe binary search tree contains 17 : {0}", binarySearchTree.Contains(17));
+    Console.WriteLine("The binary search tree contains 27 : {0}\n", binarySearchTree.Contains(27));
+
+    binarySearchTree.Remove(17);
+    binarySearchTree.Remove(19);
+    binarySearchTree.Remove(13);
+
+    binarySearchTree.PrintTreeDFS();
+    Console.WriteLine("\nThe binary search tree contains 17 : {0}", binarySearchTree.Contains(17));
+}
+
+void GraphExample()
+{
+    // the graph image:  
+    Graph graph = new Graph(new List<int>[] {
+        new List<int>() {4},        // successorrs of vertice 0
+        new List<int>() {1, 2, 6},  // successorrs of vertice 1
+        new List<int>() {1, 6},     // successorrs of vertice 2
+        new List<int>() {6},        // successorrs of vertice 3
+        new List<int>() {0},        // successorrs of vertice 4
+        new List<int>() {},         // successorrs of vertice 5
+        new List<int>() {1, 2, 3},  // successorrs of vertice 6
+    });
+
+    bool[] visited = new bool[graph.Size];
+
+    Console.WriteLine("Connected Graph Components: ");
+    for (int v = 0; v < graph.Size; v++)
+    {
+        if (!visited[v])
+        {
+            TraverseDFS(v, visited, graph);       
+            Console.WriteLine(); 
+        }
+    }
+}
+
+void TraverseDFS(int v, bool[] visited, Graph graph)
+{
+    if (!visited[v])
+    {
+        Console.Write($"{v} ");
+        visited[v] = true;
+        foreach (var child in graph.GetSuccessors(v))
+        {
+            TraverseDFS(child, visited, graph);
+        }
+    }
 }
