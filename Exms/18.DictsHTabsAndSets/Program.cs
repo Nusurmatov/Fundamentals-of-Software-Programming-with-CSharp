@@ -76,6 +76,9 @@ void WaitKey()
     Console.Clear();
 }
 
-DictionaryExample();
-HashTableExample();
-SortedSetExample();
+Start.LinqPractice();
+WaitKey();
+
+// DictionaryExample();
+// HashTableExample();
+// SortedSetExample();
