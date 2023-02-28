@@ -1,5 +1,7 @@
 public class Start
 {
+    private static Random random = new Random();
+
     public static void LinqPractice()
     {
         // Mapping and Ordering:
@@ -95,12 +97,27 @@ public class Start
     {
         // Lambda and Linq: Lambda Function/Expression, Where, Count, Select, Distinct, First, Last, Single, Reverse
         WriteBeutifiedBlockTitle("Lambda and Linq");
+
+        Func<double, bool> lambdaForWhere = (num) => num >= 0;
+        Func<double, double> lambdaForSelect = (num) => num * random.Next(10);
+        Func<double, bool> lambdaForFirst = (num) => num > 7;
+        Func<double, bool> lambdaForLast = (num) => num < -17;
+        Func<double, bool> lambdaForSingle = (num) => num == 0;
+
+        double[] numList = GenerateList(size: 17).ToArray();
+        Console.WriteLine("Number list: {0}", string.Join(", ", numList));
+        Console.WriteLine("Non-negative: {0}", string.Join(", ", numList.Where(lambdaForWhere)));
+        Console.WriteLine("Multiply by random number: {0}", string.Join(", ", numList.Select(lambdaForSelect)));
+        Console.WriteLine("Distinct: {0}", string.Join(", ", numList.Distinct()));
+        Console.WriteLine("First number greater than 7: {0}", string.Join(", ", numList.First(lambdaForFirst)));
+        Console.WriteLine("Last number less than -17: {0}", string.Join(", ", numList.Last(lambdaForLast)));
+       // Console.WriteLine("Single equal to 0: {0}", string.Join(", ", numList.Single(lambdaForSingle)));
+        Console.WriteLine("Reverse: {0}", string.Join(", ", numList.Reverse()));
     }
 
     private static List<double> GenerateList(int size = 7, int lowerBound = -100, int upperBound = 100)
     {
         var result = new List<double>(); 
-        var random = new Random();
 
         for (int i = 0; i < size; i++)
         {
